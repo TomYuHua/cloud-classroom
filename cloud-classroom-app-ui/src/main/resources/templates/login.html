@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<title>鑫广飞无人机课堂应用平台-用户登陆</title>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+</head>
+<body class="login-body">
+      <h3 class="sing-in">
+			<span class="back-login left">
+				<a th:href="@{/}"><i class="fa fa-home size-2X mar5"></i>返回首页</a>
+			</span>
+	  </h3>
+	<!-- 主题框架 -->
+	<div class="login-container">
+		<div class="login">
+			<h1 class="login-top">
+				<span>用户登陆</span>
+				<span class="sing">sign in</span>
+			</h1>
+
+			<form class="cd-login" id="formLogin" action="/userui/logon" method="post" enctype="application/x-www-form-urlencoded">
+				<p class="cd-login-p">
+					<input class="login-input login-username has-border left" type="text" id="loginUser" name="loginUser" placeholder="输入邮箱" />
+				</p>
+				<p class="p-ts">
+					<span class="right">
+						<a href="/userui/registpage">账号注册</a>
+					</span>
+				</p>
+				<p class="cd-login-p">
+					<input class="login-input login-password has-border left" type="password" id="passWord" name="passWord" placeholder="输入密码" />
+				</p>
+				<p class="p-ts">
+					<span class="left">
+						<input type="checkbox" id="remeberLoginStatous"    />
+						<label>记住登录状态</label>
+					</span>
+					<span class="right">
+						<a href="/userui/forget">忘记密码？</a>
+					</span>
+				</p>
+			</form>
+			<p>
+				<button class="login-btn cd-login-p blue" type="button" name="登录" onClick="javascript:login()">登录</button>
+				<!--   <input type="button" onClick="javascript:login()" value="登录" name="remeberLoginStatous"/>-->
+			</p>
+
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+
+	 
+	 function addCookie(name,value,days,path){   /**添加设置cookie**/
+		    var name = escape(name);  
+		     var value = escape(value);  
+		     var expires = new Date();  
+		   expires.setTime(expires.getTime() + days * 3600000 * 24);  
+		     //path=/，表示cookie能在整个网站下使用，path=/temp，表示cookie只能在temp目录下使用  
+		     path = path == "" ? "" : ";path=" + path;  
+		     //GMT(Greenwich Mean Time)是格林尼治平时，现在的标准时间，协调世界时是UTC  
+		    //参数days只能是数字型  
+		     var _expires = (typeof days) == "string" ? "" : ";expires=" + expires.toUTCString();  
+		     document.cookie = name + "=" + value + _expires + path;  
+		 }  
+	 
+		 function getCookieValue(name){  /**获取cookie的值，根据cookie的键获取值**/  
+		     //用处理字符串的方式查找到key对应value  
+		     var name = escape(name);  
+		     //读cookie属性，这将返回文档的所有cookie  
+		     var allcookies = document.cookie;         
+		     //查找名为name的cookie的开始位置  
+		     name += "=";  
+		     var pos = allcookies.indexOf(name);      
+		     //如果找到了具有该名字的cookie，那么提取并使用它的值  
+		     if (pos != -1){//cookie值开始的位置                                               //如果pos值为-1则说明搜索"version="失败  
+		        var start = pos + name.length;       
+		      //从cookie值开始的位置起搜索第一个";"的位置,即cookie值结尾的位置  
+		        var end = allcookies.indexOf(";",start); 
+		        //如果end值为-1说明cookie列表里只有一个cookie  
+		         if (end == -1){
+		        	 end = allcookies.length; 
+		         }
+		       var value = allcookies.substring(start,end); //提取cookie的值  
+		         return (value);                           //对它解码        
+		     }else{  //搜索失败，返回空字符串  
+		        return "";  
+		     }  
+		 }  
+		 
+		 function deleteCookie(name,path){   /**根据cookie的键，删除cookie，其实就是设置其失效**/  
+		    var name = escape(name);  
+		     var expires = new Date(0);  
+		     path = path == "" ? "" : ";path=" + path;  
+		    document.cookie = name + "="+ ";expires=" + expires.toUTCString() + path;  
+		 }  
+		   
+		 /**实现功能，保存用户的登录信息到cookie中。当登录页面被打开时，就查询cookie**/
+		  window.onload = function(){  
+			    var userNameValue = getCookieValue("userName");  
+		      if (userNameValue == "" ){
+		         document.getElementById("loginUser").value ="";   
+		  	     document.getElementById("passWord").value ="";  
+		         document.getElementById("remeberLoginStatous").checked=false ;
+		      }else{
+		    	  document.getElementById("loginUser").value = userNameValue;  
+		    	  var userPassValue = getCookieValue("passWord");  
+				  document.getElementById("passWord").value = userPassValue; 
+			      document.getElementById("remeberLoginStatous").checked=true ;
+		      }
+		   }  
+		  
+	
+		
+	function login()
+	{
+		var userName = $("#loginUser").val();
+		var passWord = $("#passWord").val();
+		
+		$.ajax({
+			type : 'POST',
+			url : "/userui/login",
+			data : JSON.stringify({ "userName" : userName,
+				"passWord" : passWord }),
+			contentType : "application/json;charset=utf-8",
+			dataType : 'json', async : false,
+			success : function(data)
+			{
+				if (data.result == "1")
+				{
+					alert("登录成功");
+					if($('#remeberLoginStatous').is(':checked')) {
+						addCookie("userName",userName,7,"/");	
+						addCookie("passWord",passWord,7,"/");
+					
+					}else{
+						deleteCookie("userName","/");
+						deleteCookie("passWord","/");
+					}
+					window.location.href = "/";
+					
+				} else
+				{
+					alert(data.result);
+				}
+			}, error : function(data)
+			{
+				alert("登录失败,此账号并未注册");
+			} });
+	
+	}
+</script>
+</html>

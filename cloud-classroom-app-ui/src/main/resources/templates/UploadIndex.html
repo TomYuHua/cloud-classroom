@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/js/scriptdemo.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/demomain.css" />
+<link rel="stylesheet" type="text/css" href="/css/admin.css" />
+</head>
+<body>
+	<div class="pop">
+		<div class="popup">
+			<form id="upload_form" class="upload_form" enctype="multipart/form-data" method="post" action="">
+				<h3>上传文件</h3>
+				<p>
+					<img id="preview" class="preview"/>
+					<label for="uploadfile">文件名字/文件数量</label>
+				</p>
+				<p>
+				<input type="text" name="parentid" id="parentid" value="aaa"/>
+					<input type="file" multiple="multiple" name="uploadfile" id="uploadfile" class="uploadfile" onchange="fileSelected();" />
+				</p>
+				<p class="right">
+					<button class="blue" type="button" value="开始上传" onclick="startUpload()">开始上传</button>
+					<button class="grays" type="button" value="取消">取消</button>
+				</p>
+				<div id="fileinfo" class="fileinfo">
+					<div id="filename" class="filename"></div>
+					<div id="filesize" class="filesize"></div>
+					<div id="filetype" class="filetype"></div>
+					<div id="filedim" class="filedim"></div>
+				</div>
+				<div id="error" class="error">不支持上传图片文件！</div>
+				<div id="error2" class="error2">上传文件时出错！</div>
+				<div id="abort" class="abort">用户已经取消上传或浏览器断开连接！</div>
+				<div id="warnsize" class="warnsize">选择文件过大.请选择更小的文件！</div>
+
+				<div id="progress_info" class="progress_info">
+					<div id="progressbar" class="progressbar" style="width:400px;">
+						<img id="imgprogressbar" class="imgprogressbar" alt="" src="/AdminBackend/img/upload.png" style="width:0px;"/>
+						<!-- <div class="upload_inf"></div> -->
+					</div>
+					<div id="progress_percent" class="progress_percent">&nbsp;</div>
+					<div class="clear_both"></div>
+					<div>
+						<div id="speed" class="speed">&nbsp;</div>
+						<div id="remaining" class="remaining">&nbsp;</div>
+						<div id="b_transfered" class="b_transfered">&nbsp;</div>
+						<div class="clear_both" ></div>
+					</div>
+					<div id="upload_response"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.DateResourcesDao">
+
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.DTO.DateResourcesVo">
+		<result column="watchTime" jdbcType="DATE" property="watchTime" />
+	</resultMap> 
+	
+	<select id="getResourcesDate" resultMap="BaseResultMap">
+select distinct date_format(max(CreateTime),'%Y-%m-%d') as watchTime from ResourceBrowse where UserId=#{userId} and ResourceType=1 group by ResourceId order by watchTime desc;  
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.PrivilegeDao">
+    <resultMap id="BaseResultMap" type="cloud.entity.classroom.every.Privilege">
+        <result column="PrivilegeId" jdbcType="INTEGER" property="privilegeid"/>
+        <result column="PrivilegeMaster" jdbcType="VARCHAR" property="privilegemaster"/>
+        <result column="PrivilegeMasterValue" jdbcType="VARCHAR" property="privilegemastervalue"/>
+        <result column="PrivilegeAccess" jdbcType="VARCHAR" property="privilegeaccess"/>
+        <result column="PrivilegeAccessValue" jdbcType="VARCHAR" property="privilegeaccessvalue"/>
+        <result column="PrivilegeOperation" jdbcType="VARCHAR" property="privilegeoperation"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cloud.entity.classroom.every.Privilege">
+        INSERT INTO Privilege (PrivilegeId, PrivilegeMaster, PrivilegeMasterValue, PrivilegeAccess, PrivilegeAccessValue, PrivilegeOperation)
+        VALUES (#{privilegeid,jdbcType=INTEGER},
+                #{privilegemaster,jdbcType=VARCHAR},
+                #{privilegemastervalue,jdbcType=VARCHAR},
+                #{privilegeaccess,jdbcType=VARCHAR},
+                #{privilegeaccessvalue,jdbcType=VARCHAR}, #{privilegeoperation,jdbcType=VARCHAR});
+    </insert>
+
+    <delete id="delete" parameterType="cloud.entity.classroom.every.Privilege">
+        delete from Privilege
+        where PrivilegeId in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            PrivilegeId,
+            PrivilegeMaster,
+            PrivilegeMasterValue,
+            PrivilegeAccess,
+            PrivilegeAccessValue,
+            PrivilegeOperation
+        FROM Privilege;
+    </select>
+    <select id="selectByRoleId" resultMap="BaseResultMap">
+        SELECT
+            PrivilegeId,
+            PrivilegeMaster,
+            PrivilegeMasterValue,
+            PrivilegeAccess,
+            PrivilegeAccessValue,
+            PrivilegeOperation
+        FROM Privilege
+        WHERE PrivilegeMaster = '2'
+              AND PrivilegeAccess = '1'
+              AND PrivilegeMasterValue = #{id};
+    </select>
+    <delete id="changeDelete">
+        DELETE FROM Privilege
+        WHERE PrivilegeMasterValue = #{id}
+              AND PrivilegeMaster = '2'
+              AND PrivilegeAccess = '1';
+    </delete>
+    
+    <insert id="changeInsert">
+        INSERT INTO Privilege (
+        PrivilegeMaster,
+        PrivilegeMasterValue,
+        PrivilegeAccess,
+        PrivilegeAccessValue
+        ) VALUES
+        <foreach item="pid" collection="list" separator=",">
+            (
+            '2',
+            #{id,   jdbcType=VARCHAR},
+            '1',
+            #{pid,   jdbcType=VARCHAR}
+            )
+        </foreach>
+        ;
+    </insert>
+
+</mapper>

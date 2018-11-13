@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+
+    <!--强制国产浏览器使用现代内核--><!--360浏览器-->
+    <meta name="renderer" content="webkit"/>
+    <!--其它双核浏览器-->
+    <meta name="force-rendering" content="webkit"/>
+    <!--如果安装了GCF，则使用GCF来渲染页面，如果没有安装GCF，则使用最高版本的IE内核进行渲染。-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <title>鑫广飞无人机课堂应用平台-管理员后台-角色管理</title>
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css"
+          th:href="@{/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/scss/admin.css"
+          th:href="@{/AdminBackend/scss/admin.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/toastr/build/toastr.min.css"
+          th:href="@{/AdminBackend/node_modules/toastr/build/toastr.min.css}"
+    />
+
+    <!--<link rel="stylesheet" href="../../static/AdminBackend/node_modules/jquery-modal/jquery.modal.css" media="screen"/>-->
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css"
+          th:href="@{/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css}"
+          media="screen"
+    />
+
+    <!-- 3th lib css -->
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/ztree/css/zTreeStyle/zTreeStyle.css"
+          th:href="@{/AdminBackend/node_modules/ztree/css/zTreeStyle/zTreeStyle.css}"
+    />
+
+    <!--polyfill-->
+    <script src="../../static/AdminBackend/node_modules/core-js/client/core.min.js"
+            th:src="@{/AdminBackend/node_modules/core-js/client/core.min.js}"></script>
+    <script src="../../static/AdminBackend/js/template-polyfill.js"
+            th:src="@{/AdminBackend/js/template-polyfill.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/jquery/dist/jquery.min.js"
+            th:src="@{/AdminBackend/node_modules/jquery/dist/jquery.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js"
+            th:src="@{/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/loadjs/dist/loadjs.min.js"
+            th:src="@{/AdminBackend/node_modules/loadjs/dist/loadjs.min.js}"></script>
+
+    <script type="text/javascript">
+        // set init value
+        //document.page2jsPath = "../../static/AdminBackend/";
+        //document.templatePath = "../../static/AdminBackend/template/";
+        //document.isJsDebug = true;
+        //document.page2jsPath = "/AdminBackend";
+        //document.templatePath = "/AdminBackend/template";
+    </script>
+    <script type="text/html" th:type="@{text/javascript}">
+        document.isJsDebug = false;
+        document.page2jsPath = "/AdminBackend/";
+        document.templatePath = "/AdminBackend/template/";
+    </script>
+    <!--load main and main will load other lib-->
+    <script src="../../static/AdminBackend/js/role.js"
+            th:src="@{/AdminBackend/js/role.js}"></script>
+</head>
+<body>
+<!--header-->
+<header class="aheader">
+    <div class="avatar left"></div>
+    <a class="logo left display-block" href="/" target="_blank"></a>
+</header>
+<div class="container">
+    <!--menu-->
+    <div class="ly-left-menu"></div>
+    <!--内容区域-->
+    <div class="panel">
+        <div class="title">
+            <span class="dot left"></span>
+            <b class="title-name left">角色管理</b>
+        </div>
+        <div class="comment">
+            <!--查询结果table-->
+            <div class="result">
+                <table class="result-table ly-list-select-table ly-table" cellspacing="0" cellpadding="0">
+                    <thead class="result-thead">
+                    <tr class="width-users-table">
+                        <th class="td-all width-td-all">
+                            <input class="ly-list-select-parent" name="all" type="checkbox" value="" title=""/> 全部
+                        </th>
+                        <th class="td20 td-role">角色组</th>
+                        <th class="td50 td-note">备注（权限内容）</th>
+                        <th class="td20">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="result-tbody ly-template-table-tbody">
+                    <!--下面那个template中的内容将不会被显示  会在运行时被动态地插入到这个位置进行渲染-->
+                    <template class="ly-template-table-tbody-row">
+                        <tr class="width-users-table table-right-border">
+                            <td class="td-all">
+                                <input class="ly-list-select-child" name="all" type="checkbox" value="" title=""/>
+                            </td>
+                            <td class="td20 td-role">学生</td>
+                            <td class="td50 td-note">没有操作功能，只能查看课程</td>
+                            <td class="td20 row-button">
+                                <span class="operation">
+                                    <a class="cursor-pointer b-view">
+                                        <i class="fa fa-eye fa-2xo green mar5"></i>查看</a>
+                                </span>
+                                <span class="operation">
+                                    <a class="cursor-pointer b-change">
+                                        <i class="fa fa-pencil-square-o fa-2xo blues mar5"></i>编辑</a>
+                                </span>
+                                <span class="operation">
+                                    <a class="cursor-pointer b-delete">
+                                        <i class="fa fa-trash-o fa-2xo reds mar5"></i>删除</a>
+                                </span>
+                                <span class="operation">
+                                    <a class="cursor-pointer b-set-permission">
+                                        <i class="fa fa-wrench fa-2xo orange mar5"></i>设置权限</a>
+                                </span>
+                            </td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+            <!--button添加，删除-->
+            <div class="butn right button-panel">
+                <button class="blue b-add">添加</button>
+                <button class="red b-delete">删除</button>
+            </div>
+            <!--翻页-->
+            <!--翻页器将会注入在此 (will insert before 'div.ly-pagination' node)-->
+            <!--<div class="ly-pagination">-->
+        </div>
+    </div>
+    <!--弹窗div-->
+    <div class="pop" id="f-role-add" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">编辑角色</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <p>
+                    <label>角 色 名 ：</label>
+                    <input type="text"
+                           name="name"
+                           class="query-input td-border f-role"
+                           title=""
+                    />
+                </p>
+                <p>
+                    <label>备&emsp;&emsp;注：</label>
+                    <textarea
+                            class="query-input td-border f-note"
+                            title=""
+                    ></textarea>
+                </p>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-role-change" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">编辑角色</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <p>
+                    <label>角 色 名 ：</label>
+                    <input type="text"
+                           name="name"
+                           class="query-input td-border f-role"
+                           title=""
+                    />
+                </p>
+                <p>
+                    <label>备&emsp;&emsp;注：</label>
+                    <textarea
+                            class="query-input td-border f-note"
+                            title=""
+                    ></textarea>
+                </p>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-role-view" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">角色查看</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <p>
+                    <label>角色名：</label>
+                    <label class="f-role">学生</label>
+                </p>
+                <p>
+                    <label>备注：</label>
+                    <label class="f-note">学生</label>
+                </p>
+            </div>
+            <div class="butn btn-center">
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-role-permission" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">权限设置</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <div>
+                            <div class="flex-container flex-justify-content-end">
+                                <label>
+                                    <input type="checkbox"
+                                           class="tag-trigger-add"
+                                    />联动添加勾选
+                                </label>
+                                <label>
+                                    <input type="checkbox"
+                                           class="tag-trigger-remove"
+                                    />联动取消勾选
+                                </label>
+                            </div>
+                            <div class="tree-container">
+                                <div class="ztree-role-tree-menu ztree" id="ztree-role-tree-menu"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-role-delete" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <b class="title-names left reds">您确定要删除以下角色吗?</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <div id="delete-role-name-list"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <!--弹窗div-->
+</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-账号注册</title>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+
+</head>
+<body class="login-body">
+	<!-- 主题框架 -->
+	<h3 class="sing-in">
+	    <span class="back-login left">
+			  <a th:href="@{/}"><i class="fa fa-home size-2X mar5"></i>返回首页</a>
+		</span>
+		<span class="right fast-login">
+			<a href="/userui/loginPage"><i class="fa fa-sign-in size-2X mar5"></i>已有账号，直接登录</a>
+		</span>
+	</h3>
+	<div class="login-container">
+		<div class="login">
+			<h1 class="login-top">
+				<span>账号注册</span>
+				<span class="sing">register</span>
+			</h1>
+			<form class="cd-login">
+				<p class="cd-register-p">
+                    <input type="hidden" value=""  id="varyUserName"/>
+					<input class="login-input login-username has-border left f-userName" type="text" id="userName" placeholder="输入邮箱" onblur="hadoop()" />
+				</p>
+				<p class="cd-register-p">
+					<em id="message"></em>
+				</p>
+
+				<p class="cd-register-p">
+					<input class="register-input login-register has-border left" type="text" id="inputCode" placeholder="输入邮箱验证码" />
+					<!--<button class="login-btn grays right" type="button"  id="sendCode" name="发送" onclick="javascript:sendMail()">发送</button>  -->
+					<input class="login-btn grays right" type="button" id="sendCode" name="sendCode" value="发送验证" onclick="javascript:sendMail()"></input>
+				</p>
+				<p class="cd-register-p">
+					<input class="login-input login-password has-border left" type="password" id="passWord" placeholder="输入密码" />
+				</p>
+				<p>
+					<button class="login-btn cd-login-p blue"  type="button" name="注册" onClick="javascript:regist()">注册新用户</button>
+				</p>
+			</form>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+	/* function sendCode(){		 
+	 var str=$("#userName").val();
+	 var i=str.indexOf("@");
+	 if(i>0){
+	 checkEmail(str);
+	 }else{
+	 checkMobile(str)
+	 }
+	 }
+	
+	 function checkEmail(str){
+	 var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+	 if(re.test(str)){
+	 return true;
+	 } else{
+		 return false; 
+	 }
+	 }
+	
+	 function  checkMobile(str) {
+	 var re = /^1\d{10}$/
+	 if (!re.test(str)) {
+	 alert("请输入手机号正确格式");
+	 return;
+	 } 
+	 }
+	 */
+
+	function checkEmail(str)
+	{
+		var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+		if (re.test(str))
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+        function sendMail(){
+		var email = $("#userName").val();
+		var str = $("#userName").val();
+		var i = str.indexOf("@");
+		var varyUser=$("#varyUserName").val();
+		if (i>0){
+		  if(checkEmail(str)){   
+		    if(varyUser=="1"){
+				document.getElementById("sendCode").value = "重新发送";
+				$.ajax({
+					type : "GET", 
+					url : "/userui/sendemail",
+					data : { "email" : email },
+					dataType : 'json',
+					async : false,
+					success : function(data){
+						if (data.result == "success"){
+							alert("发送成功");
+						}else{
+							alert("发送失败");
+						}
+					},
+					error:function(data){
+						alert("发送失败");
+					}
+				});
+				}else{
+				alert("所填邮箱号已存在");
+				}
+				}else{
+				alert("请输入邮箱正确格式");
+			}
+		     }else{
+			alert("请输入邮箱正确格式");
+		}
+	}
+
+	function regist()
+	{
+		var userName = $("#userName").val();
+		var inputCode = $("#inputCode").val();
+		var passWord = $("#passWord").val();
+		var email = $("#userName").val();
+		$.ajax({
+			type : 'POST',
+			url : "/userui/insertUser",
+			data : JSON.stringify({ "userName" : userName,
+				"email" : userName, "passWord" : passWord,
+				"inputCode" : inputCode, "userType" : 0 }),
+			contentType : "application/json;charset=utf-8",
+			dataType : 'json', async : false,
+			success : function(data)
+			{
+				if (data.result=="success")
+				{
+				     alert("注册成功");	
+				window.location.href="/userui/loginPage";
+	
+				}
+			}, error : function(data)
+			{
+				alert("注册失败,邮箱与验证码不匹配");
+			}, 
+			});
+	}
+
+
+	$(document).ready(function(){
+	 $("#userName").focus();
+	 });
+	
+	var hadoop = function()
+	{
+		// 异步验证用户是否重复
+		if ($.trim($("#userName").val()) == "")
+		{
+			$("#message").attr("class","red").html("用户名不能为空");
+			$("#userName").focus();
+			return;
+		}
+		
+		var userName = $("#userName").val();
+		$.ajax({ 
+			    type:"GET", 
+			    url: "/userui/IsExistsUser",
+	            data:{ "account" : userName }, 
+	            dataType : 'json',
+			    async : true, 
+			    success : function(data){
+				if (data.result=="fail"){
+					  document.getElementById("varyUserName").value = "1";
+					$("#message").attr("class","green").html("该用户名可用");
+				 }else{
+				  document.getElementById("varyUserName").value ="2";
+					$("#message").attr("class","red").html("此系统已经存在该用户名");
+					
+				}
+			} });
+	};
+</script>
+
+
+</html>

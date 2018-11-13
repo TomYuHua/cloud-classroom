@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/fragments/comm">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>鑫广飞无人机课堂应用平台-文档</title>
+		<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}"/>
+		<link rel="stylesheet" type="text/css" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+        <link rel="stylesheet" href="/resources/static/css/good.css" th:href="@{/css/good.css}" />
+  
+        <script type="text/javascript" src="/resources/static/js/star.js" th:href="@{/js/star.js}"></script>
+        <script type="text/javascript" src="/resources/static/js/parise.js" th:href="@{/js/parise.js}"></script>
+        <script type="text/javascript">
+	$(document)
+			.ready(
+					function()
+					{
+						/* $subblocks = $(".subpage") */
+						$("#proinfo").css({ display : 'none' });
+						var $subblocks = $(".allbtn"), $heads = $subblocks
+								.find('h2'), $uls = $("#proinfo"), $liss = $uls
+								.find("li");
+						
+						$uls.click(function(event)
+						{
+							event.stopPropagation();
+						});
+						
+						$subblocks.hover(function()
+						{
+							
+							$("#proinfo").css({ display : 'block' });
+							
+						}, function()
+						{
+							
+							$("#proinfo").css({ display : 'none' });
+							
+						});
+					});
+	 </script>	
+	</head>
+	<body>
+<!--haeder开始-->
+<div th:fragment="content" th:remove="tag">
+<div class="haeder read-top">
+    <!--top-->
+    <div class="top-box">
+    <div class="top">
+        <div class="logo"></div>
+        <div class="top-right">
+            <div class="search">
+                <form action="" method="get">
+                    <div class="kuan"><input name="搜索框" type="text" /></div><!--搜索框-->
+                    <button class="search-bto bto-text">搜索</button>
+               </form>
+            </div>
+            <!--登陆注册链接-->
+                <div class="user-pic right">
+                     <ul  class="menuitem">
+                     	<li class="menuitem-pic"><a href="#"><img src="img/user-pic.png" /></a>
+                     		<ul class="submenuitem">
+                     		<li><a href="../Password/change.html" target="_blank">修改密码</a></li>
+                     	    <li><a href="#">退出</a></li>
+                     	   </ul>
+                     	</li>
+                     </ul>
+                </div>
+        </div>
+    </div>
+    </div>
+    <!--nav-->
+    <div class="hc_lnav jslist">
+        <div class="nav-box">
+        <div class="allbtn">
+            <h2><span class="menue-icon"></span><a href="course.html">所有课程章节</a></h2>
+            <ul class="jspop">
+                <li class="a">
+                    <div class="tx"><a href="#">概述</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dt><a href="">无人机的定义</a></dt>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机的分类</a></dt>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机的发展</a></dt>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">系统组成及介绍</a> </div>
+                    <div class="pop">
+                        <h3><a href="">花草保健茶</a></h3>
+                        <dl>
+                            <dl>
+                                <dt><a href="" >飞行器</a></dt>
+                                <dd>
+                                    <a href="" >航空器平台</a>
+                                    <a href="" >动力装置</a> 
+                                    <a href="" >导航飞控系统</a> 
+                                    <a href="" >电气系统</a>
+                                    <a href="" >任务设备</a> 
+                                </dd>
+                            </dl>
+                        </dl>
+                        <dl>
+                            <dt><a href="" >控制站</a></dt>
+                            <dd>
+                                <a href="" >系统组成</a>
+                                <a href=""  >显示系统</a> 
+                                <a href="">操纵系统</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="" >通信链路</a></dt>
+                            <dd>
+                                <a href="" >机载终端与天线</a> 
+                                <a href=""  >地面终端与天线</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">飞行原理与飞行性能</a> </div>
+                    <div class="pop">
+                        <h3><a href="">精选茶具</a></h3>
+                        <dl>
+                            <dl>
+                            <dt><a href="">国际标准大气</a></dt>
+                            </dl>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机空气动力学基础</a></dt>
+                            <dd>
+                                <a href="">速度与加速度</a>
+                                <a href="">牛顿三大运动定律</a>
+                                <a href="">力的平衡</a> 
+                                <a href="">伯努利定律</a>
+                                <a href="">翼型和机翼升力系数</a>
+                                <a href="">机翼翼载</a>
+                                <a href="">升力的来源</a> 
+                                <a href="">阻力和升阻比</a>
+                                <a href="">失速</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">机动飞行中的空气动力</a></dt>
+                            <dd>
+                                <a href="">转弯受力</a>
+                                <a  href="">爬升受力</a>
+                                <a  href="">下降受力</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">飞机的飞行性能</a></dt>
+                            <dd>
+                                <a href="">滑翔</a>
+                                <a  href="">俯冲</a>
+                                <a  href="">爬升</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">飞机的稳定性</a></dt>
+                            <dd>
+                                <a href="">飞机的纵向稳定性</a>
+                                <a  href="">飞机的航向稳定性</a>
+                                <a  href="">飞机的横向稳定性</a>
+                                <a  href="">荷兰滚</a>
+                                <a  href="">尾旋不稳定</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">重量与平衡</a></dt>
+                            <dd>
+                                <a href="">松杆和握杆稳定性</a>
+                                <a  href="">静稳定裕度</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机发射回收方式</a></dt>
+                            <dd>
+                                <a  href="">发射方式</a>
+                                <a  href="">回收方式</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">大气</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dl>
+                                <dt><a href="">大气成分及基本要素</a></dt>
+                                <dd>
+                                    <a  href="">大气成份与结构</a>
+                                    <a  href="">大气的基本要素</a>
+                                    <a  href="">基本天气现象</a>
+                                </dd>
+                            </dl>
+                        </dl>
+                        <dl>
+                            <dt><a href="">大气特性</a></dt>
+                            <dd>
+                                <a  href="">大气压力</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">大气的对流运动</a></dt>
+                            <dd>
+                                <a href="">对流产生的原因</a>
+                                <a  href="">对流冲击力</a>
+                                <a href="">风的模式</a>
+                                <a  href="">障碍物对风的影响</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a  href="" >大气稳定度</a></dt>
+                            <dd>
+                                <a  href="">湿气和温度</a>
+                                <a  href="">相对湿度</a>
+                                <a  href="">温度/露点关系</a>
+                                <a  href="">确定空气到达饱和点的方法</a>
+                                <a  href="">露和霜</a>
+                                <a  href="">雾</a>
+                                <a  href="">云 </a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a  href="" >气团与锋的概念及锋面天气</a></dt>
+                            <dd>
+                                <a  href="" >气团</a> 
+                                <a  href="">气团的变性和天气</a>
+                                <a  href="">锋面极其分类</a>
+                                <a  href="">暖锋</a>
+                                <a  href="">冷锋</a>
+                                <a  href="">风的转向</a>
+                                <a  href="">静止锋</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a  href="">严重影响飞行的气象</a></dt>
+                            <dd>
+                                <a  href="">雷暴</a>
+                                <a  href="">积冰</a>
+                                <a  href="">能见度</a>
+                                <a  href="">山地气流和对飞行的影响</a>
+                                <a  href="">低空风切变</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a  href="">航空气象资料分析和应用</a></dt>
+                            <dd>
+                                <a  href="">地面天气图</a>
+                                <a  href="">卫星云图</a>
+                                <a  href="">各种天气预报图</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a  href="">服务设施</a></dt>
+                        </dl>
+                        <dl>
+                            <dt><a  href="">国内天气获取途径</a></dt>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">空域与机场、起降场</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dt><a href="">空域知识</a></dt>
+                            <dd>
+                                <a href="">空域的概念</a>
+                                <a href="">空域的分类</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">空域运行要求</a></dt>
+                            <dd>
+                                <a href="">概况</a>
+                                <a href="">申报飞行空域</a>
+                                <a href="">申报飞行计划</a> 
+                                <a href="">紧急飞行计划的申报</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">机场、起降场</a></dt>
+                            <dd>
+                                <a href="">概念</a>
+                                <a  href="">机场、起降场标志</a>
+                                <a  href="">机场灯光</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">任务规划</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dt><a href="">概念与功能</a></dt>
+                            <dd>
+                                <a href="">概念与目标</a>
+                                <a href="">主要功能</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">约束条件与原则</a></dt>
+                            <dd>
+                                <a href="">约束条件</a>
+                                <a href="">原则</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">分类与方法</a></dt>
+                            <dd>
+                                <a href="">任务规划分类</a>
+                                <a  href="">任务描述与分解</a>
+                                <a  href="">航迹规划</a>
+                                <a  href="">应急预案</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">案例</a></dt>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">旋翼无人机</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dt><a href="">旋翼无人机分类及主流布局形式</a></dt>
+                            <dd>
+                                <a href="">旋翼无人机的分类</a>
+                                <a href="">单旋翼带尾桨无人直升机</a>
+                                <a href="">共轴无人直升机</a> 
+                                <a href="">多轴无人飞行器</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">构造</a></dt>
+                            <dd>
+                                <a href="">旋翼</a>
+                                <a href="">尾桨</a>
+                                <a href="">传动系统</a> 
+                                <a href="">操纵系统</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">飞行原理与性能</a></dt>
+                            <dd>
+                                <a href="">直升机的力和力矩</a>
+                                <a  href="">旋翼的挥舞与摆振运动</a>
+                                <a  href="">地面效应</a>
+                                <a href="">直升机的运动</a>
+                                <a  href="">直升机的操纵模式</a>
+                                <a  href="">直升机的飞行性能</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="a">
+                    <div class="tx"><a href="">无人机飞行手册</a> </div>
+                    <div class="pop">
+                        <dl>
+                            <dt><a href="">无人机飞行手册</a></dt>
+                            <dd>
+                                <a href="">概述</a>
+                                <a href="">正常程序</a>
+                                <a href="">应急程序</a>
+                                <a href="">性能</a>
+                                <a href="">飞行限制</a>
+                                <a href="">重量和配平/载荷清单</a>
+                                <a href="">系统描述</a>
+                                <a href="">运行、保养和维护</a>
+                                <a href="">安全提示</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机档案</a></dt>
+                            <dd>
+                                <a href="">无人机国籍登记</a>
+                                <a href="">无人机特许适航文件</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><a href="">无人机的维护</a></dt>
+                            <dd>
+                                <a href="">无人机的检查</a>
+                                <a  href="">预防性维护</a>
+                                <a  href="">修理和更换</a>
+                                <a  href="">无人机所有者/运营者职责</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+            </ul>
+   </div>
+          <!--home-->
+          <div class="home"><span class="home-icon"></span><a href="index.html">首页</a></div>
+    </div>
+</div><!--nav结束-->
+</div><!--hander结束-->
+    <!--主题框架-->
+    <div class="main-container">
+	     <!--panel面板开始-->
+         <div class="panel mar-top">
+         	<div class="read left">
+         		<ul class="breadcrumb">
+                    <li><a href="#">课程</a></li>
+                    <li><a href="#">飞行原理与飞行性能</a></li>
+                    <li><a href="#">无人机动力学基础</a></li>
+                </ul>
+                <h1 class="headlines">
+                	<span class="left"><img src="img/pdf.png" />速度与加速度<b class="mark">9.2分</b></span>
+                	<button class="left footer-down"></button>
+                </h1>
+                <ul class="bread-crumb">
+                    <li class="bread-user"><a href="#">金元宝</a></li>
+                    <li class="browse">5632次</li>
+                    <li class="download-s">543次</li>
+                </ul>
+                <h2 class="reader-title">3.2.1速度与加速度</h2>
+                <div class="reader">
+                	<div class="reader-txt">
+当无人机的翼展和面积一定时，高速飞行对气团产生的扰动
+比低速时大。速度（用 V 表示）在标准公式中量纲用的是米每秒
+而不是千米每小时。
+要打破平衡，改变速度大小或飞行方向，需要力的变化来引
+起相应的加速度的变化。
+牛顿第二运动定律表明，要获得给定加速度所施加的力的大
+小取决于无人机的质量。质量与重量不是一回事儿，尽管在平常
+的语言中，这两个词经常是指同一件事。重量是由质量而来的。
+如果一个模型由火箭带到火星上，在当地大气条件下测试的话，
+那么在大部分时间的旅程中，它是没有重量的，并且到达火星后
+重量也会比在地球上要轻，这是由于火星较低的重力加速度所造
+成的。但是质量在整个过程中是不会变化的，因为无人机中的材
+料，如木头、金属、塑料、等的数量是一样的。
+一个具有很大质量的物体需要用更大的力去打破它的平衡
+才能达到给定的加速度，而小质量的物体所需的力则小。这样一
+个性质有时是个优点，比如无人机受突风影响的时候。一个小质
+量的无人机在受到突风影响的时候可能会翻滚，而大质量的无人
+机可能只有微小的方向变化。但是大质量也需要较大的力使其从
+静止加速到飞行速度，需要较大的力从平飞改变为爬升，较大的
+力来保持转弯，还要较大的力将无人机重新回到静止状态。无论
+什么时候由外力打破平衡，比如加速或减速，或者方向的变化，
+称为惯性的物体的质量会阻止这种变化。
+当无人机的翼展和面积一定时，高速飞行对气团产生的扰动
+比低速时大。速度（用 V 表示）在标准公式中量纲用的是米每秒
+而不是千米每小时。
+要打破平衡，改变速度大小或飞行方向，需要力的变化来引
+起相应的加速度的变化。
+牛顿第二运动定律表明，要获得给定加速度所施加的力的大
+小取决于无人机的质量。质量与重量不是一回事儿，尽管在平常
+的语言中，这两个词经常是指同一件事。重量是由质量而来的。
+如果一个模型由火箭带到火星上，在当地大气条件下测试的话，
+那么在大部分时间的旅程中，它是没有重量的，并且到达火星后
+重量也会比在地球上要轻，这是由于火星较低的重力加速度所造
+成的。但是质量在整个过程中是不会变化的，因为无人机中的材
+料，如木头、金属、塑料、等的数量是一样的。
+一个具有很大质量的物体需要用更大的力去打破它的平衡
+才能达到给定的加速度，而小质量的物体所需的力则小。这样一
+个性质有时是个优点，比如无人机受突风影响的时候。一个小质
+量的无人机在受到突风影响的时候可能会翻滚，而大质量的无人
+机可能只有微小的方向变化。但是大质量也需要较大的力使其从
+静止加速到飞行速度，需要较大的力从平飞改变为爬升，较大的
+力来保持转弯，还要较大的力将无人机重新回到静止状态。无论
+什么时候由外力打破平衡，比如加速或减速，或者方向的变化，
+称为惯性的物体的质量会阻止这种变化。
+                	</div>
+                </div>
+                  <div class="file-video">
+                       <!--评价区域-->
+                       <div class="video-message">
+                            <div class="tea-tx left"><img src="img/tea-tx.png"/></div>
+                            <div class="tea-txt right">
+                                <form class="tes-form" method="get">
+                                    <textarea class="tes-input" clos="20" rows="5">扯淡、吐槽、表扬、鼓励......想说啥就说啥！</textarea>
+                                    <div class="send-out">
+                                        <div class="left score">
+                                            评分：
+                                            <a href="javascript:click(1)"><img src="img/star.png" id="star1" onMouseOver="over(1)" onMouseOut="out(1)"/></a>
+                                            <a href="javascript:click(2)"><img src="img/star.png" id="star2" onMouseOver="over(2)" onMouseOut="out(2)" /></a>
+                                            <a href="javascript:click(3)"><img src="img/star.png" id="star3" onMouseOver="over(3)" onMouseOut="out(3)" /></a>
+                                            <a href="javascript:click(4)"><img src="img/star.png" id="star4" onMouseOver="over(4)" onMouseOut="out(4)"/></a>
+                                            <a href="javascript:click(5)"><img src="img/star.png" id="star5" onMouseOver="over(5)" onMouseOut="out(5)"/></a>
+                                            <span id="message"></span>
+                                        </div>
+                                    <input class="send right blue" type="submit" value="发表评论" />
+                                    </div>
+                                </form>
+                            </div>
+                       </div>
+                       <!--回复区域-->
+                       <div class="reply">
+                            <ul>
+                                <li>
+                                    <div class="reply-list">
+                                    <div class="reply-tx left"><img src="img/reply-tx.png"/></div>
+                                    <div class="reply-hf right">
+                                        <p class="nickname">小蚯蚓</p>
+                                        <p>跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+                                        <div class="nice right">
+                                            <div class="time left">2017-04-25　15:08</div>
+                                            <div class="praise left">
+                                                  <span id="praise" class="left"><img src="img/zan.png" id="praise-img" /></span>
+                                                  <span id="praise-txt" class="left">1455</span>
+                                                  <span id="add-num" class="left"><em>+1</em></span>
+                                            </div>
+                                            <div class="reply-txt left"><a href="#">回复</a></div>
+                                            <div class="reply-txt left"><a href="#">删除</a></div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                          <div class="reply-list-a right">
+                                            <ul>
+                                                <li>
+                                                    <div class="list-tx left"><img src="img/reply-tx.png"/></div>
+                                                        <div class="list-hf right">
+                                                            <p class="nickname">小泥巴</p>
+                                                            <p>跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+                                                            <div class="nice right">
+                                                                <div class="time left">2017-04-25　15:08</div>
+                                                                <div class="reply-txt right"><a href="#">回复</a></div>
+                                                            </div>
+                                                        </div>
+                                                </li>
+                                                <li>
+                                                    <div class="list-tx left"><img src="img/reply-tx.png"/></div>
+                                                        <div class="list-hf right">
+                                                            <p class="nickname">丑小鸭<span>回复：</span>小泥巴</p>
+                                                            <p>跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+                                                            <div class="time right">2017-04-25　15:08</div>
+                                                        </div>
+                                                </li>
+                                            </ul>
+                                          </div>
+                                          <div class="reply-list-b right">
+                                            <form class="tes-form" method="get">
+                                            <textarea class="send-input"></textarea>
+                                                <div class="send-out">
+                                                    <input class="send right blue" type="submit" value="回复" />
+                                                </div>
+                                            </form>
+                                         </div>
+                                </li>
+                                <li>
+                                    <div class="reply-list">
+                                    <div class="reply-tx left"><img src="img/reply-tx.png"/></div>
+                                    <div class="reply-hf right">
+                                        <p class="nickname">小蚯蚓</p>
+                                        <p>跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+                                        <div class="nice right">
+                                            <div class="time left">2017-04-25　15:08</div>
+                                            <div class="praise left">
+                                                  <span id="praise" class="left"><img src="img/zan.png" id="praise-img" /></span>
+                                                  <span id="praise-txt" class="left">1455</span>
+                                                  <span id="add-num" class="left"><em>+1</em></span>
+                                            </div>
+                                            <div class="reply-txt left"><a href="#">回复</a></div>
+                                            <div class="reply-txt left"><a href="#">删除</a></div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </li>
+                            </ul>
+                       </div>
+                    </div>
+             </div><!--read-left-->
+       	   <div class="down right">
+       	   	<!--下载排行榜-->
+				<div class="down-load">
+					<div class="title">
+                        <div class="title-name left">
+                            <span class="dot left"></span>
+                            <h3>下载排行榜</h3>
+                        </div>
+			    	</div>
+                    <div class="down-link">
+                        <ol>
+                        	<li class="down-a">
+                        		<p><b><a href="#">速度与加速度——王老师</a></b></p>
+                        		<p>文件大小：12M　|　下载次数：521次</p>
+                        	</li>
+                        	<li class="down-b">
+                        		<p><b><a href="#">速度与加速度——王老师</a></b></p>
+                        		<p>文件大小：12M　|　下载次数：521次</p>
+                        	</li>
+                        	<li class="down-c">
+                        		<p><b><a href="#">速度与加速度——王老师</a></b></p>
+                        		<p>文件大小：12M　|　下载次数：521次</p>
+                        	</li>
+                        	<li>
+                        		<p><b><a href="#">速度与加速度——王老师</a></b></p>
+                        		<p>文件大小：12M　|　下载次数：521次</p>
+                        	</li>
+                        	<li>
+                        		<p><b><a href="#">速度与加速度——王老师</a></b></p>
+                        		<p>文件大小：12M　|　下载次数：521次</p>
+                        	</li>
+                        </ol>
+                    </div>
+				</div>
+			<!--猜你喜欢-->
+				<div class="like right">
+					<div class="title">
+                        <div class="title-name left">
+                            <span class="dot left"></span>
+                            <h3>猜你喜欢</h3>
+                        </div>
+			    			<span class="refresh right"><a href="#">换一批</a></span>
+			    	</div>
+                    <div class="reader-link">
+                        <ul>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                            <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                        </ul>
+                    </div>
+				</div>
+       	   </div>
+         </div>	<!--panel面板结束-->
+	</div><!--主题框架-->
+	<!--footer开始-->
+			<div class="footer">
+				<p> © 2017 Singfly. All Rights Reserved.</p>
+				<p>广州市鑫广飞信息科技有限公司 版权所有 | 鑫广飞无人机课堂应用平台 | 站点地图 | 侵权投诉 | 帮助</p>
+			</div>
+	<!--footer结束-->
+	</div>
+	</body>
+</html>

@@ -1,0 +1,4 @@
+/* polyfill for template-polyfill */
+template {
+    display: none !important;
+}

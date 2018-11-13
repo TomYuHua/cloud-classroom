@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>xxx的主页-个人资料</title>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+
+<link rel="stylesheet" type="text/css" href="/resources/static/css/saidbar.css" th:href="@{/css/saidbar.css}" />
+<script type="text/javascript" src="/resources/static/js/saidbar.js" th:src="@{/js/saidbar.js}"></script>
+</head>
+<body>
+	<!--haeder开始-->
+	<div class="haeder">
+		<!--top-->
+		<div class="top-box">
+			<div class="top">
+				<div class="logo"></div>
+				<div class="top-right">
+					<div class="search">
+						<form action="" method="get">
+							<div class="kuan">
+								<input name="搜索框" type="text" />
+							</div>
+							<!--搜索框-->
+							<button class="search-bto bto-text">搜索</button>
+						</form>
+					</div>
+					<!--登陆注册链接-->
+					<div class="user-pic right">
+						<ul class="menuitem">
+							<li class="menuitem-pic">
+								<a href="#">
+									<img src="../img/user-pic.png" />
+								</a>
+								<ul class="submenuitem">
+									<li>
+										<a href="../Password/change.html" th:href="@{'/userUI/ChangePassWord/'+${user.userName}}" target="_blank">修改密码</a>
+									</li>
+									<li>
+										<a href="#">退出</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--nav-->
+		<div class="hc_lnav jslist">
+			<div class="nav-box">
+				<div class="allbtn">
+					<h2>
+						<span class="menue-icon"></span>
+						<a href="../course.html">所有课程章节</a>
+					</h2>
+					<ul class="jspop">
+						<li class="a">
+							<div class="tx">
+								<a href="#">概述</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="">无人机的定义</a>
+									</dt>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机的分类</a>
+									</dt>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机的发展</a>
+									</dt>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">系统组成及介绍</a>
+							</div>
+							<div class="pop">
+								<h3>
+									<a href="">花草保健茶</a>
+								</h3>
+								<dl>
+									<dl>
+										<dt>
+											<a href="">飞行器</a>
+										</dt>
+										<dd>
+											<a href="">航空器平台</a>
+											<a href="">动力装置</a>
+											<a href="">导航飞控系统</a>
+											<a href="">电气系统</a>
+											<a href="">任务设备</a>
+										</dd>
+									</dl>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">控制站</a>
+									</dt>
+									<dd>
+										<a href="">系统组成</a>
+										<a href="">显示系统</a>
+										<a href="">操纵系统</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">通信链路</a>
+									</dt>
+									<dd>
+										<a href="">机载终端与天线</a>
+										<a href="">地面终端与天线</a>
+									</dd>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">飞行原理与飞行性能</a>
+							</div>
+							<div class="pop">
+								<h3>
+									<a href="">精选茶具</a>
+								</h3>
+								<dl>
+									<dl>
+										<dt>
+											<a href="">国际标准大气</a>
+										</dt>
+									</dl>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机空气动力学基础</a>
+									</dt>
+									<dd>
+										<a href="">速度与加速度</a>
+										<a href="">牛顿三大运动定律</a>
+										<a href="">力的平衡</a>
+										<a href="">伯努利定律</a>
+										<a href="">翼型和机翼升力系数</a>
+										<a href="">机翼翼载</a>
+										<a href="">升力的来源</a>
+										<a href="">阻力和升阻比</a>
+										<a href="">失速</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">机动飞行中的空气动力</a>
+									</dt>
+									<dd>
+										<a href="">转弯受力</a>
+										<a href="">爬升受力</a>
+										<a href="">下降受力</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">飞机的飞行性能</a>
+									</dt>
+									<dd>
+										<a href="">滑翔</a>
+										<a href="">俯冲</a>
+										<a href="">爬升</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">飞机的稳定性</a>
+									</dt>
+									<dd>
+										<a href="">飞机的纵向稳定性</a>
+										<a href="">飞机的航向稳定性</a>
+										<a href="">飞机的横向稳定性</a>
+										<a href="">荷兰滚</a>
+										<a href="">尾旋不稳定</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">重量与平衡</a>
+									</dt>
+									<dd>
+										<a href="">松杆和握杆稳定性</a>
+										<a href="">静稳定裕度</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机发射回收方式</a>
+									</dt>
+									<dd>
+										<a href="">发射方式</a>
+										<a href="">回收方式</a>
+									</dd>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">大气</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dl>
+										<dt>
+											<a href="">大气成分及基本要素</a>
+										</dt>
+										<dd>
+											<a href="">大气成份与结构</a>
+											<a href="">大气的基本要素</a>
+											<a href="">基本天气现象</a>
+										</dd>
+									</dl>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">大气特性</a>
+									</dt>
+									<dd>
+										<a href="">大气压力</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">大气的对流运动</a>
+									</dt>
+									<dd>
+										<a href="">对流产生的原因</a>
+										<a href="">对流冲击力</a>
+										<a href="">风的模式</a>
+										<a href="">障碍物对风的影响</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">大气稳定度</a>
+									</dt>
+									<dd>
+										<a href="">湿气和温度</a>
+										<a href="">相对湿度</a>
+										<a href="">温度/露点关系</a>
+										<a href="">确定空气到达饱和点的方法</a>
+										<a href="">露和霜</a>
+										<a href="">雾</a>
+										<a href="">云 </a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">气团与锋的概念及锋面天气</a>
+									</dt>
+									<dd>
+										<a href="">气团</a>
+										<a href="">气团的变性和天气</a>
+										<a href="">锋面极其分类</a>
+										<a href="">暖锋</a>
+										<a href="">冷锋</a>
+										<a href="">风的转向</a>
+										<a href="">静止锋</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">严重影响飞行的气象</a>
+									</dt>
+									<dd>
+										<a href="">雷暴</a>
+										<a href="">积冰</a>
+										<a href="">能见度</a>
+										<a href="">山地气流和对飞行的影响</a>
+										<a href="">低空风切变</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">航空气象资料分析和应用</a>
+									</dt>
+									<dd>
+										<a href="">地面天气图</a>
+										<a href="">卫星云图</a>
+										<a href="">各种天气预报图</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">服务设施</a>
+									</dt>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">国内天气获取途径</a>
+									</dt>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">空域与机场、起降场</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="">空域知识</a>
+									</dt>
+									<dd>
+										<a href="">空域的概念</a>
+										<a href="">空域的分类</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">空域运行要求</a>
+									</dt>
+									<dd>
+										<a href="">概况</a>
+										<a href="">申报飞行空域</a>
+										<a href="">申报飞行计划</a>
+										<a href="">紧急飞行计划的申报</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">机场、起降场</a>
+									</dt>
+									<dd>
+										<a href="">概念</a>
+										<a href="">机场、起降场标志</a>
+										<a href="">机场灯光</a>
+									</dd>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">任务规划</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="">概念与功能</a>
+									</dt>
+									<dd>
+										<a href="">概念与目标</a>
+										<a href="">主要功能</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">约束条件与原则</a>
+									</dt>
+									<dd>
+										<a href="">约束条件</a>
+										<a href="">原则</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">分类与方法</a>
+									</dt>
+									<dd>
+										<a href="">任务规划分类</a>
+										<a href="">任务描述与分解</a>
+										<a href="">航迹规划</a>
+										<a href="">应急预案</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">案例</a>
+									</dt>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">旋翼无人机</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="">旋翼无人机分类及主流布局形式</a>
+									</dt>
+									<dd>
+										<a href="">旋翼无人机的分类</a>
+										<a href="">单旋翼带尾桨无人直升机</a>
+										<a href="">共轴无人直升机</a>
+										<a href="">多轴无人飞行器</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">构造</a>
+									</dt>
+									<dd>
+										<a href="">旋翼</a>
+										<a href="">尾桨</a>
+										<a href="">传动系统</a>
+										<a href="">操纵系统</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">飞行原理与性能</a>
+									</dt>
+									<dd>
+										<a href="">直升机的力和力矩</a>
+										<a href="">旋翼的挥舞与摆振运动</a>
+										<a href="">地面效应</a>
+										<a href="">直升机的运动</a>
+										<a href="">直升机的操纵模式</a>
+										<a href="">直升机的飞行性能</a>
+									</dd>
+								</dl>
+							</div>
+						</li>
+						<li class="a">
+							<div class="tx">
+								<a href="">无人机飞行手册</a>
+							</div>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="">无人机飞行手册</a>
+									</dt>
+									<dd>
+										<a href="">概述</a>
+										<a href="">正常程序</a>
+										<a href="">应急程序</a>
+										<a href="">性能</a>
+										<a href="">飞行限制</a>
+										<a href="">重量和配平/载荷清单</a>
+										<a href="">系统描述</a>
+										<a href="">运行、保养和维护</a>
+										<a href="">安全提示</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机档案</a>
+									</dt>
+									<dd>
+										<a href="">无人机国籍登记</a>
+										<a href="">无人机特许适航文件</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<a href="">无人机的维护</a>
+									</dt>
+									<dd>
+										<a href="">无人机的检查</a>
+										<a href="">预防性维护</a>
+										<a href="">修理和更换</a>
+										<a href="">无人机所有者/运营者职责</a>
+									</dd>
+								</dl>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!--home-->
+				<div class="home">
+					<span class="home-icon"></span>
+					<a href="../index.html">首页</a>
+				</div>
+			</div>
+		</div>
+		<!--nav结束-->
+	</div>
+	<!--hander结束-->
+	<!--普通用户头部-->
+	<div class="ordinary">
+		<div class="panel ord-list">
+			<div class="ord-tx left"></div>
+			<div class="ord-zm right">
+				<i class="left">
+					<a href="#">
+						<img src="../img/edit.png"></img>
+					</a>
+				</i>
+				<ul class="right">
+					<li>
+						<b>劳de小蜜蜂</b>
+					</li>
+					<li>学习时长5小时40分</li>
+					<li>
+						<b>个性签名：</b>
+						学习如逆水行舟，不进则退！！
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<<<<<<< .mine
+<!--主题框架-->
+<div class="main-container">
+	<!--panel面板开始-->
+    <div class="panel">	
+	    <!--saidbar-->
+	    <div class="saidbar left">
+	    	<ul class="ce">
+	    		<li class="ht-ic-book"><a href="student.html">最近学习</a></li>
+	    		<li class="ht-ic-keep"><a  href="collection.html">我的收藏</a></li>
+	    		<li class="ht-ic-down"><a href="download.html">我的下载</a></li>
+	    		<li class="ht-ic-user"><a class="xz" href="#">个人资料</a></li>
+	    	</ul>
+	    </div>
+	        <!--saidpanel-->
+	        <div class="saidpanel right">
+	            <div class="title">
+	        		<span class="dot left"></span>
+                    <h3>
+                    	<span class="left">个人资料</span>
+                    	<span class="right"><button id="edit" onclick="javascript:makeEditable()">编辑</button></span>
+                    </h3>
+                </div>
+                <h4 class="red">*必填</h4>
+                <form action="/userUI/upload" method="post" enctype="Application/x-www-Form-urlencoded"> 
+                <table class="required">
+                	<tbody>
+                	<tr>
+                		<td class="td-text">用户名：</td>
+                		<td class="td-sr"><input class="td-input td-border gray-bgc" type="text" value="用户名" disabled="disabled"></input></td>
+                		<td class="gray td-zs">*不可编辑</td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">昵称：</td>
+                		<td class="td-sr"><input class="td-input td-border" type="text"  th:value="${user.nickName}" id="nickName" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">姓名：</td>
+                		<input type="hidden" name="studentId" th:value="${user.student.id}"></input>
+                		<td class="td-sr"><input class="td-input td-border" type="text" th:value="${user.student.state}" id="name" disabled="true" ></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">性别：</td>
+                		<td class="td-sr">
+                		    <div th:if="${user.sex=='男'}">
+                			<input type="radio" name="sex" value="男" id="male" disabled="true"  checked="checked"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="女" id="female"  name="sex" disabled="true" />
+                            <label for="male">女</label>
+                            </div>
+                            <div th:if="${user.sex=='女'}">
+                			<input type="radio" name="sex" value="男" id="male" disabled="true"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="女" id="female"  name="sex" disabled="true" checked="checked" />
+                            <label for="male">女</label>
+                            </div>
+                           <div th:if="${user.sex==null}">
+                			<input type="radio" name="sex" value="男" id="male" disabled="true"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="女" id="female"  name="sex" disabled="true" checked="checked" />
+                            <label for="male">女</label>
+                            </div>
+                		</td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">手机：</td>
+                		<td class="td-sr"><input class="td-input td-border" type="text" id="phone" th:value="${user.phone}" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">邮箱：</td>
+                		<td class="td-sr"><input class="td-input td-border" type="text" id="email"  th:value="${user.phone}" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">身份证：</td>
+                		<td class="td-sr"><input class="td-input td-border" type="text" id="idNumber"  th:value="${user.student.idNumber}" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">学号：</td>
+                		<td class="td-sr"><input class="td-input td-border" type="text" id="studentNo" th:value="${user.student.studentNo}" disabled="true"></input></td>
+                	</tr>
+                	</tbody>
+                </table>
+                <h4 class="gray">*选填</h4>
+                <table class="required">
+                	<tbody>
+                	<tr>
+                		<td class="td-text">头像：</td>
+                		<td class="td-sr red">*仅支持jpg、png格式，文件小于1M（方形图）</td>
+                		<td class="gray td-zs"></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text"></td>                                                                                                                                                 
+                		<td><input type="file" value="选择文件" id="upload-file" name="file" /><img src="" id ="img" /></td>
+                		<td class="gray td-zs"></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">个性签名：</td>
+                		<td class="td-sr red"><textarea class="tes-input" clos="20" rows="5"  disabled="true" id="introdution" th:text="${user.introduction}"></textarea></td>
+                		<td class="gray td-zs"></td>
+                	</tr>
+                	<!--<tr>
+=======
+	<!--主题框架-->
+	<div class="main-container">
+		<!--panel面板开始-->
+		<div class="panel">
+			<!--saidbar-->
+			<div class="saidbar left">
+				<ul class="ce">
+					<li class="ht-ic-book">
+						<a href="student.html">最近学习</a>
+					</li>
+					<li class="ht-ic-keep">
+						<a href="collection.html">我的收藏</a>
+					</li>
+					<li class="ht-ic-down">
+						<a href="download.html">我的下载</a>
+					</li>
+					<li class="ht-ic-user">
+						<a class="xz" href="#">个人资料</a>
+					</li>
+				</ul>
+			</div>
+			<!--saidpanel-->
+			<div class="saidpanel right">
+				<div class="title">
+					<span class="dot left"></span>
+					<h3>
+						<span class="left">个人资料</span>
+						<span class="right">
+							<button id="edit" onclick="javascript:makeEditable()">编辑</button>
+						</span>
+					</h3>
+				</div>
+				<h4 class="red">*必填</h4>
+				<form action="/userUI/upload" method="post" enctype="multipart/form-data">
+					<table class="required">
+						<tbody>
+							<tr>
+								<td class="td-text">用户名：</td>
+								<td class="td-sr">
+									<input class="td-input td-border gray-bgc" type="text" value="用户名" disabled="disabled"></input>
+								</td>
+								<td class="gray td-zs">*不可编辑</td>
+							</tr>
+							<tr>
+								<td class="td-text">昵称：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" th:value="${user.nickName}" id="nickName" disabled="true"></input>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">姓名：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" th:value="${user.student}==null?'':${user.student.state}" id="name" disabled="true"></input>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">性别：</td>
+								<td class="td-sr">
+									<div th:if="${user.sex=='男'}">
+										<input type="radio" name="sex" value="男" id="male" disabled="true" checked="checked" />
+										<label for="female">男</label>
+										<input type="radio" value="女" id="female" name="sex" disabled="true" />
+										<label for="male">女</label>
+									</div>
+									<div th:if="${user.sex=='女'}">
+										<input type="radio" name="sex" value="男" id="male" disabled="true" />
+										<label for="female">男</label>
+										<input type="radio" value="女" id="female" name="sex" disabled="true" checked="checked" />
+										<label for="male">女</label>
+									</div>
+									<div th:if="${user.sex==null}">
+										<input type="radio" name="sex" value="男" id="male" disabled="true" />
+										<label for="female">男</label>
+										<input type="radio" value="女" id="female" name="sex" disabled="true" checked="checked" />
+										<label for="male">女</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">手机：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" id="phone" th:value="${user.phone}" disabled="true"></input>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">邮箱：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" id="email" th:value="${user.phone}" disabled="true"></input>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">身份证：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" id="idNumber" th:value="${user.idCard}" disabled="true"></input>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-text">学号：</td>
+								<td class="td-sr">
+									<input class="td-input td-border" type="text" id="studentNo" th:value="${user.idCard}" disabled="true"></input>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<h4 class="gray">*选填</h4>
+					<table class="required">
+						<tbody>
+							<tr>
+								<td class="td-text">头像：</td>
+								<td class="td-sr red">*仅支持jpg、png格式，文件小于1M（方形图）</td>
+								<td class="gray td-zs"></td>
+							</tr>
+							<tr>
+								<td class="td-text"></td>
+								<td>
+									<input type="file" value="选择文件" id="upload-file" name="file" />
+									<img src="" id="img" />
+								</td>
+								<td class="gray td-zs"></td>
+							</tr>
+							<tr>
+								<td class="td-text">个性签名：</td>
+								<td class="td-sr red">
+									<textarea class="tes-input" clos="20" rows="5" disabled="true" id="introdution" th:text="${user.introduction}"></textarea>
+								</td>
+								<td class="gray td-zs"></td>
+							</tr>
+							<!--<tr>
+
+                		<td class="td-text"></td>
+                		<td>
+                			<input class="send left blue" type="submit" value="保存" />
+                			<input class="send right grays" type="submit" value="取消" />
+                		</td>
+                		<td class="gray td-zs"></td>
+                	</tr>-->
+						</tbody>
+					</table>
+					<div class="right sav-u">
+						<input class="send blue" id="save" type="submit" style="visibility: hidden;" value="保存" />
+						<input class="send grays" id="quit" type="submit" style="visibility: hidden;" value="取消" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--主题框架-->
+	<!--footer开始-->
+	<div class="footer">系统版本：V.1.0.0</div>
+	<!--footer结束-->
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			// 改为鼠标移上的事件只需把click改为mousemove
+			$(".fortab").click(function() {
+				var number = $(".fortab").index(this);
+				$(this).addClass("checked");
+				$(this).siblings().removeClass("checked");
+				$(".tablelist:eq(" + number + ")").show();
+				$(".tablelist:eq(" + number + ")").siblings().hide();
+			});
+		});
+
+		function makeEditable() {
+			document.getElementById("save").style.visibility = "visible";
+			document.getElementById("quit").style.visibility = "visible";
+			document.getElementById("edit").style.display = "none";
+			$("#nickName").attr("disabled", false);
+			$("#name").attr("disabled", false);
+			$("#phone").attr("disabled", false);
+			$("#email").attr("disabled", false);
+			$("#idNumber").attr("disabled", false);
+			$("#male").attr("disabled", false);
+			$("#female").attr("disabled", false);
+			$("#studentNo").attr("disabled", false);
+			$("#introdution").attr("disabled", false);
+		}
+
+		/*
+		 function updateUser(){	
+		 var nickName=$("#nickName").val();
+		 var name=$("#name").val();
+		 var sex=$("input[name='sex']:checked").val()
+		 var phone=$("#phone").val();
+		 var emai=$("#email").val();
+		 var idNumber=$("#idNumber").val();
+		 var igeUrl=$("#igeUrl").val();
+		 var introduction=$("#introduction").val();  
+		 $.ajax({
+		 type:'PUT',
+		 url:"/userUI/updateUser",
+		 data:JSON.stringify({
+		 "nickName":nickName,
+		 "name":name,
+		 "sex":sex,
+		 "phone":phone,
+		 "emai":email,
+		 "idCard":idCard,
+		 "igeUrl":igeUrl,
+		 "introduction":introduction
+		 }),
+		 contentType:"application/json;charset=utf-8",  
+		 dataType:'json', 
+		 async: false,
+		 success:function(data){
+		 if(data.result=="success"){
+		 alert("修改成功");
+		 }
+		 },
+		 error:function(data){
+		 alert("修改失败");
+		 },
+		 });
+		
+		 }
+		 */
+
+		function uploadFile() {
+
+			var fileObj = document.getElementById("upload-file").files[0]; // 获取文件对象  
+			var FileController = "http://localhost:8080/upload"; // 接收上传文件的后台地址  
+
+			if (fileObj) {
+				alert(fileObj);
+				// FormData 对象  
+				var form = new FormData();
+				form.append("file", fileObj);// 文件对象     
+
+				// XMLHttpRequest 对象  
+				var xhr = new XMLHttpRequest();
+				xhr.open("post", FileController, true);
+				xhr.onload = function() {
+					alert(xhr.responseText);
+				};
+				xhr.send(form);
+
+			} else {
+				alert("未选择文件");
+			}
+		}
+
+		/*function addFile(obj){  
+		 //document.getElementById('img').src = path;  
+		 $.ajaxFileUpload({  
+		 url:'/userUI/fileUpload', //用于文件上传的服务器端请求地址  
+		 secureuri: false, //是否需要安全协议，一般设置为false  
+		 fileElementId: 'photoFile', //文件上传域的ID  
+		 dataType: 'json', //返回值类型 一般设置为json  
+		 success: function (data){//服务器成功响应处理函数  
+		 var infoArray = eval("("+data+")"); //包数据解析为json格式  
+		 var arr = infoArray.data;  
+		 $("#img").attr("src","/images/"+arr.photo);  
+		
+		 },  
+		 error: function (){//服务器响应失败处理函数  
+		 alert('与服务器通信失败，请稍后再试！');  
+		 parent.location.reload();  
+		 }  
+		 */
+	</script>
+</body>
+</html>

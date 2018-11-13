@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.FeedBackDao">
+ <resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.FeedBack">
+  <result column="num1" jdbcType="INTEGER" property="rightNum"/>
+  <result column="num2" jdbcType="INTEGER" property="wrongNum"/>
+  <result column="num3" jdbcType="INTEGER" property="unFinishNum"/>  
+  <result column="num4" jdbcType="INTEGER" property="totalNum"/>  
+  <result column="num5" jdbcType="INTEGER" property="scores"/>  
+  </resultMap>
+
+
+<select id="getStaticFeedBack" resultMap="BaseResultMap">
+select num1,num2,num3,(num1+num2+num3) as num4,ROUND(num1/(num1+num2+num3)*100,0) as num5 from(
+SELECT sum(num1) num1,sum(num2) num2,sum(num3) num3 FROM (
+SELECT count(id) num1,0 num2,0 num3 FROM recording where timesId=#{timesId} and isCorrect=0 
+ UNION ALL 
+SELECT 0 num1,count(id) num2,0 num3 FROM recording where timesId=#{timesId} and isCorrect=1 
+UNION ALL 
+SELECT 0 num1,0 num2,count(id) num3 FROM recording where timesId=#{timesId} and isCorrect=2) t)k;
+</select>
+
+</mapper>

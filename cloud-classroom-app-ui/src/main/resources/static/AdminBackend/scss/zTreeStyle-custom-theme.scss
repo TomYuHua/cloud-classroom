@@ -1,0 +1,367 @@
+@import "compass/css3/inline-block";
+@import "compass/css3/opacity";
+@import "../../../static/AdminBackend/node_modules/font-awesome/scss/variables";
+@import "../../../static/AdminBackend/node_modules/font-awesome/scss/mixins";
+@import "../../../static/AdminBackend/node_modules/font-awesome/scss/animated";
+
+$ztree-theme-var-background-color: white;
+$ztree-theme-var-height: 24;
+$ztree-theme-var-icon-right-margin: 4px;
+
+@mixin fa-animation-spin() {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
+@mixin fa-animation-pulse() {
+    -webkit-animation: fa-spin 1s infinite steps(8);
+    animation: fa-spin 1s infinite steps(8);
+}
+
+@mixin fa-switch-button-icon($icon) {
+    &:before {
+        @include fa-icon();
+        content: $icon;
+        padding-top: 5px;
+        padding-left: 6px;
+    }
+}
+
+@mixin fa-switch-button-color-icon($icon, $color) {
+    &:before {
+        @include fa-icon();
+        content: $icon;
+        padding-top: 5px;
+        padding-left: 6px;
+        color: $color;
+    }
+}
+
+@mixin fa-chk-button-icon($icon) {
+    &:before {
+        @include fa-icon();
+        content: $icon;
+        //padding-top: 5px;
+        //padding-left: 6px;
+        font-size: (4em / 3);
+        line-height: (3em / 4);
+        vertical-align: -15%;
+    }
+}
+
+@mixin fa-chk-button-color-icon($icon, $color) {
+    &:before {
+        @include fa-icon();
+        content: $icon;
+        //padding-top: 5px;
+        //padding-left: 6px;
+        color: $color;
+        font-size: (4em / 3);
+        line-height: (3em / 4);
+        vertical-align: -15%;
+    }
+}
+
+@mixin ztree-a-border($border-color, $background-color) {
+    border: 1px solid #{$border-color};
+    border-left-color: #{$background-color};
+    border-right-color: #{$background-color};
+}
+
+$ztree-theme-var-highlight: #316AC5;
+$ztree-theme-var-partial: #aaaaaa;
+$ztree-theme-var-partfocus: #cad96c;
+$ztree-theme-var-disabled: #808080;
+
+.ztree * {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+@mixin chk() {
+    &.chk {
+        height: #{$ztree-theme-var-height - 4}px;
+        cursor: pointer;
+        display: inline-block;
+        padding: 5px 0.5em 0 0.5em;
+        &.checkbox_false_full {
+            @include fa-chk-button-icon($fa-var-square-o);
+        }
+        &.checkbox_false_full_focus {
+            @include fa-chk-button-color-icon($fa-var-square-o, $ztree-theme-var-highlight);
+        }
+        &.checkbox_false_part {
+            @include fa-chk-button-color-icon($fa-var-square-o, $ztree-theme-var-partial);
+        }
+        &.checkbox_false_part_focus {
+            @include fa-chk-button-color-icon($fa-var-square-o, $ztree-theme-var-partial);
+        }
+        &.checkbox_false_disable {
+            cursor: not-allowed;
+            @include fa-chk-button-color-icon($fa-var-square-o, $ztree-theme-var-disabled);
+        }
+        &.checkbox_true_full {
+            @include fa-chk-button-icon($fa-var-check-square-o);
+        }
+        &.checkbox_true_full_focus {
+            @include fa-chk-button-color-icon($fa-var-check-square-o, $ztree-theme-var-highlight);
+        }
+        &.checkbox_true_part {
+            @include fa-chk-button-color-icon($fa-var-check-square, $ztree-theme-var-partial);
+        }
+        &.checkbox_true_part_focus {
+            @include fa-chk-button-color-icon($fa-var-check-square, $ztree-theme-var-partfocus);
+        }
+        &.checkbox_true_disable {
+            @include fa-chk-button-color-icon($fa-var-minus-square, $ztree-theme-var-disabled);
+        }
+        &.radio_false_full {
+            @include fa-chk-button-icon($fa-var-circle-o);
+        }
+        &.radio_false_full_focus {
+            @include fa-chk-button-color-icon($fa-var-circle-o, $ztree-theme-var-highlight);
+        }
+        &.radio_false_part {
+            @include fa-chk-button-color-icon($fa-var-circle-o, $ztree-theme-var-partial);
+        }
+        &.radio_false_part_focus {
+            @include fa-chk-button-color-icon($fa-var-circle-o, $ztree-theme-var-highlight);
+        }
+        &.radio_false_disable {
+            @include fa-chk-button-color-icon($fa-var-circle-thin, $ztree-theme-var-disabled);
+        }
+        &.radio_true_full {
+            @include fa-chk-button-icon($fa-var-dot-circle-o);
+        }
+        &.radio_true_full_focus {
+            @include fa-chk-button-color-icon($fa-var-dot-circle-o, $ztree-theme-var-highlight);
+        }
+        &.radio_true_part {
+            @include fa-chk-button-color-icon($fa-var-dot-circle-o, $ztree-theme-var-partial);
+        }
+        &.radio_true_part_focus {
+            @include fa-chk-button-color-icon($fa-var-dot-circle-o, $ztree-theme-var-partial);
+        }
+        &.radio_true_disable {
+            @include fa-chk-button-color-icon($fa-var-circle-thin, $ztree-theme-var-disabled);
+        }
+
+    }
+}
+
+.ztree {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #333;
+    background-color: #{$ztree-theme-var-background-color};
+    li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        line-height: 14px;
+        text-align: left;
+        white-space: nowrap;
+        outline: 0;
+        ul {
+            margin: 0;
+            padding: 0;
+            &.line {
+            }
+        }
+        a {
+            width: 100%;
+            padding: 1px 3px 0 0;
+            margin: 0;
+            cursor: pointer;
+            line-height: #{$ztree-theme-var-height}px;
+            color: #333;
+            background-color: transparent;
+            text-decoration: none;
+            @include inline-block;
+            border: 1px #{$ztree-theme-var-background-color} solid;
+            &:hover {
+                background-color: #FFE6B0;
+                color: black;
+                @include ztree-a-border(#FFB951, #FFE6B0);
+            }
+            &.curSelectedNode {
+                background-color: #FFE6B0;
+                color: black;
+                @include ztree-a-border(#FFB951, #FFE6B0);
+            }
+            &.curSelectedNode_Edit {
+                background-color: #FFE6B0;
+                color: black;
+                @include ztree-a-border(#FFB951, #FFE6B0);
+            }
+            &.tmpTargetNode_inner {
+                background-color: #316AC5;
+                color: white;
+                @include ztree-a-border(#316AC5, #316AC5);
+            }
+            &.tmpTargetNode_prev {
+            }
+            &.tmpTargetNode_next {
+            }
+            input {
+                &.rename {
+                    height: #{$ztree-theme-var-height - 3}px;
+                    width: 80px;
+                    padding: 0;
+                    margin: 0;
+                    font-size: 12px;
+                    border: 1px #7EC4CC solid;
+                }
+            }
+            &.button {
+                line-height: 0;
+                margin: 0;
+                //width: 16px;
+                height: #{$ztree-theme-var-height - 1}px;
+                @include inline-block;
+                border: 0 none;
+                cursor: pointer;
+                outline: none;
+                @include chk();
+            }
+        }
+        span {
+            line-height: 16px;
+            margin-right: 2px;
+            &.button {
+                line-height: 0;
+                margin: 0;
+                //width: 16px;
+                height: #{$ztree-theme-var-height - 1}px;
+                @include inline-block;
+                border: 0 none;
+                cursor: pointer;
+                outline: none;
+                @include chk();
+                &.switch {
+                    width: 18px;
+                    height: #{$ztree-theme-var-height + 1}px;
+                }
+                &.root_open {
+                    @include fa-switch-button-icon($fa-var-caret-down);
+                }
+                &.root_close {
+                    @include fa-switch-button-icon($fa-var-caret-right);
+                }
+                &.roots_open {
+                    @include fa-switch-button-icon($fa-var-caret-down);
+                }
+                &.roots_close {
+                    @include fa-switch-button-icon($fa-var-caret-right);
+                }
+                &.center_open {
+                    @include fa-switch-button-icon($fa-var-caret-down);
+                }
+                &.center_close {
+                    @include fa-switch-button-icon($fa-var-caret-right);
+                }
+                &.bottom_open {
+                    @include fa-switch-button-icon($fa-var-caret-down);
+                }
+                &.bottom_close {
+                    @include fa-switch-button-icon($fa-var-caret-right);
+                }
+                &.noline_open {
+                }
+                &.noline_close {
+                }
+                &.root_docu {
+                    @include fa-switch-button-icon($fa-var-dot-circle-o);
+                }
+                &.roots_docu {
+                    @include fa-switch-button-icon($fa-var-dot-circle-o);
+                }
+                &.center_docu {
+                    @include fa-switch-button-icon($fa-var-dot-circle-o);
+                }
+                &.bottom_docu {
+                    @include fa-switch-button-icon($fa-var-dot-circle-o);
+                }
+                &.noline_docu {
+                }
+                &.ico_open {
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+                &.ico_close {
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+                &.ico_docu {
+                    @include fa-switch-button-icon($fa-var-file-o);
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+                &.edit {
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+                &.remove {
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+                &.ico_loading {
+                    @include fa-switch-button-icon($fa-var-spinner);
+                    //@include fa-animation-pulse();
+                    margin-right: #{$ztree-theme-var-icon-right-margin};
+                }
+            }
+        }
+    }
+}
+
+ul.tmpTargetzTree {
+    background-color: #FFE6B0;
+}
+
+span.tmpzTreeMove_arrow {
+    width: 16px;
+    height: #{$ztree-theme-var-height - 1}px;
+    @include inline-block;
+    padding: 0;
+    margin: 2px 0 0 1px;
+    border: 0 none;
+    position: absolute;
+}
+
+ul.ztree.zTreeDragUL {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    background-color: #cfcfcf;
+    border: 1px #00B83F dotted;
+}
+
+.zTreeMask {
+    z-index: 10000;
+    background-color: #cfcfcf;
+    position: absolute;
+}
+
+@for $i from 1 to 50 {
+    //.ztree li.level#{$i} > a > span.button:before {
+    //    content: "";
+    //    width: #{18 * $i}px;
+    //    height: #{$ztree-theme-var-height}px;
+    //    display: block;
+    //}
+    //.ztree li.level#{$i} > a {
+    //    width: calc(100% - 18px);
+    //}
+    .ztree li.level#{$i} > a > span.switch {
+        padding-left: #{$i}em;
+        overflow-x: hidden;
+    }
+}
+
+//@for $i from 0 to 50 {
+//    .ztree li.level#{$i} > a > span.node_name {
+//        max-width: calc(100% - #{$i}em - 1em) !important;
+//        overflow-x: hidden;
+//    }
+//}

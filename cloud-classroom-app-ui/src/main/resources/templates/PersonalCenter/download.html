@@ -1,0 +1,21 @@
+               <div class="title">
+	        		<span class="dot left"></span>
+                    <h3>我的下载</h3>
+                </div>
+                <div class="file-txt border study">
+                        <ul>
+                            <li th:each="resources:${lists}">
+                                <div class="txt-img left"><a th:href="@{'/getebookcontent/'+${resources.id}}"><img th:src="${resources.imgsrc}"/></a></div>
+                                <div class="txt-content left">
+                                    <p><a th:href="@{'/getebookcontent/'+${resources.id}}">速度与加速度</a></p>
+                                    <p th:text="${'发布时间：'+#dates.format(resources.createtime,'yyyy-MM-dd')}">发布时间：2016-06-14</p>
+                                    <p class="gray">32人下载</p>
+                                    <p>
+                                    <button name="下载" disabled="disabled" class="txt-btn left disabled">下载</button>
+                                    <a th:href="@{'/getebookcontent/'+${resources.id}}"><button name="查看" class="txt-btn right blue">查看</button></a>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                </div>
+ 

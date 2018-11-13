@@ -1,0 +1,55 @@
+
+		
+			<div class="card">
+				<div class="card-body">
+					<table class="table table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">章节知识点</th>
+								<th scope="col">进度</th>
+								<th scope="col">正确率</th>
+								<th scope="col">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="chapter: ${chapters}">
+								<td scope="row" th:text="${chapter.chapterName}">飞行手册</td>
+								<td th:text="${chapter.finishedNum}+'/'+${chapter.totalNum}">0/41道</td> 
+								<td th:text="${chapter.rightRate}==null?'暂未练习':${chapter.rightRate}"></td>
+								<td>
+								
+									<button th:href="@{'/question/chapterDetails/'+${chapter.totalNum}+'/'+${chapter.finishedNum}+'/'+${chapter.rightNum}+'/'+${chapter.unfinishedNum}+'/'+${chapter.wrongNum}+'/'+${chapter.id}}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" >开始做题
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		
+
+
+    
+<!-- 开始做题弹出 -->
+<div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">    
+         <form method="post" action="/question/loadPage" class="form-horizontal" role="form" id="myForm" >
+		<div class="modal-content">
+		
+			
+		</div>
+	    </form>
+	</div>
+
+
+
+</div>
+
+	<script type="text/javascript">
+//	$(function() {	
+ //     $("#exampleModal").modal({
+   //	     remote: "/question/chapterDetails"
+   //     });
+	//});
+
+	</script>

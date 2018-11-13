@@ -1,0 +1,89 @@
+
+<!--回复区域-->
+
+<ul class="allComments">
+	<li th:each="coments,iterStat:${resourceComents}" class="coments-each-root">
+		<div class="reply-list">
+			<div class="reply-tx left">
+			   <div th:if="${coments.userImg}!=null">
+				<img th:src="${coments.userImg}"></img>
+				</div>
+				   <div th:if="${coments.userImg}==null">
+				<img src="../img/user-pic.png"></img>
+				</div>
+			</div>
+						
+								
+			<div class="reply-hf right">
+				<p class="nickname" th:text="${coments.nickName}==null?${coments.name}:${coments.nickName}">小蚯蚓</p>
+				<p th:text="${coments.contents}">跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+				<div class="nice right" th:if="${coments!=null}">
+					<div class="time left"
+						th:text="${#dates.format(coments.createTime,'yyyy-MM-dd HH:mm:ss')}">2017-04-25
+						15:08</div>
+
+					
+					<div class="reply-txt left">
+						<a class="makeReply" th:href="'javascript:addReply(\''+${coments.id}+'\')'">回复</a>
+					</div>
+					<div class="left" th:if="${userInfor!=null}">
+						<div class="reply-txt" th:if="${userInfor.userId==coments.userId}">
+							<a th:href="'javascript:deleteComment(\''+${coments.id}+'\')'">删除</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="reply-list-a right" th:if="${coments.nodes.size()!=0}">
+			<ul> 
+				<div th:each="childComents:${coments.nodes}">
+					<li>
+					<div class="list-tx left">
+					     <div th:if="${childComents.userImg}!=null">
+						<img th:src="${childComents.userImg}"></img>
+						</div>
+						<div th:if="${childComents.userImg}==null">
+						<img src="../img/user-pic.png"></img>
+						</div>
+						
+					</div>
+					<div class="list-hf right">
+						<div th:if="${childComents.replyTo==null}">
+							<p class="nickname" th:text="${childComents.nickName}==null?${childComents.name}:${childComents.nickName}"></p>
+						</div>
+						<div th:if="${childComents.replyTo!=null}">
+							   <p class="nickname"><span th:text="${childComents.nickName}==null?${childComents.name}:${childComents.nickName}">丑小鸭</span><span class="indigo">回复：</span><span th:text="${childComents.replyTo}">小泥巴</span></p>
+						</div>				
+						<p th:text="${childComents.contents}">跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+						<div class="nice right">
+							<div class="time left" th:text="${#dates.format(childComents.createTime,'yyyy-MM-dd HH:mm:ss')}">2017-04-25
+								15:08
+							</div>
+							<div class="reply-txt left">
+								<a id="dv5" class="makeReply" th:href="'javascript:makeReply(\''+${coments.id}+'\',\''+${childComents.nickName}+'\')'">回复</a>
+							</div>
+							<div class="left" th:if="${userInfor!=null}">
+								<div class="reply-txt" th:if="${userInfor.userId==childComents.userId}">
+									<a th:href="'javascript:deleteComment(\''+${childComents.id}+'\')'">删除</a>
+								</div>
+							</div>
+						</div>
+						</div>
+						 </li>
+				       </div>
+					</ul>
+				</div>
+                
+			
+	
+		<div class="reply-list-b right coments-each-textarea" style="display:none;">
+			<form class="tes-form" method="get">
+				<textarea class="send-input replyContent"></textarea>
+				<div class="send-out">
+					<input class="send right blue sendReply" type="button" id="replyButton" onclick="javascript:sendReply()" value="回复" />
+				</div>
+			</form>
+		</div>
+	</li>
+</ul>
+

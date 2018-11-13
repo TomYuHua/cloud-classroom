@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.ChapterDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.ChapterVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="chapterName" jdbcType="VARCHAR" property="chapterName"/>
+		<result column="parentId" jdbcType="INTEGER" property="parentId" />
+		<result column="num1" jdbcType="INTEGER" property="totalNum"/>
+	    <result column="num3" jdbcType="INTEGER" property="rightNum"/>
+		<result column="num2" jdbcType="INTEGER" property="finishedNum"/>
+		<result column="num4" jdbcType="INTEGER" property="unfinishedNum"/>
+		<result column="num5" jdbcType="INTEGER" property="wrongNum"/>
+		<result column="num6" jdbcType="VARCHAR" property="rightRate"/>
+	</resultMap>	
+	
+<update id="updateChapter" parameterType="com.singFly.cloud_examination_chapter.Chapter">
+		update Chapter set chpterName=#{chapterName} where id=#{id};
+</update>
+   
+   
+  <insert id="addChapter" parameterType="com.singFly.cloud_examination_chapter.Chapter" >
+        insert into Chapter
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="chapterName!= null and chapterName=''" >
+         chapterName,
+	    </if>
+		<if test="parentId!= null and parentId!=''" >
+         parentId
+	     </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	    <if test="chapterName!= null and chapterName=''">
+         #{chapterName},
+	    </if>
+		<if test="parentId!= null and parentId!=''" >
+         #{parentId}
+	     </if>
+		</trim>
+	</insert>
+	
+<delete id="deleteChapters" parameterType="java.util.List">
+delete from Chapter where id in
+		<foreach item="id" collection="ids" open="(" separator="," close=")">
+		#{id}</foreach>; 
+</delete>
+
+<select id="selectChapterInfor" resultMap="BaseResultMap">
+		select * from Chapter where FIND_IN_SET(id,getChildList(#{parentId,jdbcType=INTEGER}));
+</select>
+	
+	
+<select id="selectHeadChapters" resultMap="BaseResultMap">
+		select * from Chapter where parentId=0;
+</select>	
+
+
+<select id="getChapter" parameterType="int">
+		select * from Chapter where id=#{id};
+</select>	
+	
+<select id="selectChaptersAboutExams" parameterType="int"  resultMap="BaseResultMap">
+SELECT a.*,num1,num2,num3,(num1-num2) as num4, (num2-num3) as num5,concat(ROUND(num3/num2*100,1),'%') as num6 from Chapter a left join (
+SELECT chapterId,sum(num1) num1,sum(num2) num2,sum(num3) num3 FROM (
+SELECT chapterId,count(1) num1,0 num2,0 num3 FROM Question 
+group by chapterId UNION ALL 
+SELECT chapterId,0 num1,count(1) num2,0 num3 FROM questionRecord where userId=#{userId}
+group by chapterId
+UNION ALL 
+SELECT chapterId,0 num1,0 num2,count(1) num3 FROM questionRecord where userId=#{userId} and isCorrect=0 group by chapterId 
+) t group by chapterId ) b on a.id=b.chapterId;
+</select>	
+	
+
+	
+	
+	
+</mapper>

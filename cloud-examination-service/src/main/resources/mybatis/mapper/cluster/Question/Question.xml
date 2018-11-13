@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.QuestionDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_question.Question">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="contents" jdbcType="VARCHAR" property="contents"/>
+		<result column="choiceA"  jdbcType="VARCHAR" property="choiceA" />
+		<result column="choiceB"  jdbcType="VARCHAR" property="choiceB" />
+		<result column="choiceC"  jdbcType="VARCHAR" property="choiceC" />
+		<result column="choiceD"  jdbcType="VARCHAR" property="choiceD" />
+		<result column="explains" jdbcType="VARCHAR" property="explains" />
+		<result column="results"  jdbcType="VARCHAR" property="results" />
+		<result column="userId"   jdbcType="INTEGER" property="userId" />
+		<result column="chapterId" jdbcType="INTEGER" property="chapterId" />
+	</resultMap>	
+
+
+	                                         
+	<update id="updateQuestion" >
+		update Question
+		<set>
+        createTime=now(),
+		<if test="contents!= null and contents=''" >
+         contents=#{contents},
+	    </if>
+		<if test="choiceA!= null and choiceA!=''" >
+         choiceA=#{choiceA},
+	     </if>
+		<if test="choiceB!= null and choiceB!=''" >
+          choiceB=#{choiceB},
+		</if>
+		 <if test="choiceC!= null and choiceC!=''" >
+          choiceC=#{choiceC},
+		</if>
+		 <if test="choiceD!= null and choiceD!=''" >
+          choiceD=#{choiceD},
+		</if>
+		 <if test="explains!= null and explains!=''" >
+          explains=#{explains},
+		</if>
+		  <if test="results!= null and results!=''" >
+          results=#{results},
+		</if>
+		 <if test="userId!= null and userId!=''" >
+          userId=#{userId},
+		</if>  
+	     <if test="chapterId!= null and chapterId!=''" >
+          chapterId=#{chapterId}
+		</if>       
+		</set>
+		where id = #{id};
+	</update>
+   
+                                          
+  <insert id="addQuestion">
+        insert into Question
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		createTime,
+		<if test="contents!= null and contents=''" >
+         contents,
+	    </if>
+		<if test="choiceA!= null and choiceA!=''" >
+         choiceA,
+	     </if>
+		<if test="choiceB!= null and choiceB!=''" >
+          choiceB,
+		</if>
+		 <if test="choiceC!= null and choiceC!=''" >
+          choiceC,
+		</if>
+		 <if test="choiceD!= null and choiceD!=''" >
+          choiceD,
+		</if>
+		 <if test="explains!= null and explains!=''" >
+          explains,
+		</if>
+		  <if test="results!= null and results!=''" >
+          results,
+		</if>
+		 <if test="userId!= null and userId!=''" >
+          userId,
+		</if>  
+	     <if test="chapterId!= null and chapterId!=''" >
+          chapterId
+		</if>       
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+         now(),
+		<if test="contents!= null and contents=''" >
+         #{contents},
+	    </if>
+		<if test="choiceA!= null and choiceA!=''" >
+         #{choiceA},
+	     </if>
+		<if test="choiceB!= null and choiceB!=''" >
+          #{choiceB},
+		</if>
+		 <if test="choiceC!= null and choiceC!=''" >
+          #{choiceC},
+		</if>
+		 <if test="choiceD!= null and choiceD!=''" >
+          #{choiceD},
+		</if>
+		 <if test="explains!= null and explains!=''" >
+          #{explains},
+		</if>
+		  <if test="results!= null and results!=''" >
+          #{results},
+		</if>
+		 <if test="userId!= null and userId!=''" >
+          #{userId},
+		</if>  
+	     <if test="chapterId!= null and chapterId!=''" >
+          #{chapterId}
+		</if>       
+		</trim>
+	</insert> 
+	
+<delete id="deleteQuestions">
+		delete from Question
+		where id in
+		<foreach item="id" collection="ids" open="(" separator="," close=")">
+			#{id}</foreach>
+</delete>
+
+<select id="selectByChapter" resultMap="BaseResultMap">
+select * from Question where id=#{id};
+</select>
+
+<select id="selectByRandom" resultMap="BaseResultMap">
+select * from  Question order by RAND() limit 100;
+</select>
+
+<select id="selectErQu" resultMap="BaseResultMap">
+select * from Question where id  in (select questionId from recording where userId=#{userId} and isCorrect=1) and chapterId=#{chapterId} and userId=#{userId} limit #{number};
+</select>
+
+<select id="selectUnFiQu" resultMap="BaseResultMap">
+select * from Question where Question.id not in (select questionId from recording where userId=#{userId}) and chapterId=#{chapterId} and userId=#{userId} limit #{number};
+</select>
+
+<select id="selectFiQu" resultMap="BaseResultMap">
+select * from Question where Question.id  in (select questionId from recording where userId=#{userId}) and chapterId=#{chapterId} and userId=#{userId} limit #{number};
+</select>
+
+<select id="selectByUserError" resultMap="BaseResultMap">
+select distinct a.*,b.questionId from Question a on recording b on a.id=b.questionId where b.userId=#{userId} and b.isCorrect=1;
+</select>
+
+<select id="myErrorRecordingsExcercise" resultMap="BaseResultMap">
+SELECT b.* FROM  recording a left join Question b on a.questionId=b.id where a.isCorrect=1 and a.userId=#{userId} and a.chapterId=#{chapterId};
+</select>
+
+</mapper>
+
+

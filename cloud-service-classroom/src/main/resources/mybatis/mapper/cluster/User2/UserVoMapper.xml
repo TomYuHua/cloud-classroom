@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.UserVoDao">
+ <resultMap id="BaseResultMap" type="cloud.entity.classroom.DTO.UserVo">
+  <result column="UserId" jdbcType="INTEGER" property="userId"/>
+  <result column="imgsrc" jdbcType="VARCHAR" property="imgSrc"/>
+  <result column="name" jdbcType="VARCHAR" property="name"/> 
+  <result column="teacherIntroduction" jdbcType="VARCHAR" property="introduction"/>
+  <result column="num1" jdbcType="INTEGER" property="ebookNum"/>
+  <result column="num2" jdbcType="INTEGER" property="videoNum"/>
+  <result column="num3" jdbcType="INTEGER" property="browersNum"/>  
+  <result column="num4" jdbcType="INTEGER" property="downloadsNum"/>  
+  <result column="num5" jdbcType="INTEGER" property="documentNum"/>  
+  </resultMap> 
+   
+   <select id="selectTeacherStatic"   resultMap="BaseResultMap">
+
+
+select a.UserId,a.imgSrc,num1,num2,num3,num4,num5, c.name,c.teacherIntroduction from user a left join (
+SELECT UserId,sum(num1) num1,sum(num2) num2,sum(num3) num3,sum(num4) num4,sum(num5) num5 FROM (
+ 
+ SELECT UserId,count(*) num1,0 num2,0 num3,0 num4,0 num5 FROM resources where Types=3
+  group by UserId
+ 
+ UNION ALL
+ 
+ SELECT UserId,0 num1,count(*) num2,0 num3,0 num4,0 num5 FROM resources where Types=1
+   group by UserId
+
+ 
+ UNION ALL
+ 
+  SELECT UserId,0 num1,0 num2,0 num3,0 num4,count(*) num5 FROM resources where Types=2
+   group by UserId
+
+ 
+ UNION ALL
+ 
+SELECT UserId,0 num1,0 num2,count(*) num3,0 num4,0 num5 FROM ResourceBrowse
+  group by UserId
+  
+ UNION ALL
+ 
+SELECT UserId,0 num1,0 num2,0 num3,count(*) num4,0 num5 FROM ResourceDownload  
+  group by UserId
+ 
+) t group by UserId ) b on a.UserId=b.UserId left join Teachingstaff c on a.FieldTargetId=c.TeacherId where a.UserId=#{userId};
+</select>
+
+ <select id="selectTeacherTeaching"   resultMap="BaseResultMap">
+select a.UserId,a.imgSrc,b.name,b.teacherIntroduction from user a left join Teachingstaff b on a.FieldTargetId=b.TeacherId
+where a.UserId=#{userId};
+</select>
+  </mapper>

@@ -1,0 +1,304 @@
+
+
+		<div class="main-all pl-3 pr-3">
+			<div class="test_title" >
+				<font>
+						<input type="button" 
+							name="test_jiaojuan" 
+							data-toggle="modal" 
+							data-target="#jjuan" 
+							value="交卷"/>
+				</font>
+           </div>
+           
+			<div class="test-left">
+				<div class="test">
+					<form th:action="@{/recording/addRecording}" th:object="${recordingBean}"  method="post" th:method="post"  id="recordingsForm">
+						<div class="test_content">
+								<div class="test_content_title">
+									<b class="ml-3">单选题</b>
+									<span class="title-test"><!--  共60题，合计60分 --></span>
+								</div>
+						</div>
+							<div class="test_content_nr"  >
+								<ul th:each="question,questionStat: ${list}" >
+									
+									<!--	<li th:id="qu_0_0" "stu+(${rowStat.index}+1)">-->
+									        <li th:id="qu_0_+${questionStat.index}">
+											<div class="test_content_nr_tts">
+												<span class="circle" th:text="${questionStat.count}">1</span>
+												<font class="pl-4">
+													<span class="text-warning"><!-- (1分)--></span>
+													<div th:text="${question.contents}">在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（）</div>
+												</font>
+												<span class="float-right">
+													<a class="fa fa-heart-o fa-02x text-warning"></a>
+													<!--<a class="fa fa-heart fa-02x text-warning"></a>收藏后的样式-->
+													<font class="pr-3">收藏</font>
+													<button type="button" 
+														data-toggle="modal" 
+														data-target=".bd-example-modal-lg"
+														class="jcuo">
+														<a class="fa fa-pencil-square-o fa-02x text-danger"></a>
+														<font>纠错</font>
+													</button>
+                                                </span>
+											</div>
+                                            <input type="hidden" th:field="*{recordingList[__${questionStat.index}__].questionId}"  value="" />  
+                                            <input type="hidden" th:field="*{recordingList[__${questionStat.index}__].userId}"  value="" />  
+                                            <input type="hidden" th:field="*{recordingList[__${questionStat.index}__].chapterId}"  value="" />  
+                                            <input type="hidden" th:field="*{recordingList[__${questionStat.index}__].rightAnswer}"  value="" />  
+											<div class="test_content_nr_main">
+												<ul>
+													<li class="option pic">
+														<input type="radio" class="radioOrCheck" th:field="*{recordingList[__${questionStat.index}__].inputAnswer}" value="a"
+															id="0_answer_1_option_1"
+														/>
+															<label for="0_answer_1_option_1">
+																A.
+																<p class="ue" style="display: inline;" th:text="${question.choiceA}">在工具栏中点击“workflow”标签</p>
+															</label>
+													</li>
+													
+														<li class="option pic">
+															
+																<input type="radio" class="radioOrCheck"  th:field="*{recordingList[__${questionStat.index}__].inputAnswer}"  value="b"
+																	id="0_answer_1_option_2"
+																/>
+															
+															
+															<label for="0_answer_1_option_2">
+																B.
+																<p class="ue" style="display: inline;" th:text="${question.choiceB}" >在缺陷单界面中点击“推进流程”按钮</p>
+															</label>
+														</li>
+													
+														<li class="option pic">
+															
+																<input type="radio" class="radioOrCheck" th:field="*{recordingList[__${questionStat.index}__].inputAnswer}" value="c"
+																	id="0_answer_1_option_3" 
+																/>
+															
+															
+															<label for="0_answer_1_option_3">
+																C.
+																<p class="ue" style="display: inline;" th:text="${question.choiceC}" >在缺陷单界面中点击“提交”按钮</p>
+															</label>
+														</li>
+													
+													
+												</ul>
+											</div>
+										</li>
+									
+		
+									
+																			
+
+									
+								</ul>
+							</div>
+						
+
+					</form>
+				</div>
+
+			</div>
+			
+			    
+			
+			<div class="test-right rt_nr1 pr-3">
+				
+					<div class="card">
+						<div class="card_header">
+							<span class="float-left test-dtk">答题卡</span>
+						</div>
+						
+							<div class="card-body">
+								<div class="rt_content_tt pb-2">
+									<b>单选题</b>
+									<span><!--（共60题） --></span>
+								</div>
+								<div class="rt_content_nr answerSheet">
+									<ul>
+										<!-- <li><a th:href="#qu_0_0"><div th:text="${questionStat.count}">1</div></a></li>-->
+									   
+										<li th:each="question,questionStat: ${list}"><a th:href="@{'#qu_0_'+${questionStat.index}}" th:text="${questionStat.count}">1</a></li>
+													
+									</ul>
+								</div>
+							</div>
+											
+							<div class="card-body">
+								<i class="fa fa-square text-info"></i>
+								<label>已填</label>
+							</div>
+							
+							<div class="test-footer">
+								<span class="test_time">
+								    <i class="fa fa-clock-o"></i>
+								    <span class="ml-1">计时器</span>
+								    <b class="alt-1 text-danger">01:30</b>
+							    </span>
+							</div>
+							
+					</div>
+
+			</div>
+		</div>
+		<!--nr end-->
+
+
+	
+	<script>
+	
+	
+	function submitSomething(){
+	  $('#recordingsForm').submit();
+	}
+	
+	
+		window.jQuery(function($){
+		  "use strict";
+			
+			$('time').countDown({
+				with_separators : false
+			});
+			$('.alt-1').countDown({
+				css_class : 'countdown-alt-1'
+			});
+			
+			$('.alt-2').countDown({
+				css_class : 'countdown-alt-2'
+			});
+			
+		});
+		
+		
+		$(function() {
+		// $('li.option label').click(function() {
+			$(".pic").click(function() {
+		//	debugger;
+		      
+				var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+				var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+				// 设置已答题
+				if(!cardLi.hasClass('hasBeenAnswer')){
+					cardLi.addClass('hasBeenAnswer');
+				}
+				
+			});
+		});
+	</script>
+
+<!--纠错弹出-->
+<div class="modal fade bd-example-modal-lg" 
+	tabindex="-1" role="dialog" 
+	aria-labelledby="jcuo" 
+	aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="jcuo">试题纠错反馈</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert">
+                                    一直在完善，从未停歇过，但有些题目可能仍然存在瑕疵，对您造成的不便我们深表歉意！
+        </div>
+        <div class="text-info">
+        	为方便我们排查错误，请您详细描述本题错误，例如：
+        </div>
+<div class="form-check form-check-inline">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">含有错别字</span>
+</label>
+</div>
+<div class="form-check form-check-inline">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">答案不正确</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">题目不完整</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">图片不存在</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">解析不正确</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">题目带答案</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">其他错误</span>
+</label>
+</div>
+
+<div class="form-group">
+    <label for="exampleFormControlTextarea1" class="text-info">错题描述:</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-info">发送</button>
+      </div>
+    </div>
+ </div>
+  
+</div>
+
+<!-- Modal交卷提示 -->
+<div class="modal fade" id="jjuan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">提交试卷</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<i class="fa fa-info-circle fa-02x text-warning"></i>
+        全部做完，是否确定交卷？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <!--<button type="button" class="btn btn-info">提交</button>-->
+        <a class="btn btn-info" href="javascript:submitSomething()" role="button">提交</a>
+      </div>
+    </div>
+  </div>
+</div>

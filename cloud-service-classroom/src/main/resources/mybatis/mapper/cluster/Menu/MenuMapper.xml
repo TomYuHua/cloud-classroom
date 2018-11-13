@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.MenuDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.every.Menu">
+		<result column="MenuId" jdbcType="INTEGER" property="menuid" />
+		<result column="ApplicationId" jdbcType="INTEGER" property="applicationid" />
+		<result column="MenuNO" jdbcType="VARCHAR" property="menuno" />
+		<result column="ApplicationCode" jdbcType="VARCHAR" property="applicationcode" />
+		<result column="MenuParentNo" jdbcType="VARCHAR" property="menuparentno" />
+		<result column="MenuOrder" jdbcType="INTEGER" property="menuorder" />
+		<result column="MenuName" jdbcType="VARCHAR" property="menuname" />
+		<result column="MenuUrl" jdbcType="VARCHAR" property="menuurl" />
+		<result column="MenuIcon" jdbcType="VARCHAR" property="menuicon" />
+		<result column="IsVisible" jdbcType="TINYINT" property="isvisible" />	
+	</resultMap>
+	
+	 <select id="selectAll" resultMap="BaseResultMap">
+	    select MenuId, ApplicationId, MenuNO, ApplicationCode, MenuParentNo, MenuOrder, MenuName, MenuUrl, MenuIcon, IsVisible
+		from Menu;
+	</select>
+	
+	<select id="selectMenuByUserName" resultMap="BaseResultMap">
+	    select a.* from Menu a left join Privilege b on a.MenuNO=b.PrivilegeAccessValue left join Role c on c.RoleId=b.PrivilegeMasterValue left join User_Role d on d.RoleId=c.RoleId left join user e on e.UserId=d.UserId where e.userName=#{userName};
+	</select>
+	
+</mapper>

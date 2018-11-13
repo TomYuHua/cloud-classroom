@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.RecordingDao">  
+ 	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_recording.Recording">	                                    
+		<result column="id" jdbcType="INTEGER" property="id"/>
+		<result column="questionId" jdbcType="INTEGER" property="questionId"/>
+		<result column="inputAnswer" jdbcType="VARCHAR" property="inputAnswer"/>
+		<result column="isCorrect" jdbcType="INTEGER" property="isCorrect"/>
+		<result column="userId" jdbcType="INTEGER" property="userId"/>
+		<result column="timesId" jdbcType="INTEGER" property="timesId"/>
+		
+	</resultMap>
+	
+ <insert id="addRecording" parameterType="java.util.List" >
+  insert into recording (chapterId,questionId,inputAnswer,isCorrect,userId,inputTime,timesId) values
+<foreach collection="list" item="item" index="index" separator="," > 
+(#{item.chapterId},#{item.questionId},#{item.inputAnswer},
+<if test="item.rightAnswer==item.inputAnswer and item.inputAnswer!=null and item.inputAnswer!='' " >
+0,
+</if>
+<if test="item.rightAnswer!=item.inputAnswer and item.inputAnswer!=null and item.inputAnswer!='' " >
+1,
+</if>
+<if test="item.inputAnswer==null or item.inputAnswer==''" >
+2,
+</if>
+#{item.userId},now(),#{item.timesId}) 
+</foreach>     
+</insert>
+
+
+		
+<select id="selectErQu" resultMap="BaseResultMap">
+select * from Question where id  in (select questionId from recording where userId=#{userId} and isCorrect=1) and chapterId=#{chapterId} where b.userId=#{userId} limit #{number};
+</select>
+
+
+
+
+<select id="getMaxTimesId" resultType="java.lang.Integer">
+select max(timesId) FROM recording;    
+</select>
+
+
+
+<delete id="deleteRecordingsByQuestionId" parameterType="java.util.List">
+delete from questionRecord where questionId in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+		#{id}
+</foreach>; 
+
+
+
+</delete> 
+
+ <insert id="addQuestionRecord" parameterType="java.util.List" >
+  insert into questionRecord (chapterId,questionId,isCorrect,userId) values
+<foreach collection="list" item="item" index="index" separator="," > 
+(#{item.chapterId},#{item.questionId},
+<if test="item.rightAnswer==item.inputAnswer and item.inputAnswer!=null and item.inputAnswer!='' " >
+0,
+</if>
+<if test="item.rightAnswer!=item.inputAnswer and item.inputAnswer!=null and item.inputAnswer!='' " >
+1,
+</if>
+<if test="item.inputAnswer==null or item.inputAnswer==''" >
+2,
+</if>
+#{item.userId}) 
+</foreach>     
+</insert>
+
+</mapper>
+
+
+
+

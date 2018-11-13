@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-身份绑定</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}"/>
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+
+
+
+<script>
+$(document).ready(function(){	
+			// 改为鼠标移上的事件只需把click改为mousemove
+			$(".fortab").click(function()
+			{
+				var number = $(".fortab").index(this);
+				$(this).addClass("checked");
+				$(this).siblings().removeClass("checked");
+				$(".tablelist:eq(" + number + ")").show();
+				$(".tablelist:eq(" + number + ")").siblings().hide();
+			});
+	
+	/*	
+	function bindStu(){
+	
+			 var userId=$("#userId").val();
+			 var gradeName=$("#grade").val();
+			 var className=$("#glass").val();
+		     var name=$("#stuName").val();
+			 var idNumber=$("#idNumber").val();
+			$.ajax({
+					type:'POST',      
+					url: "/binduser/bindType",
+				    data:JSON.stringify({"userId":userId,"name":name,"userType":1,"state":0,"student":
+									{"gradeName":gradeName,"className":className,"idNumber":idNumber}}),
+					contentType : "application/json;charset=utf-8",
+					dataType : 'json', 
+					async : false,
+					success : function(data){
+					 if(data.result=="success"){
+					window.location.href = "/binduser/bindnext";
+					 }else{
+					alert("绑定申请失败");
+					 }}, 
+					error : function(data){
+					alert("绑定申请失败");
+					    }
+						});
+			 }else{
+				  alert("所填内容不符合规范");
+			   }
+			 }else{
+				  alert("所填内容不符合规范");
+			  }
+			  
+			       }
+
+
+
+function bindTea(){   
+	if(checkIdCard()){
+	   if(checkTeaName()){
+    var userId=$("#userId").val();
+	var name=$("#teaName").val();
+	var idNumber=$("#idCard").val();
+	$.ajax({
+		type:'POST',
+		url:"/bind/bindType",
+		data:JSON.stringify({"userId":userId,"name":name,"userType":2,"state":0,"teacher":{"idNumber":idNumber}}),
+		contentType:"application/json;charset=utf-8",
+		dataType:'json',
+		async:false,
+		success:function(data){
+		if(data.result=="success"){
+		window.location.href="/bind/bindnext";
+		}else{
+		alert("绑定申请失败");
+		}}, 
+		error:function(data){
+		alert("绑定申请失败");
+		}
+	});
+	  }else{
+		  alert("所填内容不符合规范");
+	  }
+	 }else{
+		  alert("所填内容不符合规范");
+	 }
+	}
+
+function turnBack(){
+window.location.href = "/";
+}
+
+
+ /*function checkIdNumber(){
+	   var check; 
+	  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+	  var card = document.getElementById("idNumber").value; 
+      if(reg.test(card) === false){
+    	 document.getElementById("messageIdNumber").innerHTML = "*身份证格式不证确";
+	    check = false; 
+	  }else{ 
+      document.getElementById("messageIdNumber").innerHTML = "*身份证格式证确";
+	   document.getElementById("idNumber").focus();
+	   check = true; 
+	  } 
+	   return check; 
+    }
+ 
+ function checkIdCard(){
+ 	   var check; 
+ 	  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      var card = document.getElementById("idCard").value; 
+ 	if(reg.test(card) === false){
+ 	   document.getElementById("messageIdCard").innerHTML = "*身份证格式不证确";
+ 		 check = false; 
+ 	 }else{ 
+ 	   document.getElementById("messageIdCard").innerHTML = "*身份证格式证确";
+ 	 document.getElementById("idCard").focus();
+     check = true; 
+     } 	  
+ 	 return check; 
+     }
+     
+     
+function checkTeaName(){
+	  var check; 
+      var reg=/^[\u4E00-\u9FA5]{1,6}$/;
+      var name = document.getElementById("teaName").value;   
+	   if(reg.test(name) === false){
+		 document.getElementById("messageTea").innerHTML = "*姓名格式不正确";
+		   check = false; 
+		}else{ 
+	    document.getElementById("messageTea").innerHTML = "*姓名格式正确";
+		document.getElementById("teaName").focus();
+		  check = true; 
+      }
+  
+      return check; 
+}
+/* 
+ function checkStuName(){
+	 var check; 
+     var reg=/^[\u4E00-\u9FA5]{1,6}$/;
+     var name = document.getElementById("stuName").value; 
+	  if(reg.test(name) === false){
+      document.getElementById("messageStuName").innerHTML = "*姓名格式不正确";
+		check = false; 
+      }else{ 
+	  document.getElementById("messageStuName").innerHTML = "*姓名格式正确";
+	  document.getElementById("stuName").focus();
+	    check = true; 
+	   }
+    return check; 
+  }
+*/
+});
+	</script>
+</head>
+<body class="login-body">
+	<div class="login-container">
+		<form class="msform ">
+			<ul class="progressbar">
+				<li>
+					<b class="progressbar-blue prog-show">1</b>
+				</li>
+				<li class="progressbar-line progressbar-black"></li>
+				<li>
+					<b class="progressbar-black prog-show">2</b>
+				</li>
+				<li class="progressbar-line progressbar-black"></li>
+				<li>
+					<b class="progressbar-black prog-show">3</b>
+				</li>
+			</ul>
+			<ul class="progress-bar">
+				<li>绑定信息</li>
+				<li class="text-center">审核</li>
+				<li class="text-right">审核完成</li>
+			</ul>
+		</form>
+		<!--identity-->
+		<div class="identity">
+			<div class="identity-tab">
+				<ul>
+					<li class="fortab checked">学生</li>
+					<li class="fortab ">老师</li>
+				</ul>
+			</div>
+			<div class="detailss">
+				<div class="tablelist showdomdiv showsss">
+					<ul>
+						<li>
+							<label>年 级名：</label>
+							<input type="text" name="grade" id="grade" class="td-input input85 td-border" />
+							<!-- <select name="grade" id="grade" class="detailss-input detailss-border">
+								<option value="0">1</option>
+								<option value="1">2</option>
+							</select> -->
+						</li>
+						<li>
+							<label>班 级名：</label>
+							<input type="text" name="glass" id="glass" class="td-input input85 td-border" />
+								<!--<select name="glass" id="glass" class="detailss-input detailss-border">
+								<option value="0">1</option>
+								<option value="1">2</option>
+							</select> -->
+						</li>
+						<li>
+							<label>姓     名：</label>
+							<input type="text" name="stuName" id="stuName" class="td-input input85 td-border" onblur="checkStuName()"/>
+							<em id="messageStuName"></em>
+						</li>
+						<li>
+							<label>昵      称：</label>
+							<input type="text" name="stuNickName" id="stuNickName" class="td-input input85 td-border" onblur="checkStuNickName()"/>
+							     <em id="messageStuNickName"></em>		
+						</li>
+						<li>
+							<label class="font3em">身份证：</label>
+							<input type="text" name="idNumber" id="idNumber" class="td-input input85 td-border" onblur="checkIdNumber()"/>
+							<input type="hidden" th:value="${user.userId}" id="userId"></input> 
+							<p><em id="messageIdNumber"></em></p>
+						</li>
+					</ul>
+					<p>
+                        <button type="button" class="blue detailss-back mar5" onclick="javascript:turnBack()"  name="返回">返回</button>
+						<button type="button" class="blue detailss-back" onclick="javascript:bindStu()" name="下一步">下一步</button>
+                    </p>
+				</div>
+				<div class="tablelist hidedomdiv showsss">
+					<ul>
+						<li>
+							<label>姓 　名：</label>
+							<input type="text" name="teaName" id="teaName" class="td-input input85 td-border" onblur="checkTeaName()" />
+						   	<em id="messageTeaName"></em>
+						 </li>
+						 <li>
+							<label>昵     称：</label>
+						    <input type="text" name="teaNickName" id="teaNickName" class="td-input input85 td-border" onblur="checkTeaNickName()"/>
+						     <em id="messageTeaNickName"></em>
+						 </li>
+						<li>
+							<label class="font3em">身份证：</label>
+							<input type="text" name="name" id="idCard" class="td-input input85 td-border"  onblur="checkIdCard()"/>
+							<p><em id="messageIdCard"></em></p>
+						</li>
+					</ul>
+					<p>
+
+					   <button type="button" class="blue detailss-back mar5" onclick="javascript:turnBack()" name="返回">返回</button>
+                       <button type="button" class="blue detailss-back" onclick="bindTea()" name="下一步">下一步</button>
+                    </p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	function checkIdCard(){
+	 	  var check; 
+	 	  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+	      var card = document.getElementById("idCard").value; 
+	 	if(reg.test(card)==false){
+	 	   $("#messageIdCard").attr("class","red");
+	 	   document.getElementById("messageIdCard").innerHTML = "*身份证格式不证确";
+	 		 check = false; 
+	 	 }else{ 
+	 		$("#messageIdCard").attr("class","green");
+	 	   document.getElementById("messageIdCard").innerHTML = "*身份证格式证确";
+	 	 //document.getElementById("idCard").focus();
+	     check = true; 
+	     } 	  
+	 	 return check; 
+	     }
+	
+	function checkTeaName(){
+		  var check; 
+	      var reg=/^[\u4E00-\u9FA5]{1,6}$/;
+	      var name = document.getElementById("teaName").value;   
+		   if(reg.test(name)==false){
+			 $("#messageTeaName").attr("class","red");
+			 document.getElementById("messageTeaName").innerHTML = "*姓名格式不正确";
+			   check = false; 
+			}else{ 
+			$("#messageTeaName").attr("class","green");
+		    document.getElementById("messageTeaName").innerHTML = "*姓名格式正确";
+			//document.getElementById("teaName").focus();
+			  check = true; 
+	      }
+	  
+	      return check; 
+	}
+	
+	function bindTea(){   
+		if(checkIdCard()){
+		   if(checkTeaName()){
+			   if(checkTeaName()){
+	    var userId=$("#userId").val();
+		var name=$("#teaName").val();
+		var teaNickName=$("#teaNickName").val();
+		var idNumber=$("#idCard").val();		
+		$.ajax({
+			type:'POST',
+			url:"/binduser/bindType",
+			data:JSON.stringify({"userId":userId,"name":name,"nickName":teaNickName,"userType":2,"state":0,"teacher":{"idNumber":idNumber}}),
+			contentType:"application/json;charset=utf-8",
+			dataType:'json',
+			async:false,
+			success:function(data){
+			if(data.result=="success"){
+			window.location.href="/binduser/bindnext";
+			}else{
+			alert("绑定申请失败");
+			}}, 
+			error:function(data){
+			alert("绑定申请失败");
+			}
+		});
+		  }else{
+			  alert("所填姓名不符合规范");
+		  }
+		 }else{
+			  alert("所填身份证号不符合规范");
+		 }
+		}else{
+			  alert("所填昵称不符合规范");
+		 }
+		}
+	
+	
+	function checkTeaNickName(){
+		 var check;
+		 var teaNickName=$("#teaNickName").val();
+		 if (teaNickName==""){
+			 $("#messageTeaNickName").attr("class","red");
+		      document.getElementById("messageTeaNickName").innerHTML = "*昵称不能为空";     
+		  	check = false;
+		 }else{
+			check = true; 
+		 }
+		 return check;
+	}
+	
+	function turnBack(){
+		window.location.href = "/";
+		}
+	
+
+	function checkIdNumber(){
+		   var check; 
+		   var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+		  var card = document.getElementById("idNumber").value; 
+	      if(reg.test(card)==false){
+	       $("#messageIdNumber").attr("class","red");
+	       document.getElementById("messageIdNumber").innerHTML = "*身份证格式不证确";
+		    check = false; 
+		  }else{ 
+		   $("#messageIdNumber").attr("class","green");
+	        document.getElementById("messageIdNumber").innerHTML = "*身份证格式证确";
+		   check = true; 
+		  } 
+		   return check; 
+	    }
+	function checkStuName(){
+		 var check; 
+	     var reg=/^[\u4E00-\u9FA5]{1,6}$/;
+	     var name = document.getElementById("stuName").value; 
+		  if(reg.test(name) == false){
+		  $("#messageStuName").attr("class","red");
+	      document.getElementById("messageStuName").innerHTML = "*姓名格式不正确";
+			check = false; 
+	      }else{ 
+	      $("#messageStuName").attr("class","green");
+		  document.getElementById("messageStuName").innerHTML = "*姓名格式正确";
+		    check = true; 
+		   }
+	    return check; 
+	  }
+	
+	function checkStuNickName(){
+		 var check;
+		 var stuNickName=$("#stuNickName").val();
+		 if (stuNickName==""){
+			 $("#messageStuNickName").attr("class","green")
+		      document.getElementById("messageStuNickName").innerHTML = "*昵称不能为空";
+		  	check = false;
+		 }else{
+			check = true;
+		 }
+		 return check;
+	}
+     
+	
+	
+	
+	function bindStu(){
+		if(checkIdNumber()){
+		  if(checkStuName()){
+			  if(checkStuNickName()){
+		 var userId=$("#userId").val();
+		 var gradeName=$("#grade").val();
+		 var className=$("#glass").val();
+	     var name=$("#stuName").val();
+		 var idNumber=$("#idNumber").val();
+		 var stuNickName=$("#stuNickName").val();
+		$.ajax({
+				type:'POST',      
+				url: "/binduser/bindType",
+			    data:JSON.stringify({"userId":userId,"name":name,"nickName":stuNickName,"userType":1,"state":0,"student":
+								{"gradeName":gradeName,"className":className,"idNumber":idNumber}}),
+				contentType:"application/json;charset=utf-8",
+				dataType:'json', 
+				async:false,
+				success:function(data){
+				if(data.result=="success"){
+				window.location.href = "/binduser/bindnext";
+				 }else{
+				alert("绑定申请失败");
+				 }}, 
+				error : function(data){
+				alert("绑定申请失败");
+				    }
+					});
+		 }else{
+			  alert("所填姓名不符合规范");
+		   }
+		 }else{
+			  alert("所填身份证号不符合规范");
+		  }
+		  }else{
+				alert("所填昵称不符合规范");
+			  }
+			  
+			}
+
+
+
+	</script>
+</body>
+
+</html>

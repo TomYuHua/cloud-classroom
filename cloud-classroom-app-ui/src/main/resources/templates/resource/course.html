@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/fragments/comm">
+<head>
+<meta charset="utf-8" />
+<title>鑫广飞无人机课堂应用平台-科目章节</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/tab.js" th:src="@{/js/tab.js}"></script>
+</head>
+<body>
+	<!--haeder开始-->
+	<div th:fragment="content" th:remove="tag">
+
+		<script th:inline="javascript">
+			/* $(document).ready(function(){
+			  /* $subblocks = $(".subpage") 
+			   $("#proinfo").css({display: 'none'});
+			 	var  $subblocks = $(".allbtn"), $heads=$subblocks.find('h2'),   $uls = $("#proinfo"), $liss = $uls.find("li");
+			 	  
+			 	
+			/* 	$uls.click(function(event){
+			 		event.stopPropagation();
+			 	});
+			 	
+			 	/* $(document).click(function(){
+			 		$ul.hide();
+			 		inter=!inter;
+			 	}); */
+
+			/*$subblocks.hover(function(){
+				 
+				 $("#proinfo").css({display: 'block'});
+				 
+			},function(){
+				 
+				 $("#proinfo").css({display: 'none'});
+				 
+			});
+			})*/
+
+			$(document)
+					.ready(
+							function()
+							{
+								/* $subblocks = $(".subpage") */
+								$("#proinfo").css(
+										{ display : 'none' });
+								var $subblocks = $(".allbtn"), $heads = $subblocks
+										.find('h2'), $uls = $("#proinfo"), $liss = $uls
+										.find("li");
+								
+								$uls.click(function(event)
+								{
+									event.stopPropagation();
+								});
+								
+								$subblocks.hover(function()
+								{
+									
+									$("#proinfo").css(
+											{ display : 'block' });
+									
+								}, function()
+								{
+									
+									$("#proinfo").css(
+											{ display : 'none' });
+									
+								});
+							});
+			
+			$(function()
+			{
+				
+				$('[js-tab=1]').tab();
+				
+				$('[js-tab=2]')
+						.tab(
+								{ curDisplay : 2,
+									changeMethod : 'horizontal' });
+				
+			});
+			
+			// $("div[id='tab-cont']").load("/coursevideo");
+			
+			$(document).ready(function()
+			{
+				//	$("#panel").load("/coursevideo");
+				var a = $("#currrentId").val();
+				var b = $("#orderType").val();
+				var c = $("#types").val();
+				getResourceList(a, b, c);
+			})
+
+			function makeTypes(c)
+			{
+				var m = c;
+				document.getElementById("types").value = m;
+				var a = $("#currrentId").val();
+				var b = $("#orderType").val();
+				getResourceList(a, b, m);
+			}
+
+			function getResourceList(a,b,c)
+			{
+				var currentid = a;
+				var orderType = b;
+				var types = c;
+				if (types == 1)
+				{
+					
+					$("#panel").load("/coursevideo",{ currentid : currentid,orderType : orderType });
+				} else
+				{
+					$("#panel").load("/courseview",{ currentid : currentid,orderType : orderType });
+				}
+			}
+			function sendId(a)
+			{
+				document.getElementById("currrentId").value = a;
+				var b = $("#orderType").val();
+				var c = $("#types").val();
+				getResourceList(a, b, c);
+				
+			}
+
+			function makeOrder(b)
+			{
+				document.getElementById("orderType").value = b;
+				var a = $("#currrentId").val();
+				var c = $("#types").val();
+				getResourceList(a, b, c);
+			}
+			function checkPermissionA(a){
+			/*	$.ajax({
+					type:'POST',
+					url:"/resource/checkresourcepemission",
+					data:{"checkNo":"ResourcesNO"},
+					dataType:'json',
+					async:false,
+					success:function(data){
+					if(data.result=="ok"){*/
+					window.location.href="/getvideocontent/"+a;
+			 /*        }else{
+			        alert("您暂时没有观看资源的权限")
+			         }
+					}
+				})*/
+			}
+function checkPermissionB(a){
+	/*	$.ajax({
+		type:'POST',
+		url:"/resource/checkresourcepemission",
+		data:{"checkNo":"ResourcesNO"},
+		dataType:'json',
+		async:false,
+		success:function(data){
+		if(data.result=="ok"){*/
+		window.location.href="/getebookcontent/"+a;
+		/*     }else{
+        alert("您暂时没有观看资源的权限")
+         }
+		}
+	})*/
+   }
+		</script>
+
+		<!--主题框架-->
+		<div class="main-container">
+			<input type="hidden" id="types" value="1"></input>
+			<input type="hidden" id="currrentId" th:value="${currentid}"></input>
+			<input type="hidden" id="orderType" value="1"></input>
+			<!--panel面板开始-->
+			<div class="panel" id="panel"></div>
+			<!--panel面板结束-->
+		</div>
+		<!-- 主题框架 -->
+
+	</div>
+</body>
+</html>

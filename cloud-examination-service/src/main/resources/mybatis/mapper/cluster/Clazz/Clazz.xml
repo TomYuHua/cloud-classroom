@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.ClazzDao">
+<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.ClazzVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="clazzName" jdbcType="VARCHAR" property="clazzName"/>
+		<result column="schoolId" jdbcType="INTEGER"  property="schoolId" />
+		<result column="schoolName" jdbcType="INTEGER"  property="schoolName" />
+</resultMap>	
+ 
+ 
+<select id="getClazzLists" resultMap="BaseResultMap">
+      select a.*,b.schoolName from  Clazz a left join School b  on a.schoolId=b.id
+		<where>
+			<if test="clazzName!=null and clazzName!=''">
+				clazzName=#{clazzName}
+			</if>
+			<if test="schoolId!=null and schoolId!=''">
+				and schoolId=#{schoolId}
+			</if>
+		</where> 
+</select>                              
+                                   
+ <insert id="addClazz" parameterType="com.singFly.cloud_examination_clazz.Clazz">
+ insert into Clazz (clazzName,schoolId) values (#{clazzName}, #{schoolId})
+ </insert>
+ 
+ 
+<delete id="deleteClazz" parameterType="java.util.List">
+delete from Clazz where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+		#{id}</foreach>; 
+</delete>
+
+
+ 
+ <update id="updateClazz" parameterType="com.singFly.cloud_examination_clazz.Clazz">
+        update Clazz 
+         <set>
+			<if test="clazzName!=null and clazzName=''">
+				clazzName=#{clazzName},
+			</if>
+			<if test="schoolId!=null">
+				schoolId=#{schoolId}
+			</if>
+			</set>
+	where id = #{id};		
+ </update>
+ 
+ 
+<select id="getClazzById" resultMap="BaseResultMap">
+      select a.*,b.schoolName from  Clazz a left join School b  on a.schoolId=b.id where a.id=#{id};
+</select>  
+ 
+ 
+ 
+ 
+ 
+ </mapper>

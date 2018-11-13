@@ -1,0 +1,16 @@
+          <div class="tablelist showdomdiv showsss study">
+                	<ul>
+                		<li class="studys-t" th:each="resources : ${list}">
+                			<img class="left" th:src="${resources.imgsrc}"/>
+                	        	<div class="st-tit"> <a th:href="@{'/getvideocontent/'+${resources.id}}"></a> 
+                	        		<h3 th:text="${resources.name}"><a th:href="@{'/getvideocontent/'+${resources.id}}">速度与加速度</a></h3>
+                	        		<div class="study-points">
+                	        			<span class="red" th:text="${resources.createauthor}">张老师</span>
+                	        			<span><div th:if="${resources.scores==null}"><div th:text="暂未被评分">综合评分8.9</div></div><div th:if="${resources.scores!=null}"><div th:text="'综合评分:'+${resources.scores}">综合评分8.9</div></div></span>
+                	        		</div>
+                	        		<a th:href="@{'/getvideocontent/'+${resources.id}}"><button class="blue right">开始学习</button></a>
+                	        	</div>
+                	    </li>
+                	</ul>
+                </div>
+                

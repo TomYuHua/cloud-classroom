@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+
+    <!--强制国产浏览器使用现代内核--><!--360浏览器-->
+    <meta name="renderer" content="webkit"/>
+    <!--其它双核浏览器-->
+    <meta name="force-rendering" content="webkit"/>
+    <!--如果安装了GCF，则使用GCF来渲染页面，如果没有安装GCF，则使用最高版本的IE内核进行渲染。-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <title>鑫广飞无人机课堂应用平台-管理员后台-用户管理</title>
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css"
+          th:href="@{/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/scss/admin.css"
+          th:href="@{/AdminBackend/scss/admin.css}"
+    />
+
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css"
+          th:href="@{/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css}"
+          media="screen"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/xdan-datetimepicker/build/jquery.datetimepicker.min.css"
+          th:href="@{/AdminBackend/node_modules/xdan-datetimepicker/build/jquery.datetimepicker.min.css}"
+          media="screen"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/toastr/build/toastr.min.css"
+          th:href="@{/AdminBackend/node_modules/toastr/build/toastr.min.css}"
+    />
+
+
+    <!--polyfill and main lib-->
+    <script src="../../static/AdminBackend/node_modules/core-js/client/core.min.js"
+            th:src="@{/AdminBackend/node_modules/core-js/client/core.min.js}"></script>
+    <script src="../../static/AdminBackend/js/template-polyfill.js"
+            th:src="@{/AdminBackend/js/template-polyfill.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/jquery/dist/jquery.min.js"
+            th:src="@{/AdminBackend/node_modules/jquery/dist/jquery.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js"
+            th:src="@{/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/rxjs/bundles/Rx.min.js"
+            th:src="@{/AdminBackend/node_modules/rxjs/bundles/Rx.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/loadjs/dist/loadjs.min.js"
+            th:src="@{/AdminBackend/node_modules/loadjs/dist/loadjs.min.js}"></script>
+
+    <script type="text/javascript">
+        // set init value
+        //document.page2jsPath = "../../static/AdminBackend/";
+        //document.templatePath = "../../static/AdminBackend/template/";
+        //document.isJsDebug = true;
+        document.page2jsPath = "/AdminBackend";
+        document.templatePath = "/AdminBackend/template";
+    </script>
+    <script type="text/html" th:type="@{text/javascript}">
+        document.isJsDebug = false;
+        document.page2jsPath = "/AdminBackend/";
+        document.templatePath = "/AdminBackend/template/";
+    </script>
+    <!--load main and main will load other lib-->
+    <script src="../../static/AdminBackend/js/users.js"
+            th:src="@{/AdminBackend/js/users.js}"></script>
+
+</head>
+<body>
+<!--header-->
+<header class="aheader">
+    <div class="avatar left"></div>
+    <a class="logo left display-block" href="/" target="_blank"></a>
+</header>
+<div class="container">
+    <!--menu-->
+    <div class="ly-left-menu"></div>
+    <!--内容区域-->
+    <div class="panel">
+        <div class="title">
+            <span class="dot left"></span>
+            <b class="title-name left">用户管理</b>
+        </div>
+        <div class="comment">
+            <!--查询条件-->
+            <div class="queryform" id="filter-form">
+                <ul>
+                    <li>
+                        <label>角　色：</label>
+                        <select name="" class="select-query filter-role" title="">
+                            <option value="">所有</option>
+                            <option value="1">学生</option>
+                            <option value="2">教师</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label class="spacing">用户名：</label>
+                        <input type="text"
+                               name="username"
+                               class="query-input td-border filter-username"
+                               placeholder="所有"
+                        />
+                    </li>
+                    <li>
+                        <label>姓　名：</label>
+                        <input type="text"
+                               name="name"
+                               class="query-input td-border filter-name"
+                               placeholder="所有"
+                        />
+                    </li>
+                    <li>
+                        <label>性　别：</label>
+                        <select name="" class="select-query filter-sex" title="">
+                            <option value="">不限</option>
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>邮　箱：</label>
+                        <input type="text"
+                               name="email"
+                               class="query-input td-border filter-email"
+                               placeholder="所有"
+                        />
+                    </li>
+                    <li>
+                        <label>审核状态：</label>
+                        <select name="" class="select-query filter-class" title="">
+                            <option value="">所有</option>
+                            <option value="1">已审核通过</option>
+                            <option value="2">未审核通过</option>
+                        </select>
+                    </li>
+                    <li>
+                        <!-- <label>筛　选：</label> -->
+                        <button class="dodgerblue" id="flush">
+                              <i class="fa fa-search mar5"></i>筛选
+                        </button>
+                    </li>
+                </ul>
+            </div><!--查询条件-->
+            <!--查询结果table-->
+            <div class="result">
+                <table class="result-table ly-list-select-table ly-table" cellspacing="0" cellpadding="0">
+                    <thead class="result-thead">
+                    <tr class="width-users-table">
+                        <th class="td-all width-td-all">
+                            <input class="ly-list-select-parent" name="all" type="checkbox" value=""/> 全部
+                        </th>
+                        <th class="td-username">用户名</th>
+                        <th class="td-name">姓名</th>
+                        <th class="td-sex">性别</th>
+                        <th class="td-phone">电话</th>
+                        <th class="td-email">邮箱</th>
+                        <th class="td-userType">用户类型</th>
+                        <th class="td-userRole">用户角色</th>
+                        <th class="td-time">创建时间</th>
+                        <th class="td-review">审核状态</th>
+                        <th class="td-operator width-td-all">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="result-tbody ly-template-table-tbody">
+                    <!--下面那个template中的内容将不会被显示  会在运行时被动态地插入到这个位置进行渲染-->
+                    <template class="ly-template-table-tbody-row">
+                        <tr class="width-users-table table-right-border">
+                            <td class="td-all width-td-all">
+                                <input class="ly-list-select-child" name="all" type="checkbox" value="" title=""/>
+                            </td>
+                            <td class="td-username"></td>
+                            <td class="td-name"></td>
+                            <td class="td-sex"></td>
+                            <td class="td-phone"></td>
+                            <td class="td-email"></td>
+                            <td class="td-userType"></td>
+                            <td class="td-userRole"></td>
+                            <td class="td-time"></td>
+                            <td class="td-review"></td>
+                            <td class="td-operator width-td-menu row-button">
+                                <a class="cursor-pointer b-review operation"><i class="fa fa-hourglass-start fa-2xs orange mar5"></i>审核</a>
+                                <a class="cursor-pointer b-reset operation"><i class="fa fa-unlock-alt fa-2xs blues mar5"></i>重设密码</a>
+                                <a class="cursor-pointer b-change operation"><i class="fa fa-pencil-square-o fa-2xo green mar5"></i>修改</a>
+                                <a class="cursor-pointer b-changeRole operation"><i class="fa fa-user fa-2xo blues mar5"></i>设置角色</a>
+                                <a class="cursor-pointer b-delete operation"><i class="fa fa-trash-o fa-2xo reds mar5"></i>删除</a>
+                            </td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+            <!--button添加，删除-->
+            <div class="butn right button-panel">
+                <button class="blue b-set-user-type">设置用户类型</button>
+                <button class="dodgerblue b-review">审核</button>
+                <button class="blue b-add-student">添加学生</button>
+                <button class="blue b-add-teacher">添加教师</button>
+                <button class="blue b-change">修改</button>
+                <button class="blue b-changeRole">设置角色</button>
+                <button class="red b-delete">删除</button>
+                <button class="red b-reset">重置密码</button>
+            </div>
+            <!--翻页-->
+            <!--翻页器将会注入在此 (will insert before 'div.ly-pagination' node)-->
+            <div class="ly-pagination">
+            </div>
+        </div>
+    </div>
+    <!--弹窗div-->
+    <div class="pop double-col" id="f-user-add-student" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加学生</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <form class="" id="form-user-add-student">
+                    <ul>
+                        <li class="">
+                            <label>用户名：</label>
+                            <input type="text"
+                                   name="userName"
+                                   class="query-input td-border f-userName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-userName">
+                            <b class="form-warning">用户名重复</b>
+                        </li>
+                        <li class="n-c-userName">
+                            <b class="form-checking"><i class="fa fa-spinner fa-spin"></i>正在检查用户名...</b>
+                        </li>
+                        <li class="n-g-userName">
+                            <b class="form-ok">此用户名可用</b>
+                        </li>
+                        <li class="">
+                            <label>头&emsp;像：</label>
+                            <!--<div class="bluequestionmark ad-user-head users-header-img">-->
+                            	<!--<img src="" class="f-img ad-user-head "/>-->
+                                <!--<a class="tipinfo"><img src="" class=" f-img"/></a>  -->
+                            <!--</div>-->
+                            <input type="file"
+                                   name="file"
+                                   class="img-input td-border f-file"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>角&emsp;色：</label>
+                            <select name="role"
+                                    class="select-query f-role"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="1">学生</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>姓&emsp;名：</label>
+                            <input type="text"
+                                   name="name"
+                                   class="query-input td-border f-name"
+                                   title=""
+                                   required=""
+                                   pattern="^(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d])+$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>学&emsp;号：</label>
+                            <input type="text"
+                                   name="studentNo"
+                                   class="query-input td-border f-studentNo"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>昵&emsp;称：</label>
+                            <input type="text"
+                                   name="nickName"
+                                   class="query-input td-border f-nickName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>性&emsp;别：</label>
+                            <select name="sex"
+                                    class="select-query f-sex"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>年级名：</label>
+                            <input type="text"
+                                   name="gradeName"
+                                   class="query-input td-border f-gradeName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>班级名：</label>
+                            <input type="text"
+                                   name="className"
+                                   class="query-input td-border f-className"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>身份证：</label>
+                            <input type="text"
+                                   name="idNumber"
+                                   class="query-input td-border f-idNumber"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-idNumber">
+                            <b class="form-warning">身份证号无效</b>
+                        </li>
+                        <li class="">
+                            <label>生&emsp;日：</label>
+                            <input type="date"
+                                   name="birthday"
+                                   class="query-input td-border f-birthday"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>邮&emsp;箱：</label>
+                            <input type="email"
+                                   name="email"
+                                   class="query-input td-border f-email"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>电&emsp;话：</label>
+                            <input type="tel"
+                                   name="phone"
+                                   class="query-input td-border f-phone"
+                                   title=""
+                                   required=""
+                                   pattern="^\d{11}$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>&emsp;省&emsp;：</label>
+                            <select
+                                    name="province"
+                                    class="select-query f-province"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;市&emsp;：</label>
+                            <select
+                                    name="city"
+                                    class="select-query f-city"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;区&emsp;：</label>
+                            <select
+                                    name="area"
+                                    class="select-query f-area"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>街&emsp;道：</label>
+                            <input type="text"
+                                   name="addr"
+                                   class="query-input td-border f-addr"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>个性签名：</label>
+                            <input type="text"
+                                   name="description"
+                                   class="query-input td-border f-description"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save" type="submit">保存</button>
+                <button class="grays b-close" type="reset">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop double-col" id="f-user-add-teacher" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加教师</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <form class="" id="form-user-add-teacher">
+                    <ul>
+                        <li class="">
+                            <label>用户名：</label>
+                            <input type="text"
+                                   name="userName"
+                                   class="query-input td-border f-userName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-userName">
+                            <b class="form-warning">用户名重复</b>
+                        </li>
+                        <li class="n-c-userName">
+                            <b class="form-checking"><i class="fa fa-spinner fa-spin"></i>正在检查用户名...</b>
+                        </li>
+                        <li class="n-g-userName">
+                            <b class="form-ok">此用户名可用</b>
+                        </li>
+                        <li class="">
+                            <label>头&emsp;像：</label>
+                            <!--<div class="bluequestionmark ad-user-head users-header-img">-->
+                            	<!--<img src="" class="f-img ad-user-head "/>-->
+                                <!--<a class="tipinfo"><img src="" class=" f-img"/></a>  -->
+                            <!--</div>-->
+                            <input type="file"
+                                   name="file"
+                                   class="img-input td-border f-file"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>角&emsp;色：</label>
+                            <select name="role"
+                                    class="select-query f-role"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="1">学生</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>姓&emsp;名：</label>
+                            <input type="text"
+                                   name="name"
+                                   class="query-input td-border f-name"
+                                   title=""
+                                   required=""
+                                   pattern="^(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d])+$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>职工号：</label>
+                            <input type="text"
+                                   name="jobNum"
+                                   class="query-input td-border f-jobNum"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>昵&emsp;称：</label>
+                            <input type="text"
+                                   name="nickName"
+                                   class="query-input td-border f-nickName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>性&emsp;别：</label>
+                            <select name="sex"
+                                    class="select-query f-sex"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>职&emsp;称：</label>
+                            <select name="jobTitle"
+                                    class="select-query f-jobTitle"
+                                    title=""
+                                    required=""
+                            >
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>学&emsp;历：</label>
+                            <select name="highDegree"
+                                    class="select-query f-highDegree"
+                                    title=""
+                                    required=""
+                            >
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>身份证：</label>
+                            <input type="text"
+                                   name="idNumber"
+                                   class="query-input td-border f-idNumber"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-idNumber">
+                            <b class="form-warning">身份证号无效</b>
+                        </li>
+                        <li class="">
+                            <label>生&emsp;日：</label>
+                            <input type="date"
+                                   name="birthday"
+                                   class="query-input td-border f-birthday"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>邮&emsp;箱：</label>
+                            <input type="email"
+                                   name="email"
+                                   class="query-input td-border f-email"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>电&emsp;话：</label>
+                            <input type="tel"
+                                   name="phone"
+                                   class="query-input td-border f-phone"
+                                   title=""
+                                   required=""
+                                   pattern="^\d{11}$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>&emsp;省&emsp;：</label>
+                            <select
+                                    name="province"
+                                    class="select-query f-province"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;市&emsp;：</label>
+                            <select
+                                    name="city"
+                                    class="select-query f-city"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;区&emsp;：</label>
+                            <select
+                                    name="area"
+                                    class="select-query f-area"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>街&emsp;道：</label>
+                            <input type="text"
+                                   name="addr"
+                                   class="query-input td-border f-addr"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>老师介绍：</label>
+                            <input type="text"
+                                   name="teacherIntroduction"
+                                   class="query-input td-border f-teacherIntroduction"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save" type="submit">保存</button>
+                <button class="grays b-close" type="reset">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop double-col" id="f-user-change-student" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">学生修改</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <form class="" id="form-user-change-student">
+                    <ul>
+                        <!--<li class="">-->
+                            <!--<img src="" class="users-header-img f-img"/>-->
+                        <!--</li>-->
+                        <li class="">
+                            <label>用户名：</label>
+                            <input type="text"
+                                   name="userName"
+                                   class="query-input td-border f-userName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>头&emsp;像：</label>
+                            <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-img ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-img"/></a>  
+                            </div>
+                            <input type="file"
+                                   name="file"
+                                   class="img-input td-border f-file"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                       <!--  <li class="">
+                            <label>角&emsp;色：</label>
+                            <select name="role"
+                                    class="select-query f-role"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="1">学生</option>
+                            </select>
+                        </li> -->
+                        <li class="">
+                            <label>姓&emsp;名：</label>
+                            <input type="text"
+                                   name="name"
+                                   class="query-input td-border f-name"
+                                   title=""
+                                   required=""
+                                   pattern="^(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d])+$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>学&emsp;号：</label>
+                            <input type="text"
+                                   name="studentNo"
+                                   class="query-input td-border f-studentNo"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>昵&emsp;称：</label>
+                            <input type="text"
+                                   name="nickName"
+                                   class="query-input td-border f-nickName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>性&emsp;别：</label>
+                            <select name="sex"
+                                    class="select-query f-sex"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>年级名：</label>
+                            <input type="text"
+                                   name="gradeName"
+                                   class="query-input td-border f-gradeName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>班级名：</label>
+                            <input type="text"
+                                   name="className"
+                                   class="query-input td-border f-className"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>身份证：</label>
+                            <input type="text"
+                                   name="idNumber"
+                                   class="query-input td-border f-idNumber"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-idNumber">
+                            <b class="form-warning">身份证号无效</b>
+                        </li>
+                        <li class="">
+                            <label>生&emsp;日：</label>
+                            <input type="date"
+                                   name="birthday"
+                                   class="query-input td-border f-birthday"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>邮&emsp;箱：</label>
+                            <input type="email"
+                                   name="email"
+                                   class="query-input td-border f-email"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>电&emsp;话：</label>
+                            <input type="tel"
+                                   name="phone"
+                                   class="query-input td-border f-phone"
+                                   title=""
+                                   required=""
+                                   pattern="^\d{11}$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>&emsp;省&emsp;：</label>
+                            <select
+                                    name="province"
+                                    class="select-query f-province"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;市&emsp;：</label>
+                            <select
+                                    name="city"
+                                    class="select-query f-city"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;区&emsp;：</label>
+                            <select
+                                    name="area"
+                                    class="select-query f-area"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>街&emsp;道：</label>
+                            <input type="text"
+                                   name="addr"
+                                   class="query-input td-border f-addr"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>个性签名：</label>
+                            <input type="text"
+                                   name="description"
+                                   class="query-input td-border f-description"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save" type="submit">保存</button>
+                <button class="grays b-close" type="reset">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop double-col" id="f-user-change-teacher" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">教师修改</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <form class="" id="form-user-change-teacher">
+                    <ul>
+                        <li class="">
+                            <label>用户名：</label>
+                            <input type="text"
+                                   name="userName"
+                                   class="query-input td-border f-userName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>头&emsp;像：</label>
+                            <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-img ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-img"/></a>  
+                            </div>
+                            <input type="file"
+                                   name="file"
+                                   class="img-input td-border f-file"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                       <!--  <li class="">
+                            <label>角&emsp;色：</label>
+                            <select name="role"
+                                    class="select-query f-role"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="1">学生</option>
+                            </select>
+                        </li> -->
+                        <li class="">
+                            <label>姓&emsp;名：</label>
+                            <input type="text"
+                                   name="name"
+                                   class="query-input td-border f-name"
+                                   title=""
+                                   required=""
+                                   pattern="^(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d])+$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>职工号：</label>
+                            <input type="text"
+                                   name="jobNum"
+                                   class="query-input td-border f-jobNum"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>昵&emsp;称：</label>
+                            <input type="text"
+                                   name="nickName"
+                                   class="query-input td-border f-nickName"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>性&emsp;别：</label>
+                            <select name="sex"
+                                    class="select-query f-sex"
+                                    title=""
+                                    required=""
+                            >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>职&emsp;称：</label>
+                            <select name="jobTitle"
+                                    class="select-query f-jobTitle"
+                                    title=""
+                                    required=""
+                            >
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>学&emsp;历：</label>
+                            <select name="highDegree"
+                                    class="select-query f-highDegree"
+                                    title=""
+                                    required=""
+                            >
+                            </select>
+                        </li>
+                        <li class="">
+                            <label>身份证：</label>
+                            <input type="text"
+                                   name="idNumber"
+                                   class="query-input td-border f-idNumber"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="n-w-idNumber">
+                            <b class="form-warning">身份证号无效</b>
+                        </li>
+                        <li class="">
+                            <label>生&emsp;日：</label>
+                            <input type="date"
+                                   name="birthday"
+                                   class="query-input td-border f-birthday"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>邮&emsp;箱：</label>
+                            <input type="email"
+                                   name="email"
+                                   class="query-input td-border f-email"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>电&emsp;话：</label>
+                            <input type="tel"
+                                   name="phone"
+                                   class="query-input td-border f-phone"
+                                   title=""
+                                   required=""
+                                   pattern="^\d{11}$"
+                            />
+                        </li>
+                        <li class="">
+                            <label>&emsp;省&emsp;：</label>
+                            <select
+                                    name="province"
+                                    class="select-query f-province"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;市&emsp;：</label>
+                            <select
+                                    name="city"
+                                    class="select-query f-city"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>&emsp;区&emsp;：</label>
+                            <select
+                                    name="area"
+                                    class="select-query f-area"
+                                    title=""
+                                    required=""
+                            ></select>
+                        </li>
+                        <li class="">
+                            <label>街&emsp;道：</label>
+                            <input type="text"
+                                   name="addr"
+                                   class="query-input td-border f-addr"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                        <li class="">
+                            <label>老师介绍：</label>
+                            <input type="text"
+                                   name="teacherIntroduction"
+                                   class="query-input td-border f-teacherIntroduction"
+                                   title=""
+                                   required=""
+                            />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save" type="submit">保存</button>
+                <button class="grays b-close" type="reset">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop" id="f-user-review" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">用户审核</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body f-review-body">
+                <ul>
+                    <li>
+                        <label>角&emsp;色：</label>
+                        <select name=""
+                                class="select-query f-role"
+                                title=""
+                                readonly=""
+                                disabled=""
+                        >
+                            <option value="1">学生</option>
+                            <option value="2">教师</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>用户名：</label>
+                        <input type="text"
+                               name="username"
+                               class="query-input td-border f-username"
+                               title=""
+                               readonly=""
+                               disabled=""
+                        />
+                    </li>
+                    <li>
+                        <label>姓&emsp;名：</label>
+                        <input type="text"
+                               name="name"
+                               class="query-input td-border f-name"
+                               title=""
+                               readonly=""
+                               disabled=""
+                               pattern="^(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d])+$"
+                        />
+                    </li>
+                    <li>
+                        <label>班级名：</label>
+                        <input type="text"
+                               name="class"
+                               class="query-input td-border f-class"
+                               title=""
+                               readonly=""
+                               disabled=""
+                        />
+                    </li>
+                    <li>
+                        <label>年级名：</label>
+                        <input type="text"
+                               name="grade"
+                               class="query-input td-border f-grade"
+                               title=""
+                               readonly=""
+                               disabled=""
+                        />
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">通过</button>
+                <button class="red b-del">不通过</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-user-delete" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <b class="title-names left reds">您确定要删除以下用户吗?</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <div id="delete-user-name-list"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-user-reset" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">重置以下用户的密码为：123456</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <div id="user-reset-name-list"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="red b-save">重置</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-user-change-type-loading" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">修改用户类型</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li class="">
+                        <label>类&emsp;型：</label>
+                        <select name=""
+                                class="select-query f-role"
+                                title=""
+                        >
+                            <option value="1">学生</option>
+                            <option value="2">教师</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="red b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-user-change-type-student" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">请补全学生的用户信息</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li class="">
+                        <label>身份证：</label>
+                        <input type="text"
+                               name="idNumber"
+                               class="query-input td-border f-idNumber"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>学&emsp;号：</label>
+                        <input type="text"
+                               name="studentNo"
+                               class="query-input td-border f-studentNo"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>年级名：</label>
+                        <input type="text"
+                               name="gradeName"
+                               class="query-input td-border f-gradeName"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>班级名：</label>
+                        <input type="text"
+                               name="className"
+                               class="query-input td-border f-className"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>个性签名：</label>
+                        <input type="text"
+                               name="description"
+                               class="query-input td-border f-description"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="red b-save">保存</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="pop" id="f-user-change-type-teacher" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">请补全教师的用户信息</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li class="">
+                        <label>身份证：</label>
+                        <input type="text"
+                               name="idNumber"
+                               class="query-input td-border f-idNumber"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>职工号：</label>
+                        <input type="text"
+                               name="jobNum"
+                               class="query-input td-border f-jobNum"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                    <li class="">
+                        <label>职&emsp;称：</label>
+                        <select name="jobTitle"
+                                class="select-query f-jobTitle"
+                                title=""
+                                required=""
+                        >
+                        </select>
+                    </li>
+                    <li class="">
+                        <label>学&emsp;历：</label>
+                        <select name="highDegree"
+                                class="select-query f-highDegree"
+                                title=""
+                                required=""
+                        >
+                        </select>
+                    </li>
+                    <li class="">
+                        <label>老师介绍：</label>
+                        <input type="text"
+                               name="teacherIntroduction"
+                               class="query-input td-border f-teacherIntroduction"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="red b-save">保存</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop" id="f-user-change-role" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">修改用户角色</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li class="">
+                        <label>角&emsp;色：</label>
+                        <select name="role"
+                                class="select-query f-role"
+                                title=""
+                        >
+                            <option value="1">学生</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="red b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!--弹窗div-->
+</div>
+</body>
+</html>

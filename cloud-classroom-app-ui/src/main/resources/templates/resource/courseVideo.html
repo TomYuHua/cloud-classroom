@@ -1,0 +1,101 @@
+
+<!--course章节查询-->
+<div class="course">
+	<div class="crumbs">
+		<ul>
+		   <li><a href="javascript:sendId(0)">全部课程</a><i class="fa fa-angle-right mar10 grayss"></i></li>
+		   <div th:each="chapter:${headLineList}">
+		    <li>
+		    <a th:text="${chapter.name}" th:href="'javascript:sendId(\''+${chapter.id}+'\')'">章节1</a>
+		     <i class="fa fa-angle-right mar10 grayss"></i>
+		     </li>
+			</div>
+		</ul>
+	</div>
+
+	<div class="course-zj">
+		<ul>
+			<!--<li th:text="${chapterInfor.chpaterName}">章节1</li>-->
+			<div th:each="chapter:${chapterList}">
+				<div th:if="${chapter.id==chapterInfor.chooseId}">
+					<li class="crumbs-all">
+						<div th:if="${chapter.id==chapterInfor.upperChapterId}">
+							<b><a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="全部"></a></b>
+						</div>
+						<div th:if="${chapter.id!=chapterInfor.upperChapterId}">
+							<a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="${chapter.name}"></a>
+						</div>
+					</li>
+				</div>
+				<div th:if="${chapter.id!=chapterInfor.chooseId}">
+					<li>
+						<div th:if="${chapter.id==chapterInfor.upperChapterId}">
+							<b><a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="全部"></a></b>
+						</div>
+						<div th:if="${chapter.id!=chapterInfor.upperChapterId}">
+							<a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="${chapter.name}"></a>
+						</div>
+					</li>
+				</div>
+			</div>
+		</ul>
+	</div>
+</div>
+<!--course章节查询-->
+<!--tab-->
+<div class="tab" js-tab="1">
+	<div class="tab-title">
+		<div class="left tab-list">
+
+			<a href="javascript:makeTypes(1)" class="item item-cur">视频</a>
+			<a href="javascript:makeTypes(3)" class="item">电子书</a>
+			<input type="hidden" th:value="${chapterInfor.chooseId}" id="currentId"></input>
+		</div>
+		<div class="ranking right">
+
+
+			<ul>
+				<li>
+					<a href="javascript:makeOrder(1)">综合排序</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(2)">最新</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(3)">人气</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(4)">评分</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tab-cont" id="tab-cont">
+	<ul class="tab-cont__wrap">
+	<li class="item">
+		<div class="video-li">
+			<ul>
+				<li th:each="resources : ${resourcesList}">
+					<div class="image-video">
+						<a th:href="'javascript:checkPermissionA(\''+${resources.id}+'\')'">
+						   <img th:src="${resources.imgsrc}" />
+						</a>
+					</div>
+					<div class="name-video border-top">
+						<strong th:text="${resources.createauthor}">上传者</strong>
+						   ——<a th:href="'javascript:checkPermissionA(\''+${resources.id}+'\')'" th:text="${resources.name}"></a>
+						   <p th:text="${#strings.abbreviate(resources.describes,39)}">描述介绍</p>
+					</div>
+					<div class="score-video">
+						<span class="left" th:text="${resources.clickcount}+'次学习'">2556学习</span>		  
+					    <span class="right"><div th:if="${resources.scores==null}"><div th:text="暂未被评分">综合评分8.9</div></div><div th:if="${resources.scores!=null}"><div th:text="'综合评分:'+${resources.scores}">综合评分8.9</div></div></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</li>
+</ul>
+	</div>
+</div>
+<!--tab结束-->
+

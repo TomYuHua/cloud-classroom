@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.SchoolDao">
+<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.SchoolVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="clazzName" jdbcType="VARCHAR" property="clazzName"/>
+		<result column="schoolId" jdbcType="INTEGER"  property="schoolId" />
+		<result column="schoolName" jdbcType="INTEGER"  property="schoolName" />
+</resultMap>
+</mapper>	

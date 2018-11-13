@@ -1,0 +1,65 @@
+	<div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">
+        	<b>练习设置</b>
+        	<span class="text-info" th:text="'(共'+${totalNum}+'题,已做'+${finishedNum}+',未做'+${unfinishedNum}+')'">(共41题，已做0，未做41)</span>
+        </h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+			</div>
+			<div class="modal-body">
+				<div class="">
+					<label>分类:</label>
+					<div class="btn" data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="operationType" value="0" id="option1" autocomplete="off" checked="checked"/><a th:text="'未做题('+${unfinishedNum}+')'">未做题 (41)</a>
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="operationType" value="1" id="option2" autocomplete="off"/><a th:text="'已做题('+${finishedNum}+')'">已做题 (0)</a>
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="operationType" value="2" id="option3" autocomplete="off"/><a th:text="'错题('+${wrongNum}+')'"> 错题 (0)</a>
+  </label>
+					</div>
+				</div>
+             <input type="hidden" name="id" id="chapterId" th:value="${id}"/>
+				<div class="">
+					<label>题量:</label>
+					<div class="btn" data-toggle="buttons">
+				<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="number" value="10" id="option1" autocomplete="off" checked="checked"/> 10
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="number" value="20"  id="option2" autocomplete="off"/> 20
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="number" value="30" id="option3" autocomplete="off"/> 30
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="number" value="50"  id="option2" autocomplete="off"/> 50
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="number" value="80"  id="option3" autocomplete="off"/> 80
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="number" value="100" id="option3" autocomplete="off"/> 100
+  </label>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-info" >开始做题</button>
+			</div>
+<script>
+//$(".main-all").load("/chapter/selectChapters",{});
+//function mc(){
+//var a=	$("input[name='number']:checked").val();	
+//var b=	$("input[name='operationType']:checked").val();
+//var c=$("#chapterId").val();
+//$('#exampleModal').modal('hide')
+//$(".main-all").load("/question/getQuestions",{number:a,operationType:b,id:c});
+//$(".main-all").load("/clazz/getClazzLists");
+//}
+</script>

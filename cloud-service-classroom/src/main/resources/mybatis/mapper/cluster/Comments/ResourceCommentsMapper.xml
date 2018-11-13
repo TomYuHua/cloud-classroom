@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.CommentsDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.DTO.ResourceComentsVo">
+		<result column="id" jdbcType="INTEGER" property="id"/>	
+		<result column="userName" jdbcType="VARCHAR" property="userName"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="Content" jdbcType="VARCHAR" property="contents"/>
+		<result column="NickName" jdbcType="VARCHAR" property="nickName"/>
+		<result column="userType" jdbcType="INTEGER" property="userType"/>
+		<result column="sex" jdbcType="INTEGER" property="sex"/>
+		<result column="CreateTime" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="relationId" jdbcType="INTEGER" property="relationId"/>
+	</resultMap> 
+  
+	<select id="getTreeNode" resultMap="BaseResultMap">
+  select a.*,b.NickName,b.imgsrc,b.name from ResourceComments a left join user b on a.UserId=b.UserId  where a.ResourceId=#{id} and a.ParentId=0; 
+	</select>
+
+	<select id="queryTreeNode" resultMap="BaseResultMap">
+  select a.*,b.NickName,b.imgsrc,b.name from ResourceComments a left join user b on a.UserId=b.UserId  where a.ParentId=#{parentId};
+	</select>
+	
+<insert id="addComments" parameterType="cloud.entity.classroom.DTO.ResourceComentsVo" >
+ insert into ResourceComments
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	Content,
+	ResourceId,
+	CreateTime,
+			<if test="parentId!= null" >
+         ParentId,
+			</if>
+		    <if test="replyTo!= null and replyTo!=''" >
+          ReplyTo,
+			</if>
+		<if test="score!= null and score!=''" >
+          Score,
+			</if>
+       UserId
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	#{contents},
+	#{resourceId},
+	#{createTime},
+			<if test="parentId!= null"  >
+         #{parentId},
+			</if>
+      <if test="replyTo!= null and replyTo!=''" >
+          #{replyTo},
+			</if>
+		<if test="score!= null and score!=''" >
+          #{score},
+			</if>
+      #{userId}
+		</trim>
+	</insert>
+	
+	<select id="getAveScore" resultType="java.lang.Float">
+	select AVG(score) from ResourceComments where ResourceId=#{resourceId}; 
+	</select>
+	
+   <delete id="deleteComments">
+	delete from ResourceComments where Id=#{id}; 
+	</delete>
+	
+	
+</mapper>

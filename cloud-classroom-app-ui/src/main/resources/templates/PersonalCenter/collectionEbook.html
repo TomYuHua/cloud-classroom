@@ -1,0 +1,17 @@
+
+<div class="tablelist showdomdiv showsss study file-txt">
+         <ul>
+                 <li th:each="resources : ${list}">
+                                            <div class="txt-img left"><a th:href="@{'/getebookcontent/'+${resources.id}}"><img th:src="${resources.imgsrc}"/></a></div>
+                                            <div class="txt-content left">
+                                                <p><a th:text="${resources.name}" th:href="@{'/getebookcontent/'+${resources.id}}">速度与加速度</a></p>
+                                                <p th:text="${#dates.format(resources.createtime,'yyyy-mm-dd')} ">发布时间：2016-06-14</p>
+                                                <p  th:text="${resources.name}" class="gray">32人下载</p>
+                                                <p><a th:href="@{/resource/download}"><button name="下载" class="txt-btn left blue mar5x">下载</button></a>     
+                                                <a th:href="@{'/getebookcontent/'+${resources.id}}"><button name="查看" class="txt-btn right blue">查看</button></a>
+                                                </p>
+                                            </div>
+                                        </li>
+                                  </ul>
+                     </div>
+

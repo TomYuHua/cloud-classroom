@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.RolePrivilegeDao">
+
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.every.RolePrivilege">
+		<result column="ID" jdbcType="INTEGER" property="id"/>
+		<result column="RoleId" jdbcType="INTEGER" property="roleid"/>
+		<result column="PrivilegeId" jdbcType="INTEGER" property="privilegeid" />
+		<result column="CreateUserId" jdbcType="INTEGER" property="createuserid" />
+		<result column="CreateTime" jdbcType="DATE" property="createtime" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="cloud.entity.classroom.every.RolePrivilege">
+		insert into Role_Privilege (ID, RoleId, PrivilegeId, CreateUserId, CreateTime)
+		values (#{id,jdbcType=INTEGER}, 
+		#{roleid,jdbcType=INTEGER},
+		#{privilegeid,jdbcType=INTEGER},
+		#{createuserid,jdbcType=INTEGER}, #{createtime,jdbcType=DATE});
+	</insert>
+	
+	<update id="delete" parameterType="cloud.entity.classroom.every.RolePrivilege">
+		delete from Role_Privilege
+		where ID in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}</foreach>
+	</update>
+	
+	<select id="selectAll" resultMap="BaseResultMap">
+	    select ID, RoleId, PrivilegeId, CreateUserId, CreateTime
+		from Role_Privilege;
+	</select>
+	
+	<select id="selectPiece" resultMap="BaseResultMap">
+		select ID, RoleId, PrivilegeId, CreateUserId, CreateTime
+		from Role_Privilege
+		where RoleId=#{roleid};
+	</select>
+	
+</mapper>

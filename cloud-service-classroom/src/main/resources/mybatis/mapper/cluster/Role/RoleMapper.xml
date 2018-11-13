@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.RoleDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.every.Role">
+		<result column="RoleId" jdbcType="INTEGER" property="roleid" />
+		<result column="RoleName" jdbcType="VARCHAR" property="rolename" />
+		<result column="CreateTime" jdbcType="DATE" property="createtime" />
+		<result column="Describes" jdbcType="VARCHAR" property="describes" />	
+	</resultMap>
+	
+	<insert id="insert" parameterType="cloud.entity.classroom.every.Role">
+		insert into Role (RoleId, RoleName, CreateTime, Describes)
+		values (#{roleid,jdbcType=INTEGER}, 
+		#{rolename,jdbcType=VARCHAR},
+		#{createtime,jdbcType=DATE}, #{describes,jdbcType=VARBINARY});
+	</insert>
+	
+	<delete id="delete">
+		delete from Role
+		where RoleId in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}</foreach>
+	</delete>
+	
+	<update id="change" parameterType="cloud.entity.classroom.every.Role">
+	    update Role set
+	    Describes=#{describes}
+	    where RoleId=#{roleid};
+	</update>
+	
+	<select id="selectAll" resultMap="BaseResultMap">
+	    select RoleId, RoleName, CreateTime, Describes
+		from Role;
+	</select>
+	
+</mapper>

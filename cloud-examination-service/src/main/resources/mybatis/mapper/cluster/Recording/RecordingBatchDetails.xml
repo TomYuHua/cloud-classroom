@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.RecordingBatchDetailsDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_recordingBatch.RecordingBatchDetails">
+		<result column="id" jdbcType="INTEGER" property="id"/>
+		<result column="contents" jdbcType="VARCHAR" property="contents"/>
+		<result column="choiceA" jdbcType="VARCHAR" property="choiceA"/>
+		<result column="choiceB" jdbcType="VARCHAR" property="choiceB"/>
+		<result column="choiceC" jdbcType="VARCHAR" property="choiceC"/>
+		<result column="choiceD" jdbcType="VARCHAR" property="choiceD"/>
+		<result column="explains" jdbcType="VARCHAR" property="explains"/>
+		<result column="results" jdbcType="VARCHAR" property="results"/>
+		<result column="knowledgePoints" jdbcType="VARCHAR" property="knowledgePoints"/>
+		<result column="userId" jdbcType="INTEGER" property="userId"/>
+		<result column="chapterId" jdbcType="INTEGER" property="chapterId"/>
+		<result column="timesId" jdbcType="INTEGER" property="timesId"/>
+		<result column="isCorrect" jdbcType="INTEGER" property="isCorrect"/>
+	</resultMap>	
+	
+<select id="getDetails" resultMap="BaseResultMap">
+select a.isCorrect,a.inputAnswer,b.* from recording a left join Question b on a.questionId=b.id where a.timesId=#{timesId};
+</select>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

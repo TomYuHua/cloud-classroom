@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="tab">
+ <h3 class="active">教育</h3>
+<h3></h3>
+<h3></h3>
+<h3></h3>
+<div style="display:block"></div>
+<div></div>
+<div></div>
+</div>
+</body>
+
+
+<script language="JavaScript" type="text/javascript"></script>
+
+window.onload=function(){
+var oTab=document.getElementById("tab");
+var aH3=oTab.getElementsByTagName("h3");
+var aDiv=oTab.getElementByTagName("div");
+
+for(var i=0;i<aH3.length;i++){
+ aH3[i].index=i;
+ aH3[i].onclick=function(){
+ for(var i=0;i<aH3.length;i++){
+ aH3[i].className="";
+ aDiv[i].style.display="none";
+ }
+ this.className="active";
+ aDiv[i].style.display="block";
+
+}；
+}
+}；
+
+
+</script>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-首页</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}"/>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+<link rel="stylesheet" href="resources/static/css/menustyle.css" th:href="@{/css/menustyle.css}"  />
+        <script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+        <script type="text/javascript" src="/resources/static/js/main.js" th:src="@{/js/main.js}" ></script>
+        
+<script type="text/javascript">
+
+
+var loadlist = function()
+ {
+	 var loadLikeResource=function(m,n)
+	 {
+	       $.ajax({
+               type: "GET",
+               global: true,
+               url: '/selectYouLike',
+               data:{"m":m,"n":n},
+               dataType: "json",
+               async: true,
+               success: function (data) {
+            	 
+                   if (data == undefined || data == null) {
+                       return;
+                   } 
+                   $("#youlikeDiv").empty();
+                  /*  console.log(data); */
+                   
+                var arrydiv=new Array("");
+                arrydiv.push(" <ul>");
+               /*  console.log(data); */
+                $.each( data, function(index, content)
+                   	 {
+                	
+                   	   arrydiv.push(' <li> ');
+                   	   arrydiv.push(' <div class='image-video'>'); 
+                   	   arrydiv.push('  <a href='www.baidu.com'>'); 
+                   	  var imgpath=" <img  src="+content.imgsrc+"></img>  ";
+                   	   arrydiv.push( imgpath );
+                   	   arrydiv.push("  </a>");
+                   	   arrydiv.push(" </div>");
+                   	   arrydiv.push(' <div class='name-video border-top'>');
+                   	   arrydiv.push(' <strong>'+content.createauthor+'</strong>——'+content.describes);
+                   	   arrydiv.push(' </div>');
+                   	   arrydiv.push(' <div class='score-video'>');
+                   	   arrydiv.push(' <span class='left'>'+content.clickcount+' 次学习</span> <span class='right'>综合评分'+content.scores+'</span>');
+                   	   arrydiv.push(" </div>");
+                   	   arrydiv.push(" </li> "); 
+                   	 })
+                      arrydiv.push("</ul>");
+                      var lis=arrydiv.join(" ");
+                     /*  console.log(lis); */
+                      $("#youlikeDiv").append(lis);
+				  
+                 } 
+               }
+			  )
+     };
+		    
+	  
+	 var loadHotResource=function(m,n)
+	 {
+		 $.ajax({
+             type: "GET",
+             global: true,
+             url: '/selectLimit',
+             data:{"m":m,"n":n},
+             dataType: "json",
+             async: true,
+             success: function (data) {
+          	 
+                 if (data == undefined || data == null) {
+                     return;
+                 } 
+                 $("#hotDiv").empty(); 
+              var arrydiv=new Array("");
+              arrydiv.push(" <ul>");
+              /* console.log(data); */
+              $.each( data, function(index, content)
+                 	 {
+              	
+                 	   arrydiv.push(' <li> ');
+                 	   arrydiv.push(' <div class='image-video'>'); 
+                 	   arrydiv.push('  <a href='www.baidu.com'>'); 
+                 	   var imgpath=" <img  src="+content.imgsrc+"></img>  ";
+                 	   arrydiv.push( imgpath);
+                 	   arrydiv.push("  </a>");
+                 	   arrydiv.push(" </div>");
+                 	   arrydiv.push(' <div class='name-video border-top'>');
+                 	   arrydiv.push(' <strong>'+content.createauthor+'</strong>——'+content.describes);
+                 	   arrydiv.push(' </div>');
+                 	   arrydiv.push(' <div class='score-video'>');
+                 	   arrydiv.push(' <span class='left'>'+content.clickcount+' 次学习</span> <span class='right'>综合评分'+content.scores+'</span>');
+                 	   arrydiv.push(" </div>");
+                 	   arrydiv.push(" </li> "); 
+                 	 })
+                    arrydiv.push("</ul>");
+                    var lis=arrydiv.join(" ");
+                    /* console.log(lis); */
+                    $("#hotDiv").append(lis);
+				  
+               } 
+             }
+			  )
+	 };
+
+	 var loadFamousTeacher=function(m,n)
+	 {
+		 $.ajax({
+             type: "GET",
+             global: true,
+             url: '/userui/getFamousTeacher',
+             data:{"m":m,"n":n},
+             dataType: "json",
+             async: true,
+             success: function (data) {
+          	   alert(data);
+          /*  if (data == undefined || data == null) {
+                     return;
+                    } */
+              //   $("#famousTeacher").empty(); 
+             // var arrydiv=new Array("");
+   
+              /* console.log(data); */
+        /*      $.each(data, function(index, content)
+                 	 {
+              	     
+                       arrydiv.push(' <li> ');
+                 	   arrydiv.push(' <div class='teacher-tx'>'); 
+                 	   arrydiv.push('<a href='www.baidu.com'>'); 
+                 	   var imgpath="<img src="+content.imgSrc+"></img>";
+                 	   arrydiv.push(imgpath);
+                 	   arrydiv.push("  </a>");
+                 	   arrydiv.push(" </div>");
+                 	   arrydiv.push(' <div class='teacher-name'>');
+                 	   arrydiv.push(' <strong>'+content.teacher.name+'</strong>');
+                 	   arrydiv.push(' </div>');
+                 	   arrydiv.push(' <div class='teacher-resume'>');
+                 	   arrydiv.push(' <strong>'+content.teacher.teacherIntroduction+'</strong>');
+                 	   arrydiv.push(" </div>");         	
+                 	   arrydiv.push(" </li> "); 
+                 	 })
+        
+                    var lis=arrydiv.join(" ");
+                    /* console.log(lis); */
+                 //   $("#famousTeacher").append(lis);
+				  
+               } 
+             }
+			  )
+	 };
+	 
+	 return {
+         //加载物理机下面的虚拟机列表
+         loadLikeResource: function (m, n) {
+        	 loadLikeResource(m,n);
+             
+         } ,
+         loadHotResource: function (m, n) {
+        	 loadHotResource(m,n);
+             
+         },
+         loadFamousTeacher: function (m, n) {
+        	 loadFamousTeacher(m,n);
+             
+         }
+     };
+     
+ }();
+ 
+ function turnAnother(){
+	 alert("123");
+ }
+ 
+ loadlist.loadLikeResource(0,5);
+ loadlist.loadHotResource(0,5);
+// loadlist.loadFamousTeacher(0,5);
+
+ 
+
+$(document).ready(function(){
+	/* $subblock = $(".subpage"), $head=$subblock.find('h2'), */
+	var  $ul = $("#proinfo"), $lis = $ul.find("li"), inter=false;
+	 
+/* 	$head.click(function(e){
+		e.stopPropagation();
+		if(!inter){
+			$ul.show();
+		}else{
+			$ul.hide();
+		}
+		inter=!inter;
+	}); */
+	
+	$ul.click(function(event){
+		event.stopPropagation();
+	});
+	
+	/* $(document).click(function(){
+		$ul.hide();
+		inter=!inter;
+	}); */
+
+	$lis.hover(function(){
+	 
+		if(!$(this).hasClass('nochild')){
+			 
+			console.log($(this));
+			$(this).addClass("prosahover");
+			$(this).find(".prosmore").removeClass('hide');
+		}
+	},function(){
+		if(!$(this).hasClass('nochild')){
+			if($(this).hasClass("prosahover")){
+				$(this).removeClass("prosahover");
+			}
+			$(this).find(".prosmore").addClass('hide');
+		}
+	});
+})
+
+	$(document).ready(function() {
+		var ali = $('#lunbonum li');
+		var aPage = $('#lunhuanback p');
+		var aslide_img = $('.lunhuancenter b');
+		var iNow = 0;
+
+		ali.each(function(banner) {
+			$(this).mouseover(function() {
+				slide(banner);
+			})
+		});
+
+		function slide(banner) {
+			iNow = banner;
+			ali.eq(banner).addClass('lunboone').siblings().removeClass();
+			aPage.eq(banner).siblings().stop().animate({
+				opacity : 0
+			}, 600);
+			aPage.eq(banner).stop().animate({
+				opacity : 1
+			}, 600);
+			aslide_img.eq(banner).stop().animate({
+				opacity : 1,
+				top : -10
+			}, 600).siblings('b').stop().animate({
+				opacity : 0,
+				top : -40
+			}, 600);
+		}
+
+		function autoRun() {
+			iNow++;
+			if (iNow == ali.length) {
+				iNow = 0;
+			}
+			slide(iNow);
+		}
+
+		var timer = setInterval(autoRun, 2000);
+
+		ali.hover(function() {
+			clearInterval(timer);
+		}, function() {
+			timer = setInterval(autoRun, 2000);
+		});
+	})
+</script>
+</head>
+<body>
+	<!-- 主题框架 -->
+	<div class="main-container">
+		<!--haeder开始-->
+		<div class="haeder">
+			<!--top-->
+			<div class="top">
+				<div class="logo"></div>
+				<div class="top-right">
+					<div class="search">
+						<form action="" method="get">
+							<div class="kuan">
+								<input name="搜索框" type="text" />
+							</div>
+							<!--搜索框-->
+							<button class="search-bto bto-text">搜索</button>
+						</form>
+					</div>
+
+					<div id="main">
+						<!--登陆注册链接-->
+						<div class="demo">
+							<nav class="main_nav">
+								<ul>
+									<li><a class="cd-signin" href="#0">登录</a></li>
+									<li><a class="cd-signup" href="#0">注册</a></li>
+								</ul>
+							</nav>
+						</div>
+						<!--登陆注册链接-->
+
+						<div class="cd-user-modal">
+							<div class="cd-user-modal-container">
+
+								<div id="cd-login">
+									<!-- 登录表单 -->
+									<div class="user-tx">
+										<img th:src="@{/resources/static/img/user-tx.jpg}"></img>
+									</div>
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username"
+												for="signin-username">用户名</label> <input
+												class="full-width has-padding has-border"
+												id="signin-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password"
+												for="signin-password">密码</label> <input
+												class="full-width has-padding has-border"
+												id="signin-password" type="text" placeholder="输入密码"></input>
+										</p>
+
+										<p class="fieldset">
+											<input type="checkbox" id="remember-me" checked="checked"></input>
+											<label for="remember-me">记住登录状态</label>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="登 录"></input>
+										</p>
+									</form>
+								</div>
+								<!-- 登录表单 -->
+								<div id="cd-signup">
+									<!-- 注册表单 -->
+									<h1 class="user-zc">用户注册</h1>
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username"
+												for="signup-username">用户名</label> <input
+												class="full-width has-padding has-border"
+												id="signup-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password"
+												for="signup-password">短信验证码</label> <input
+												class="message has-padding has-border" id="signup-email"
+												type="email" placeholder="输入短信验证码"></input>
+											<button class="message-again ">重新发送</button>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="注册新用户"></input>
+										</p>
+									</form>
+								</div>
+								<a href="#0" class="cd-close-form">关闭</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--top-->
+
+			<div class="hc_lnav jslist">
+			 <div class="nav-box">
+				<div class="allbtn"  >
+					<h2>
+						<span class="menue-icon"></span><a href="#">全部课程类</a>
+					</h2>
+					 
+					
+					
+					<ul class="prosul clearfix" id="proinfo" >
+							<li class="food" th:each="list : ${result} ">
+								<!-- <i>&gt;</i>  -->
+								<a class="ti" th:href="@{/allchapter(id=${list.chapterdirectories.directoriesid})}"  th:text="${list.chapterdirectories.name}" >默认第一级</a>
+								<a class="hot"  th:href="@{/currentchapter(pid=${list.hot.parentid},currentid=${list.hot.directoriesid})}"    th:text="${list.hot}!=null ? ${list.hot.name} :'' " >地方菜</a>
+							    <div class="prosmore hide">
+									<span><em><a href="#">全部</a></em></span>
+									<span th:each="two : ${list.listChapter}">
+									  <em class="morehot" >
+									     <a class="morehot" th:href="@{/currentchapter(pid=${two.parentid},currentid=${two.directoriesid}}" th:text="${two.name}">火锅(17)</a>
+									  </em>  
+									</span>
+								</div>	 
+							</li>
+					</ul>
+						
+				</div>
+				
+				<!--home-->
+				<div class="home">
+					<span class="home-icon"></span><a href="index.html">首页</a>
+				</div>
+				</div>
+			</div>
+
+			<!--banner-->
+			<div class="banner">
+				<!--js滚动效果-->
+				<div class="banner-js right">
+					<div id="lunhuanback">
+						<p style='background-image: url(img/banner.jpg); opacity: 1; filter: alpha(opacity = 100);'></p>
+						<p style='background-image: url(img/banner.jpg)'></p>
+						<p style='background-image: url(img/banner.jpg)'></p>
+						<p style='background-image: url(img/banner.jpg)'></p>
+						<p style='background-image: url(img/banner.jpg)'></p>
+					</div>
+					<div class="lunhuan_main">
+						<!-- 轮换中间区域 -->
+						<div class="lunhuancenter">
+							<ul id='lunbonum'>
+								<li class='lunboone'></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+							</ul>
+							<!-- 轮播的页码  结束 -->
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!--header结束-->
+		<!--panel面板开始-->
+		<div class="panel">
+			<!--猜你喜欢开始-->
+			<div class="youlike">
+				<div class="title">
+					<div class="title-name left">
+						<span class="dot left"></span>
+						<h3>猜你喜欢</h3>
+					</div>
+					<span class="refresh right"><a onclick="javascript:turnAnother()">换一批</a></span>
+				</div>
+				<div class="video-li" id="youlikeDiv">
+					<ul id="youlikeul">
+						 
+					</ul>
+				</div>
+			</div>
+			<!--猜你喜欢结束-->
+			<!--热门课程开始-->
+			<div class="hotclass">
+				<div class="title">
+					<div class="title-name left">
+						<span class="dot left"></span>
+						<h3>热门课程</h3>
+					</div>
+					<span class="refresh right"><a href="#">换一批</a></span>
+				</div>
+				<div class="video-li" id="hotDiv">
+					<ul id="hotUl">
+						 
+					</ul>
+				</div>
+			</div>
+			<!--热门课程结束-->
+			<!--精英名师推荐开始-->
+			<div class="teacher-tuj">
+				<div class="title">
+					<div class="title-name left">
+						<span class="dot left"></span>
+						<h3>精英名师推荐</h3>
+					</div>
+					<!--<span class="refresh right"><a href="#">换一批</a></span>-->
+				</div>
+				<div class="teacher-li" id="famousTeacher">
+					<ul>
+					</ul>
+				</div>
+			</div>
+			<!--精英名师推荐结束-->
+		</div>
+		<!--panel面板结束-->
+		<!--footer开始-->
+		
+		 
+		<!--  <div th:insert="~{footer::copy}">&copy; 2011 </div> -->
+	  <div th:include="footer :: footers"> 
+	  
+	  </div>
+		<!--footer结束-->
+	</div>
+	<!-- 主题框架 -->
+
+</body>
+<!--banner-->
+
+
+</html>

@@ -1,0 +1,188 @@
+﻿
+@charset "utf-8";
+
+/* hc_lnav */
+.hc_lnav{
+	z-index:10;
+	width:100%;
+	height: 40px;
+	background-color: #f1f1f1;
+	border-bottom: 1px solid #CCCCCC;
+	box-shadow: 0 1px 2px #CCCCCC;
+	}
+.hc_lnav .allbtn{
+	z-index:11;
+	position:relative;
+	width: 230px;
+	float: left;
+	}
+.hc_lnav .allbtn h2 a{
+	background-color:#F1F1F1;
+	line-height: 40px;
+	width:230px;
+	display:block;
+	height:40px;
+	font-size:15px;
+	font-weight:normal;
+	border-right: 1px solid #cccccc;
+	}
+.hc_lnav .allbtn h2 a:hover{
+	background-color:#F5F5F5;
+	text-decoration:none;
+	}
+/*一级导航隐藏*/
+.hc_lnav .allbtn ul{
+	z-index:12;
+	position:absolute;
+	background-color:#578CCC;
+	width:230px;
+	height:403px;
+	top:40px;
+	left:0px;
+	padding-top:2px ;
+	}
+.jspop{
+	display:none;
+}
+body.hc_home .hc_lnav .allbtn ul{display:block}
+body.hc_list .hc_lnav .allbtn ul{display:block}
+.hc_lnav .allbtn ul li{
+	padding-bottom:7px;
+	zoom:1;
+	clear:both;
+	cursor:default;
+	}
+.hc_lnav .allbtn ul li .tx{
+	background-color:#578CCC;
+	text-indent: 30px;
+	background-repeat:no-repeat;
+	background-position:right center;
+	height:43px;
+	line-height: 43px;
+	}
+.hc_lnav .allbtn ul li .tx a{
+	color:#ffffff;
+	font-size:14px;
+	-webkit-transition:color 0.1s ease-out 0s;
+	-moz-transition:color 0.1s ease-out 0s;
+	-ms-transition:color 0.1s ease-out 0s;
+	-o-transition:color 0.1s ease-out 0s;
+	transition:color 0.1s ease-out 0s;
+	}
+.hc_lnav .allbtn ul li dl{
+	zoom:1;
+	color:#ffffff;
+	clear:both;
+	overflow:auto;
+	padding-top:4px;
+	}
+.hc_lnav .allbtn ul li dl a{
+	line-height:22px;
+	white-space:nowrap;
+	float:left;
+	color:#d9e7ce;
+	margin-left:6px;
+	margin-right:6px;
+	-webkit-transition:color 0.1s ease-out 0s;
+	-moz-transition:color 0.1s ease-out 0s;
+	-ms-transition:color 0.1s ease-out 0s;
+	-o-transition:color 0.1s ease-out 0s;
+	transition:color 0.1s ease-out 0s;
+	}
+.hc_lnav .allbtn ul li dt{
+	padding-left:10px;
+	float:left;
+	padding-top:1px;
+	}
+.hc_lnav .allbtn ul li dd{
+	line-height:22px;
+	width:150px;
+	float:left;
+	padding-top:2px;
+	}
+/*二级导航隐藏*/
+.hc_lnav .allbtn ul li .pop{
+	border-bottom:#0F51B2 2px solid;
+	position:absolute;
+	border-left:medium none;
+	padding-bottom:10px;
+	background-color:#010409;
+	filter:alpha(opacity=80);  
+    -moz-opacity:0.8;  
+    -khtml-opacity: 0.8;  
+    opacity: 0.8; 
+	padding-left:30px;
+	width:1075px;
+	padding-right:30px;
+	display:none;
+	height:386px;
+	border-top:medium none;
+	top:0px;
+	border-right:#0F51B2 2px solid;
+	padding-top:10px;
+	left:230px;
+	box-shadow:4px 4px 5px -1px #999999;
+	-webkit-box-shadow:4px 4px 5px -1px #999999;
+	-moz-box-shadow:4px 4px 5px -1px #999999;
+	}
+.hc_lnav .allbtn ul li .pop h3{display:none;font-size:14px}
+.hc_lnav .allbtn ul li .pop dl{
+	padding-bottom:6px;
+	color:#fff;
+	padding-top:6px;
+	}
+.hc_lnav .allbtn ul li .pop dl:hover{background-color:#556866;}
+.hc_lnav .allbtn ul li .pop dl a{
+	color:#fff;
+	margin-left:12px;
+	margin-right:12px;
+	}
+.hc_lnav .allbtn ul li .pop dl a.un{color:#a5a5a5}
+.hc_lnav .allbtn ul li .pop dt{
+	padding-left:0px;
+	margin-right: 20px;
+	font-weight: bold;
+	}
+.hc_lnav .allbtn ul li .pop dd{
+	width:850px;
+	margin-left:-12px;
+	}
+/*控制一级菜单显示隐藏*/
+.hc_lnav .allbtn:hover ul{display:block;}
+.hc_lnav .allbtn ul li:hover{background-color:#fff;}
+.hc_lnav .allbtn ul li:hover .tx{background-color:#f5f5f5}
+.hc_lnav .allbtn ul li:hover .tx a{color:#555;}
+/*控制二级菜单显示隐藏*/
+.hc_lnav .allbtn ul li:hover .pop{
+	display:block;
+	top:0px;
+	left:230px;
+	}
+.hc_lnav .allbtn ul li:hover .pop dl a.un{
+	color:#a5a5a5;
+	text-decoration:none;
+	}
+.hc_lnav .allbtn ul li:hover dl{color:#50C9BC}
+.hc_lnav .allbtn ul li:hover a{color:#50C9BC}
+.hc_lnav .allbtn ul li:hover a:hover{color:#50C9BC;}
+.home a:hover{
+	color: #50C9BC;
+}
+.home-icon{
+	background:url(../img/home.png) no-repeat ;
+	width: 19px;
+	height: 17px;
+	display: block;
+	float: left;
+	margin: 12px;
+}
+.home{
+	font-size: 15px;
+	width:100px ;
+	margin-left: 10px;
+	height: 100%;
+	line-height: 40px;
+	float: left;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+}

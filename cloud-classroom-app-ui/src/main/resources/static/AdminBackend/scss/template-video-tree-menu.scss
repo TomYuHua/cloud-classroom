@@ -1,0 +1,57 @@
+
+.bra-list {
+    width: 15%;
+    border: 1px solid #ececec;
+    height: 700px;
+    background-color: #F8F8F8;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.bra-list ul.level-0 {
+    overflow: hidden;
+}
+
+.bra-list ul.level-0 li {
+    line-height: 40px;
+    border-bottom: 1px solid #ececec;
+    text-indent: 20px;
+}
+
+.bra-list ul.level-1 {
+    background-color: #FFFFFF;
+    border-top: 1px solid #ececec;
+}
+
+.bra-list ul.level-0 li {
+    border: none;
+    text-indent: 30px;
+}
+
+//.bra-list ul.level-2 {
+//    border: none;
+//}
+//
+//.bra-list ul.level-2 li {
+//    border: none;
+//    text-indent: 45px;
+//}
+//
+//.bra-list ul.level-3 {
+//    border: none;
+//}
+//
+//.bra-list ul.level-3 li {
+//    border: none;
+//    text-indent: 60px;
+//}
+
+@for $i from 1 to 50 {
+    .bra-list ul.level-#{$i+1} {
+        border: none;
+    }
+    .bra-list ul.level-#{$i+1} li {
+        border: none;
+        text-indent: #{$i*15+30}px;
+    }
+}

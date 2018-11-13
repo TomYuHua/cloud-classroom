@@ -1,0 +1,39 @@
+ <!--saidpanel-->
+	       <!-- <div class="saidpanel">-->
+	        	 <div class="order_details">
+	        	<input type="hidden" value="1" id="type"></input> 
+	             <ul>
+	            <li class="fortab checked" onclick="javascript:changeType(1)">视频</li>
+	              <li class="fortab" onclick="javascript:changeType(3)">文档</li>
+	             </ul>
+	             </div>
+	        <div class="details" id="details"></div>
+          <!--   </div>-->
+<!--主题框架-->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	// 改为鼠标移上的事件只需把click改为mousemove
+ $(".fortab").click(function(){
+ 	var number=$(".fortab").index(this);
+ 	$(this).addClass("checked");
+   $(this).siblings().removeClass("checked");
+ });
+});
+$(document).ready(function(){         
+	$("#details").load('/personalcenter/getPersonlCourse',{types:1});
+});
+function changeType(a){
+	
+	var type=a;
+	var viewType=$("#type").val();
+	if(type==viewType){
+		return;
+	}else{
+		  document.getElementById("type").value =type;
+		                               
+		$("#details").load('/personalcenter/getPersonlCourse',{types:type});	
+	}
+} 
+</script>
+

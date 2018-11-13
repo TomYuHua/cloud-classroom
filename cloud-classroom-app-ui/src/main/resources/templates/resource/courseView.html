@@ -1,0 +1,119 @@
+
+<!--course章节查询-->
+<div class="course">
+	<div class="crumbs">
+		<ul>
+			   <li><a href="javascript:sendId(0)">全部课程</a><i class="fa fa-angle-right mar10 grayss"></i></li>
+		   <div th:each="chapter:${headLineList}">
+		    <li>
+		    <a th:text="${chapter.name}" th:href="'javascript:sendId(\''+${chapter.id}+'\')'">章节1</a>
+		     <i class="fa fa-angle-right mar10 grayss"></i>
+		     </li>
+			</div>
+		</ul>
+	</div>
+
+	<div class="course-zj">
+		<ul>
+			<!--<li th:text="${chapterInfor.chpaterName}">章节1：</li>-->
+			<div th:each="chapter:${chapterList}">
+				<div th:if="${chapter.id==chapterInfor.chooseId}">
+					<li class="crumbs-all">
+						<div th:if="${chapter.id==chapterInfor.upperChapterId}">
+							<b><a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="全部">系统组成及介绍</a></b>
+						</div>
+						<div th:if="${chapter.id!=chapterInfor.upperChapterId}">
+							<a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="${chapter.name}">系统组成及介绍</a>
+						</div>
+					</li>
+				</div>
+				<div th:if="${chapter.id!=chapterInfor.chooseId}">
+					<li>
+						<div th:if="${chapter.id==chapterInfor.upperChapterId}">
+							<b><a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="全部">系统组成及介绍</a></b>
+						</div>
+						<div th:if="${chapter.id!=chapterInfor.upperChapterId}">
+							<a th:onclick="'javascript:sendId(\''+${chapter.id}+'\')'" th:text="${chapter.name}">系统组成及介绍</a>
+						</div>
+					</li>
+				</div>
+			</div>
+		</ul>
+	</div>
+</div>
+<!--course章节查询-->
+<!--tab-->
+<div class="tab" js-tab="1">
+	<div class="tab-title">
+		<div class="left tab-list">
+
+			<a href="javascript:makeTypes(1)" class="item">视频</a>
+			<a href="javascript:makeTypes(3)" class="item item-cur">电子书</a>
+			<input type="hidden" th:value="${chapterInfor.chooseId}" id="currentId"></input>
+		</div>
+		<div class="ranking right">
+
+
+			<ul>
+				<li>
+					<a href="javascript:makeOrder(1)">综合排序</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(2)">最新</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(3)">人气</a>
+				</li>
+				<li>
+					<a href="javascript:makeOrder(4)">评分</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tab-cont" id="tab-cont">
+	<ul class="tab-cont__wrap">
+	<li class="item">
+		<div class="file">
+			<div class="file-icon">
+				<ul>
+				   <li><a href="#" title="全部"><i class="fa fa-th-large size-2X"></i></a></li>
+                   <li><a href="#" title="doc"><i class="fa fa-file-word-o size-2X"></i></a></li>
+                   <li><a href="#" title="txt"><i class="fa fa-file-text-o size-2X"></i></a></li>
+                   <li><a href="#" title="ppt"><i class="fa fa-file-powerpoint-o size-2X"></i></a></li>
+                   <li><a href="#" title="pdf"><i class="fa fa-file-pdf-o size-2X"></i></a></li>
+                   <li><a href="#" title="html"><i class="fa fa-file-code-o size-2X"></i></a></li>
+                   <li><a href="#" title="zip"><i class="fa fa-file-archive-o size-2X"></i></a></li>
+				</ul>
+			</div>
+			<div class="file-txt">
+				<ul>
+					<li th:each="resources : ${resourcesList}">
+						<div class="txt-img left">
+							<a th:href="'javascript:checkPermissionB(\''+${resources.id}+'\')'">
+								<img th:src="${resources.imgsrc}"/>
+							</a>
+						</div>
+						<div class="txt-content left">
+							<p>
+								<a th:text="${resources.name}" th:href="'javascript:checkPermissionB(\''+${resources.id}+'\')'">速度与加速度</a>
+							</p>
+							<p>发布时间：2016-06-14</p>
+							<p th:text="${resources.name}" class="gray">32人下载</p>
+							<a th:href="@{/resource/download}">
+							   <button class="txt-btn left blue" name="下载">下载</button>
+							</a>
+							<a th:href="'javascript:checkPermissionB(\''+${resources.id}+'\')'">
+							   <button name="查看" class="txt-btn right blue">查看</button>
+							</a>
+						</div>
+					</li>
+					<input type="hidden" id="types" value="1"></input>
+				</ul>
+			</div>
+		</div>
+	</li>
+</ul>
+	</div>
+</div>
+<!--tab结束-->
+

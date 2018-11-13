@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.UserDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.UserVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="userType" jdbcType="INTEGER" property="userType" />
+		<result column="Sex" jdbcType="INTEGER" property="sex" />
+		<result column="relationId" jdbcType="INTEGER" property="relationId" />
+	</resultMap>
+	
+	<update id="updateUser" parameterType="com.singFly.cloud_examination_DTO.UserVo">
+		update User set
+		userType=#{userType},sex=#{sex}
+		where id=#{id};
+	</update>
+   
+   
+  <insert id="addUser" parameterType="com.singFly.cloud_examination_DTO.UserVo" >
+        insert into User
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="userName!= null and userName=''" >
+         userName,
+	    </if>
+		<if test="userType!= null and userType!=''" >
+         userType,
+	     </if>
+		<if test="sex!= null and sex!=''" >
+          sex,
+		</if>
+         <if test="relationId!= null and relationId!=''" >
+          relationId
+	     </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	    <if test="userName!= null and userName=''" >
+         #{userName},
+	    </if>
+		<if test="userType!= null and userType!=''" >
+         #{userType},
+	     </if>
+		<if test="sex!= null and sex!=''" >
+          #{sex},
+		</if>
+         <if test="relationId!= null and relationId!=''" >
+          #{relationId}
+	     </if>
+		</trim>
+	</insert>
+	
+<delete id="deleteUser" parameterType="int">
+delete from User where id =#{id}; 
+</delete>
+
+<select id="getUser" resultMap="BaseResultMap">
+		select * from User where id=#{id};
+</select>
+
+<select id="getUserByUserName" resultMap="BaseResultMap">
+		select * from user where userName=#{userName};
+</select>
+
+	<update id="resetPassWord" parameterType="com.singFly.cloud_examination_DTO.UserVo">
+		update user set passWord=#{inputPassWord} where userName=#{userName};
+	</update>
+</mapper>

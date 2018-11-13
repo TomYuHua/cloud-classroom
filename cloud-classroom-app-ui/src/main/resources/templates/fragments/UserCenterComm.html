@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+
+<title>用户中心</title>
+<link rel="stylesheet" href="/css/css.css" th:href="@{/css/css.css}" />
+<!-- <link rel="stylesheet" type="text/css" href="/css/nav-list.css" th:href="@{/css/nav-list.css}" /> -->
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+
+
+</head>
+<body>
+	<!--普通用户头部-->
+	<div class="ordinary">
+		<!--top-->
+		<div class="top-box">
+			<div class="logo saidnav-logo">
+			     <a th:href="@{/}">
+					<img alt="" src="../img/logo-index.png" />
+			     </a>
+			</div>
+			<div class="top-right">
+				<!--登陆注册链接-->
+                 <div id="main">
+						<div th:if="${user==null}" class="main_nav">
+							<ul>
+								<li>
+									<a class="cd-signin" th:href="@{/userui/loginPage}">登录</a>
+								</li>
+								<li>
+									<a class="cd-signup" th:href="@{/userui/registpage}">注册</a>
+								</li>
+							</ul>
+						</div>
+
+						<div th:if="${user!=null}" class="menuitem right">
+							<a th:href="@{/personal}" target="_blank" >
+							<i class="users-pic left">
+						    <div  th:if="${user.imgSrc}!=null"><img th:src="${user.imgSrc}"></img></div>
+							<div  th:if="${user.imgSrc}==null"><img src="../img/user-pic.png"></img></div>
+							</i>
+							</a>
+							<span class="menuitem-name">
+								<a th:href="@{/personal}" target="_blank">
+									<i class="fa fa-sort-desc size-2X mar10" th:text="${user.nickName}==null?(${user.Email}==null?用户:${user.Email}):${user.nickName}"></i>
+								</a>
+							</span>
+						 
+							<ul class="submenuitem">
+								<li>
+									<a th:href="@{'/userui/ChangePassWord/'+${user.userName}}" target="_blank">
+										<i class="fa fa-lock mar5"></i>
+										修改密码
+									</a>
+								</li>
+								<li>
+									<a th:href="@{/userui/logout}">
+										<i class="fa fa-sign-out mar5"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</div>
+						<!--登陆注册链接-->
+						<div class="cd-user-modal">
+							<div class="cd-user-modal-container">
+								<div id="cd-login">
+									<!-- 登录表单 -->
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username" for="signin-username">用户名</label>
+											<input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password" for="signin-password">密码</label>
+											<input class="full-width has-padding has-border" id="signin-password" type="text" placeholder="输入密码"></input>
+										</p>
+
+										<p class="fieldset">
+											<input type="checkbox" id="remember-me" checked="checked"></input>
+											<label for="remember-me">记住登录状态</label>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="登 录"></input>
+										</p>
+									</form>
+								</div>
+								<!-- 登录表单 -->
+								<div id="cd-signup">
+									<!-- 注册表单 -->
+									<h1 class="user-zc">用户注册</h1>
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username" for="signup-username">用户名</label>
+											<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password" for="signup-password">短信验证码</label>
+											<input class="message has-padding has-border" id="signup-email" type="email" placeholder="输入短信验证码"></input>
+											<button class="message-again ">重新发送</button>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="注册新用户"></input>
+										</p>
+									</form>
+								</div>
+								<a href="#0" class="cd-close-form">关闭</a>
+							</div>
+						</div>
+					</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+	<!--panel面板开始-->
+	<div th:include="this :: content"></div>
+	<!--panel面板结束-->
+
+
+	<!--footer开始-->
+	<!--<div class="footer ordinary-footer">
+		<p>© 2017 Singfly. All Rights Reserved.</p>
+		<p>广州市鑫广飞信息科技有限公司 版权所有 | 鑫广飞无人机课堂应用平台 | 站点地图 | 侵权投诉 | 帮助</p>
+	</div>-->
+	<!--footer结束-->
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			// 改为鼠标移上的事件只需把click改为mousemove
+			$(".fortab").click(function()
+			{
+				var number = $(".fortab").index(this);
+				$(this).addClass("checked");
+				$(this).siblings().removeClass("checked");
+				$(".tablelist:eq(" + number + ")").show();
+				$(".tablelist:eq(" + number + ")").siblings().hide();
+			});
+		});
+	</script>
+</body>
+
+</html>

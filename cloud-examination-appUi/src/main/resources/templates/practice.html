@@ -1,0 +1,46 @@
+<script th:inline="javascript">
+function checkExplains(a,b,c,d,e)
+{   
+
+	$(".main-all").load("/recording/practiceSee",{timesId:a,rightNum:b,wrongNum:c,unFinishedNum:d,scores:e});
+	
+}
+</script>
+
+		<div class="card">
+		     <!--<div class="card-header bg-info text-white">章节练习记录</div>-->
+		        <div class="card-body">
+		     	     <table class="table table-hover">
+		     	     	<thead class="thead-light">
+							<tr>
+								<th scope="col">名称</th>
+								<th scope="col">练习时间</th>
+								<!--<th scope="col">练习时长</th> -->
+								<th scope="col">答题情况</th>
+								<th scope="col">得分</th>
+								<th scope="col">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="recordingBatch: ${lists}">
+								<td scope="row" th:text="${recordingBatch.chapterName}">章节随机：飞行原理与性能</td>
+								<td th:text="${#dates.format(recordingBatch.practiseTime,'yyyy-MM-dd HH:mm:ss')}">2017-12-15 11:06:23</td>
+								<!--<td th:text="${recordingBatch.chapterName}">25秒</td>-->
+								<td th:text="'对'+${recordingBatch.rightNum}+'错'+${recordingBatch.wrongNum}+'未做完'+${recordingBatch.unfinishedNum}+'总'+${recordingBatch.totalNum}">对7错2未做完1总10</td>
+								<td th:text="${recordingBatch.score}">73</td>
+								<td>
+									<a class="btn btn-info btn-sm" th:href="'javascript:checkExplains(\''+${recordingBatch.timesId}+'\',\''+${recordingBatch.rightNum}+'\',\''+${recordingBatch.wrongNum}+'\',\''+${recordingBatch.unfinishedNum}+'\',\''+${recordingBatch.score}+'\')'" role="button">查看</a>
+								</td>
+							</tr>			
+						</tbody>
+		     	     </table>
+		        </div>
+		</div>
+
+	
+
+
+
+	
+
+

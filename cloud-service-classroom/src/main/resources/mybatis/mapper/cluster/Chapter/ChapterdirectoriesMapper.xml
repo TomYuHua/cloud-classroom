@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.ChapterdirectoriesDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.Chapter.Chapterdirectories">
+		<result column="DirectoriesId" jdbcType="INTEGER" property="directoriesid" />
+		<result column="ParentId" jdbcType="INTEGER" property="parentid" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="Types" jdbcType="INTEGER" property="types" />
+		<result column="Icon" jdbcType="VARCHAR" property="icon" />
+		<result column="IsTextbook" jdbcType="BIT" property="istextbook" />
+		<result column="IsOpen" jdbcType="BIT" property="isopen" />
+	</resultMap>
+	<insert id="insert" parameterType="cloud.entity.classroom.Chapter.Chapterdirectories">
+		insert into ChapterDirectories (DirectoriesId, ParentId, name,
+		Types, Icon, IsTextbook
+		)
+		values (#{directoriesid,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{types,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{istextbook,jdbcType=BIT}
+		)
+	</insert>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select DirectoriesId, ParentId, name, Types, Icon, IsTextbook
+		from ChapterDirectories
+	</select>
+	
+	<select id="SelectTwoLevelChapterInfo" resultMap="BaseResultMap">
+		select * from ChapterDirectories where FIND_IN_SET(DirectoriesId,getTwoChildList(0));
+	</select>
+	<select id="SelectChapterInfo" resultMap="BaseResultMap">
+		select * from ChapterDirectories where FIND_IN_SET(DirectoriesId,getChildList(#{parentId,jdbcType=BIGINT}));
+	</select>
+
+</mapper>

@@ -1,0 +1,20 @@
+		<div class="left score" th:if="${isMakeScores}==false">
+														评分：
+													<a href="javascript:clickScore(1)">
+															<img th:src="@{/img/star.png}" id="star1" onMouseOver="over(1)" onMouseOut="out(1)" />
+														</a>
+														<a href="javascript:clickScore(2)">
+															<img th:src="@{/img/star.png}"  id="star2" onMouseOver="over(2)" onMouseOut="out(2)" />
+														</a>
+														<a href="javascript:clickScore(3)">
+															<img th:src="@{/img/star.png}"  id="star3" onMouseOver="over(3)" onMouseOut="out(3)" />
+														</a>
+														<a href="javascript:clickScore(4)">
+															<img th:src="@{/img/star.png}"  id="star4" onMouseOver="over(4)" onMouseOut="out(4)" />
+														</a>
+														<a href="javascript:clickScore(5)">
+															<img th:src="@{/img/star.png}"  id="star5" onMouseOver="over(5)" onMouseOut="out(5)" />
+														</a>
+														<span id="message"></span>
+													</div>
+												<input class="send right blue" type="button"  value="发表评论" onclick="javascript:addComments()" />

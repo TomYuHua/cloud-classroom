@@ -1,0 +1,35 @@
+/*ztree-video-tree-menu container and patch*/
+@import "patch-for-ztree-common";
+
+@include common_patch(tree-container, ztree-video-tree-menu);
+
+.tree-container {
+    display: inline-block;
+    width: 15%;
+    .adding-root {
+        cursor: pointer;
+        border: 1px dashed #CCCCCC;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px;
+        width: 100%;
+        color: #555;
+        line-height: 20px;
+        background: #FFFFFF;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .ztree-video-tree-menu {
+        border: 1px solid #ececec;
+        overflow: hidden;
+        .menu_node {
+            margin-right: 0.25em;
+            margin-top: 0.25em;
+        }
+    }
+}
+
+/*.ztree-video-tree-menu a {*/
+/*width: 100% !important;*/
+/*}*/

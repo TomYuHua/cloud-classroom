@@ -1,0 +1,27 @@
+/*ztree-role-tree-menu container and patch*/
+@import "patch-for-ztree-common";
+
+@include common_patch(tree-container, ztree-role-tree-menu);
+
+.tree-container {
+    box-sizing: border-box;
+    width: 100%;
+    .ztree-role-tree-menu {
+        .click_box {
+            display: inline-block;
+            box-sizing: border-box;
+            margin-left: 0.5em;
+            margin-right: 0.25em;
+        }
+        .menu_node {
+            margin-right: 0.25em;
+            margin-top: 0.25em;
+        }
+        // remove icon
+        .ico_docu {
+            &:before {
+                content: '' !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.ResourcesListDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.DTO.ResourcesVo">
+		<result column="Id" jdbcType="INTEGER" property="id" />
+		<result column="ParentId" jdbcType="INTEGER" property="parentid" />
+		<result column="IsDocument" jdbcType="BIT" property="isdocument" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="Types" jdbcType="INTEGER" property="types" />
+		<result column="Icon" jdbcType="VARCHAR" property="icon" />
+		<result column="CreateAuthor" jdbcType="VARCHAR" property="createauthor" />
+		<result column="UserId" jdbcType="INTEGER" property="userid" />
+		<result column="ResourcePath" jdbcType="VARCHAR" property="resourcepath" />
+		<result column="describes" jdbcType="VARCHAR" property="describes" />
+		<result column="scores" jdbcType="REAL" property="scores" />
+		<result column="ClickCount" jdbcType="INTEGER" property="clickcount" />
+		<result column="IsOpen" jdbcType="BIT" property="isopen" />
+		<result column="imgsrc" jdbcType="VARCHAR" property="imgsrc" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="CreateTIme" jdbcType="DATE" property="createtime" />
+		<result column="Contents" jdbcType="LONGVARCHAR" property="contents" />
+		<result column="num1" jdbcType="INTEGER" property="downloadCount" />
+		<result column="num2" jdbcType="INTEGER" property="browseCount" />
+	</resultMap>
+	    <resultMap id="CollectionsResultMap" type="cloud.entity.classroom.Resources.Collections">
+		<result column="Id" jdbcType="INTEGER" property="id" />
+		<result column="resourceId" jdbcType="INTEGER" property="resourceId" />
+		<result column="userId" jdbcType="INTEGER" property="userId" />
+		<result column="types" jdbcType="INTEGER" property="types" />
+
+	</resultMap>
+	
+
+	<select id="getClusterResources" resultMap="BaseResultMap">
+		select a.id,a.imgsrc,a.CreateAuthor,a.name,count(b.id) as DownloadCount from resources a left join ResourceDownload b on a.id=b.ResourceId group by a.id  ORDER BY DownloadCount desc limit 0,5;
+	</select>
+	
+<select id="getResourcesByTeacher" resultMap="BaseResultMap">
+select a.Id,a.name,a.CreateTIme,a.Types,a.ResourcePath,num1,num2 from resources a  left join (
+select Id,sum(num1) num1,sum(num2) num2 FROM (
+ 
+ SELECT ResourceId Id ,count(1) num1,0 num2 FROM ResourceDownload 
+  GROUP BY Id
+ 
+ UNION ALL
+ 
+ SELECT ResourceId Id,0 num1,count(1) num2 FROM ResourceBrowse  
+  GROUP BY Id
+ 
+) t   GROUP BY Id) b on a.Id=b.Id where a.UserId=#{userId} and a.IsDocument=0;
+</select>
+
+<select id="getCollection" resultMap="BaseResultMap">
+ select b.id as collectionId,a.Id,a.name,a.CreateAuthor,a.CreateTIme,a.imgsrc from Collections b left join  resources a on  b.resourceId=a.Id where b.userId=#{userId} and b.types=#{types};
+</select>
+	
+
+
+<select id="isCollectedByLoginUser" resultMap="CollectionsResultMap">
+ select id from Collections  where userId=#{userId} and resourceId=#{resourceId};
+</select>
+
+	<!-- <select id="getResourcesByBrower" resultMap="BaseResultMap">
+ select a.id,a.name,a.CreateAuthor,b.id from resource a left join Collections b on a.id=b.resourceId where b.UserId=#{userId} and b.Types=#{types};
+  select  a.id,b.UserId,b. left join ResourceBrowseCreateTIme,CreateAuthor,name from
+</select> --> 
+</mapper>

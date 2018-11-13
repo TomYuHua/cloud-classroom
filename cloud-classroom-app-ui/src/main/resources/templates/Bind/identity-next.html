@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-审核状态</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+</head>
+<body class="login-body">
+	<div class="login-container">
+		<form class="msform ">
+			<ul class="progressbar">
+				<li>
+					<b class="progressbar-blue prog-show">1</b>
+				</li>
+				<li class="progressbar-line progressbar-blue"></li>
+				<li>
+					<b class="progressbar-blue prog-show">2</b>
+				</li>
+				<li class="progressbar-line progressbar-black"></li>
+				<li>
+					<b class="progressbar-black prog-show">3</b>
+				</li>
+			</ul>
+			<ul class="progress-bar">
+				<li>绑定信息</li>
+				<li class="text-center">审核</li>
+				<li class="text-right">审核完成</li>
+			</ul>
+		</form>
+		<!--identity-->
+		<div class="identity">
+			<div class="audit"></div>
+			<div class="audit-in">
+				<h3>提交成功，请等待管理员审核！</h3>
+				<p>预计1个工作日内审核完毕,请在首页查看审核结果。</p>
+			</div>
+			<p class="margin-bottom">
+				<a th:href="@{/}">
+					<button type="button" class="blue detailss-next" name="关闭此页面">返回首页</button>
+				</a>
+			</p>
+
+		</div>
+	</div>
+</body>
+</html>

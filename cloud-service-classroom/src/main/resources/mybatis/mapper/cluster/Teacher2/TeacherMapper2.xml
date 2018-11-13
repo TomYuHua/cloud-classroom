@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.TeacherDao2">
+  <resultMap id="BaseResultMap" type="cloud.entity.classroom.every.Teacher">
+  <result column="TeacherId" jdbcType="INTEGER" property="teacherId"/>
+  <result column="idNumber" jdbcType="VARCHAR" property="idNumber"/>
+  <result column="schoolCode" jdbcType="VARCHAR" property="schoolCode"/>
+  <result column="name" jdbcType="VARCHAR" property="name" />
+  <result column="jobNum" jdbcType="VARCHAR" property="jobNum"/>
+  <result column="highDegree" jdbcType="VARCHAR" property="highDegree"/>
+  <result column="phone" jdbcType="VARCHAR" property="phone" />
+  <result column="tel" jdbcType="VARCHAR" property="tel" />
+  <result column="email" jdbcType="VARCHAR" property="email" />
+  <result column="sex" jdbcType="VARCHAR" property="sex" />
+  <result column="birthday" jdbcType="DATE" property="birthday"/>
+  <result column="jobTitle" jdbcType="VARCHAR" property="jobTitle"/>
+  <result column="politVisage" jdbcType="VARCHAR" property="politVisage"/>
+  <result column="province" jdbcType="VARCHAR" property="province"/>
+  <result column="city" jdbcType="VARCHAR" property="city"/>
+  <result column="street" jdbcType="VARCHAR" property="street"/>
+  <result column="certiNum" jdbcType="VARCHAR" property="certiNum"/>
+  <result column="certiType" jdbcType="VARCHAR" property="certiType"/>
+  <result column="prepareType" jdbcType="VARCHAR" property="prepareType"/>
+  <result column="igeUrl" jdbcType="VARCHAR" property="igeUrl"/>
+  <result column="formerName" jdbcType="VARCHAR" property="formerName"/>
+  <result column="nativePlace" jdbcType="VARCHAR" property="nativePlace"/>
+  <result column="nation" jdbcType="VARCHAR" property="nation"/>
+  <result column="maritalSta" jdbcType="VARCHAR" property="maritalSta"/>
+  <result column="healthSta" jdbcType="VARCHAR" property="healthSta"/>
+  <result column="faith" jdbcType="VARCHAR" property="faith"/>
+  <result column="nationality" jdbcType="VARCHAR" property="nationality"/>
+  <result column="bloodType" jdbcType="VARCHAR" property="bloodType"/>
+  <result column="jobState" jdbcType="VARCHAR" property="jobState"/>
+  <result column="teacherIntroduction" jdbcType="VARCHAR" property="teacherIntroduction"/>
+  <result column="teachingSkills" jdbcType="VARCHAR" property="teachingSkills"/>
+  <result column="specialist" jdbcType="VARCHAR" property="specialist"/>
+  <result column="major" jdbcType="VARCHAR" property="major"/>
+  <result column="top_time" jdbcType="VARCHAR" property="topTime"/>
+  <result column="couseId" jdbcType="VARCHAR" property="couseId"/>
+  <result column="top" jdbcType="VARCHAR" property="top"/>
+  </resultMap>
+  
+  
+  
+  
+  
+  
+   <update id="updateTeacher" parameterType="cloud.entity.classroom.every.Teacher">
+     update Teachingstaff 
+    <set>
+       <if test="name!= null" >
+         name=#{name},
+       </if>
+        <if test="idNumber!= null" >
+         idNumber=#{idNumber},
+       </if>
+        <if test="jobNum!= null" >
+         jobNum=#{jobNum},
+        </if>
+        <if test="highDegree!= null" >
+         highDegree=#{highDegree},
+       </if>
+        <if test="phone!= null" >
+         phone=#{phone},
+       </if>
+        <if test="tel!= null" >
+         tel=#{tel},
+       </if>
+        <if test="email!= null" >
+         email=#{email},
+       </if>
+        <if test="sex != null" >
+         sex=#{sex},
+       </if>
+       <if test="birthday!= null" >
+         birthday=#{birthday},
+       </if>
+       <if test="jobTitle != null" >
+         jobTitle=#{jobTitle},
+       </if>
+       <if test="politVisage != null" >
+         politVisage=#{politVisage},
+       </if>
+       <if test="province!= null" >
+         province=#{province},
+       </if>
+        <if test="city != null" >
+         city=#{city},
+       </if>
+        <if test="addr != null" >
+         addr=#{addr},
+       </if>
+        <if test="certiNum != null" >
+         certiNum=#{certiNum},
+       </if>
+        <if test="certiType != null" >
+         certiType=#{certiType},
+       </if>
+         <if test="prepareType != null" >
+         prepareType=#{prepareType},
+       </if>
+       <if test="igeUrl != null" >
+         igeUrl=#{igeUrl},
+       </if>
+       <if test="nativePlace != null" >
+        nativePlace=#{nativePlace},
+       </if>
+        <if test="nation != null" >
+         nation=#{nation},
+       </if>
+         <if test="maritalSta != null" >
+         maritalSta=#{maritalSta},
+       </if>
+         <if test="healthSta != null" >
+         healthSta=#{healthSta},
+       </if>
+         <if test="faith!= null" >
+         faith=#{faith},
+       </if>
+        <if test="nationality != null" >
+         nationality=#{nationality},
+       </if>
+        <if test="bloodType != null" >
+        bloodType=#{bloodType},
+       </if>
+         <if test="jobState != null" >
+         jobState=#{jobState},
+       </if>
+ 
+         <if test="teachingSkills != null" >
+         teachingSkills=#{teachingSkills },
+       </if>
+        <if test="specialist != null" >
+         specialist=#{specialist},
+       </if>
+        <if test="major != null" >
+         major=#{major},
+       </if>
+        <if test="topTime != null" >
+         top_time=#{topTime},
+       </if>
+        <if test="couseId != null" >
+         couseId=#{couseId},
+       </if>
+        <if test="top != null" >
+         top=#{top},
+       </if>
+
+       <if test="schoolCode!= null" >
+         schoolCode=#{schoolCode},
+       </if>
+       <if test="name!= null" >
+         name=#{name},
+       </if>
+      <if test="province!= null" >
+         province=#{province},
+       </if>
+        <if test="city!= null" >
+         city=#{city},
+       </if>
+        <if test="area!= null" >
+         area=#{area},
+       </if>
+       <if test="addr!= null" >
+         addr=#{addr},
+        </if>
+        <if test="jobNum!= null" >
+         jobNum=#{jobNum},
+        </if>
+
+        <if test="phone!= null" >
+         phone=#{phone},
+       </if>
+        <if test="email!= null" >
+         email=#{email},
+       </if>
+        <if test="sex != null" >
+         sex=#{sex},
+       </if>
+       <if test="birthday!= null" >
+         birthday=#{birthday},
+       </if>
+       <if test="jobTitle != null" >
+         jobTitle=#{jobTitle},
+       </if>
+       <if test="politVisage != null" >
+         politVisage=#{politVisage},
+       </if>
+        <if test="certiNum != null" >
+         certiNum=#{certiNum},
+       </if>
+        <if test="certiType != null" >
+         certiType=#{certiType},
+       </if>
+         <if test="prepareType!= null" >
+         prepareType=#{prepareType},
+       </if>
+       <if test="igeUrl!= null" >
+         igeUrl=#{igeUrl},
+       </if>
+          <if test="formerName != null" >
+         formerName=#{formerName},
+       </if>
+       <if test="nativePlace != null" >
+        nativePlace=#{nativePlace},
+       </if>
+        <if test="nation != null" >
+         nation=#{nation},
+       </if>
+         <if test="maritalSta != null" >
+         maritalSta=#{maritalSta},
+       </if>
+         <if test="healthSta != null" >
+         healthSta=#{healthSta},
+       </if>
+         <if test="faith!= null" >
+         faith=#{faith},
+       </if>
+        <if test="nationality != null" >
+         nationality=#{nationality},
+       </if>
+        <if test="bloodType != null" >
+        bloodType=#{bloodType},
+       </if>
+         <if test="jobState != null" >
+         jobState=#{jobState},
+       </if>
+       <if test="teacherIntroduction != null" >
+         teacherIntroduction=#{teacherIntroduction},
+       </if>
+        <if test="major != null" >
+         major=#{major}
+       </if>
+       </set>
+   where TeacherId=#{teacherId}
+</update> 
+
+
+   <insert id="insertTeacher" useGeneratedKeys="true" keyProperty="teacherId" parameterType="cloud.entity.classroom.every.Teacher">
+        <selectKey resultType="java.lang.Integer" keyProperty="teacherId" keyColumn="TeacherId">
+            SELECT LAST_INSERT_ID()
+  </selectKey> 
+     insert into Teachingstaff 
+     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idNumber!= null" >
+         idNumber,
+       </if>
+      <if test="highDegree != null" >
+         highDegree,
+       </if>
+       <if test="schoolCode!= null" >
+         schoolCode,
+       </if>
+       <if test="name!= null" >
+         name,
+       </if>
+      <if test="province!= null" >
+         province,
+       </if>
+        <if test="city!= null" >
+         city,
+       </if>
+        <if test="area!= null" >
+         area,
+       </if>
+       <if test="addr!= null" >
+         addr,
+        </if>
+        <if test="jobNum!= null" >
+         jobNum,
+        </if>
+        <if test="phone!= null" >
+         phone,
+       </if>
+        <if test="sex != null" >
+         sex,
+       </if>
+       <if test="birthday != null" >
+         birthday,
+       </if>
+       <if test="jobTitle != null" >
+         jobTitle,
+       </if>
+       <if test="politVisage != null" >
+         politVisage,
+       </if>
+        <if test="certiNum != null" >
+         certiNum,
+       </if>
+        <if test="certiType != null" >
+         certiType,
+       </if>
+         <if test="prepareType != null" >
+         prepareType,
+       </if>
+       <if test="igeUrl != null" >
+         igeUrl,
+       </if>
+          <if test="formerName != null" >
+         formerName,
+       </if>
+       <if test="nativePlace != null" >
+        nativePlace,
+       </if>
+        <if test="nation != null" >
+         nation,
+       </if>
+         <if test="maritalSta != null" >
+         maritalSta,
+       </if>
+         <if test="healthSta != null" >
+         healthSta,
+       </if>
+         <if test="faith!= null" >
+         faith,
+       </if>
+        <if test="nationality != null" >
+         nationality,
+       </if>
+        <if test="bloodType != null" >
+        bloodType,
+       </if>
+         <if test="jobState != null" >
+         jobState,
+       </if>
+       <if test="teacherIntroduction != null" >
+         teacherIntroduction,
+       </if>
+         <if test="teachingSkills != null" >
+         teachingSkills,
+       </if>
+        <if test="specialist != null" >
+         specialist,
+       </if>
+        <if test="major != null" >
+         major,
+       </if>
+        <if test="topTime != null" >
+         top_time,
+       </if>
+        <if test="couseId != null" >
+         couseId,
+       </if>
+        <if test="top != null" >
+         top,
+       </if>
+   
+     </trim>
+     <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+       <if test="idNumber!= null" >
+         #{idNumber},
+       </if>
+      <if test="highDegree != null" >
+         #{highDegree},
+       </if>
+       <if test="schoolCode!= null" >
+        #{schoolCode},
+       </if>
+       <if test="name!= null" >
+       #{name},
+       </if>
+       <if test="province!= null" >
+         #{province},
+       </if>
+          <if test="city!= null" >
+         #{city},
+         </if>
+        <if test="area!= null" >
+         #{area},
+       </if>
+      <if test="addr!= null" >
+         #{addr},
+       </if>
+        <if test="jobNum!= null" >
+         #{jobNum},
+        </if>
+        <if test="phone!= null" >
+        #{phone},
+       </if>
+        <if test="sex != null" >
+        #{sex},
+       </if>
+       <if test="birthday != null" >
+        #{birthday},
+       </if>
+       <if test="jobTitle != null" >
+         #{jobTitle},
+       </if>
+       <if test="politVisage != null" >
+        #{politVisage},
+       </if>
+        <if test="certiNum != null" >
+          #{certiNum},
+       </if>
+        <if test="certiType != null" >
+         #{certiType},
+       </if>
+         <if test="prepareType != null" >
+          #{prepareType},
+       </if>
+       <if test="igeUrl != null" >
+         #{igeUrl}, 
+       </if>
+       <if test="formerName != null" >
+          #{formerName},
+       </if>
+       <if test="nativePlace != null" >
+        #{nativePlace},
+       </if>
+        <if test="nation != null" >
+         #{nation},
+       </if>
+         <if test="maritalSta != null" >
+         #{maritalSta},
+       </if>
+         <if test="healthSta != null" >
+          #{healthSta},
+       </if>
+         <if test="faith!= null" >
+          #{faith},
+       </if>
+        <if test="nationality != null" >
+          #{nationality},
+       </if>
+        <if test="bloodType != null" >
+        #{bloodType},
+       </if>
+         <if test="jobState != null" >
+        #{jobState},
+       </if>   
+         <if test="teachingSkills != null" >
+         #{teachingSkills},
+       </if>
+        <if test="specialist != null" >
+         #{specialist}, 
+       </if>
+        <if test="major != null" >
+          #{major},
+       </if>
+        <if test="topTime != null" >
+          #{topTime},
+       </if>
+        <if test="couseId != null" >
+         #{couseId},
+       </if>
+        <if test="top != null" >
+        #{top},
+       </if>
+         <if test="teacherIntroduction != null" >
+        #{teacherIntroduction}
+       </if>
+     </trim>
+</insert>
+
+<delete id="deleteTeacher" parameterType="java.lang.Integer">
+delete from Teachingstaff where TeacherId =#{fieldTargetId} 
+</delete>
+
+ 
+
+
+
+
+
+
+
+</mapper>

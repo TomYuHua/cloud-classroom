@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>无人机考试系统-首页</title>
+		<!-- Bootstrap CSS -->
+
+        <!-- Required meta tags -->
+        <link rel="stylesheet" href="/resources/static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" />
+        <link rel="stylesheet" href="/resources/static/css/style.css"  th:href="@{/css/style.css}"/>
+      <!---<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>-->
+        <link rel="stylesheet" href="/resources/static/js/bootstrap/dist/css/bootstrap.min.css" th:href="@{/js/bootstrap/dist/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" href="/resources/static/css/sidebar/sidebar.css" th:href="@{/css/sidebar/sidebar.css}"/>
+        <link rel="stylesheet" href="/resources/static/css/test/test.css" th:href="@{/css/test/test.css}"  type="text/css" />
+         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+         <!--<script type="text/javascript" src="/resources/static/js/jquery-slim.min.js" th:src="@{/js/jquery-slim.min.js}"></script>
+         <script type="text/javascript" src="/resources/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}" ></script>-->
+        <script type="text/javascript" src="/resources/static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+        <script type="text/javascript" src="/resources/static/js/sidebar.js" th:src="@{/js/sidebar.js}"></script>
+        <script type="text/javascript" src="/resources/static/js/time/jquery.countdown.js" th:src="@{/js/time/jquery.countdown.js}"></script>
+	    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <!-- <script type="text/javascript" src="/resources/static/js/bootstrap/dist/js/bootstrap.min.js" th:src="@{/js/bootstrap/dist/js/bootstrap.min.js}" ></script>-->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/  
+	$(document).ready(function(){
+	switch([[${type}]]){
+	case "0":
+		var a=[[${number}==null?'':${number}]];
+		var b=[[${operationType}==null?'':${operationType}]];
+		var c=[[${id}==null?'':${id}]];
+		$(".main-all").load("/question/getQuestions",{number:a,operationType:b,id:c});	
+		break;	
+		
+	case "1":
+	var a=[[${feedBack}==null?'':${feedBack.totalNum}]];
+	var b=[[${feedBack}==null?'':${feedBack.rightNum}]];
+	var c=[[${feedBack}==null?'':${feedBack.wrongNum}]];
+	var d=[[${feedBack}==null?'':${feedBack.unFinishNum}]];
+	var e=[[${feedBack}==null?'':${feedBack.scores}]];
+	var f=[[${feedBack}==null?'':${feedBack.timesId}]];
+$(".main-all").load("/recording/feedBackPage",{totalNum:a,rightNum:b,wrongNum:c,unFinishedNum:d,scores:e,timesId:f});
+		break;
+	}
+
+	})
+	/*]]>*/ 
+		function againAnswer(c)
+	{   var a=c;
+		$(".main-all").load("/recording/getDetails",{timesId:a});
+		
+	}
+	
+	
+
+	
+	function loadPage(page){
+		switch (page)
+		{
+		  case "practiseInOrder":
+			 $(".main-all").load("/chapter/selectChapters");
+			  break;
+		case "practiseAtRandom":
+			$(".main-all").load("/question/practiseAtRandom");
+			break;
+		case "testAtRandom":
+			$(".main-all").load("/question/testAtRandom");
+			break;
+		case "examInSimulate":
+			$(".main-all").load("/question/examInSimulate");
+			break;
+		case "chapterRecordings":
+		    $(".main-all").load("/recording/chapterRecordings");
+		    break;
+		case "randomRecordings":
+			$(".main-all").load("/recording/randomRecordings");
+			break;
+		case "simulationRecordings":
+			$(".main-all").load("/recording/simulationRecordings");
+			break;
+		case "myErrorRecordings":
+		     $(".main-all").load("/recording/myErrorRecordings");
+		     break;
+		case "myHiding":
+		    $(".main-all").load("/recording/myHiding");
+		    break;
+		case "capacityEva":
+		    $(".main-all").load("/recording/capacityEva");
+		    break;
+			}
+	}	
+	</script>
+	
+	
+	</head>
+	<body>
+
+<header class="header navbar navbar-dark">
+	<div class="navside float-left">
+		<a class="navbar-brand" href="index.html">无人机考试系统V.1.0</a>
+		<a href="#" class="sidebar-toggle-box mr-3" id="menu-collapse">
+			<i class="fa fa-bars mt-3 fa-02x text-light" data-placement="right" data-original-title="Toggle Navigation">
+  		</i>
+		</a>
+
+	<select class="custom-select custom-select-sm">
+		<option value="">选择题库</option>
+		<optgroup label="多旋翼">
+			<option value="">多旋翼驾驶员</option>
+			<option value="">多旋翼机长</option>
+			<option value="">多旋翼教员</option>
+		</optgroup>
+		<optgroup label="直升机">
+			<option value="">直升机驾驶员</option>
+			<option value="">直升机机长</option>
+			<option value="">直升机教员</option>
+		</optgroup>
+		<optgroup label="固定翼">
+			<option value="">固定翼驾驶员</option>
+			<option value="">固定翼机长</option>
+			<option value="">固定翼教员</option>
+		</optgroup>
+	</select>
+		
+		
+	</div>
+
+<div class="navside float-right">
+	<form class="form-inline pr-5">
+			<input class="form-control form-control-sm mr-sm-2" type="search" placeholder="" aria-label="Search"/>
+			<button class="btn btn-info btn-sm my-2" type="submit">资料搜索</button>
+	</form>
+	
+	<button type="button" class="btn btn-sm btn-link pr-3">
+        <i class="fa fa-comment fa-02x text-light" title="消息"></i>
+        <span class="notify-row">5</span>
+    </button>
+    
+    <div class="nav nav-item dropdown text-white">
+		<a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<i class="fa fa-user"></i> 您好，管理员
+		</a>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="#">
+				<i class="fa fa-address-card-o"></i>个人资料
+			</a>
+			
+			<a class="dropdown-item" href="#">
+				<i class="fa fa-sign-out"></i> 退出
+			</a>
+		</div>
+	</div>
+</div>
+
+</header>
+   
+<div class="sidebar" id="sidebar">
+
+
+    <input type="hidden" id="type" th:value="${type}"/>
+	<input type="hidden" id="number" th:value="${number}"/>
+	<input type="hidden" id="operationType" th:value="${operationType}"/>
+	<input type="hidden" id="chapterId" th:value="${id}"/>
+	<input type="hidden" id="feedBack" th:value="${feedBack}==null?'':${feedBack.totalNum}"/>
+
+
+	<ul class="nav-list">
+		<li>
+			<a>
+				<i class="fa fa-file-text-o "></i>
+				<span class="menu-text">试题中心</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li>
+					<a href="javascript:loadPage('practiseInOrder')"> 章节顺序练习 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('practiseAtRandom')"> 章节随机练习 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('testAtRandom')"> 随机测试 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('examInSimulate')"> 模拟考试 </a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a>
+				<i class="fa fa-history  "></i>
+				<span class="menu-text">练习记录</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li>
+					<a href="javascript:loadPage('chapterRecordings')"> 章节练习记录 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('randomRecordings')"> 随机练习 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('simulationRecordings')"> 模拟考试 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('myErrorRecordings')"> 我的错题 </a>
+				</li>
+				<li>
+					<a href="javascript:loadPage('myHiding')"> 我的收藏 </a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="evaluate.html">
+				<i class="fa fa-bar-chart "></i>
+				<span class="menu-text">能力评估</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="examination.html">
+				<i class="fa fa-file-archive-o"></i>
+				<span class="menu-text">试题管理</span>
+			</a>
+		</li>
+
+		<li>
+			<a>
+				<i class="fa fa-cogs"></i>
+				<span class="menu-text">系统管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li>
+					<a href="role.html"> 角色管理 </a>
+				</li>
+				<li>
+					<a href="user.html">用户管理 </a>
+				</li>
+				<li>
+					<a href="school.html">学校管理</a>
+				</li>
+				<li>
+					<a href="class.html">班级管理 </a>
+				</li>
+			</ul>
+		</li>
+
+	</ul>
+</div>
+			
+<div class="main-content">
+	<nav aria-label="crumbs" role="navigation">
+		<ol class="crumbs">
+			<li class="crumbs-item">
+				<a href="index.html">
+					<i class="fa fa-home"></i>首页
+				</a>
+			</li>
+		</ol>
+	</nav>
+	<div class="main-all pl-3 pr-3"  id="tyu">
+
+	</div>
+</div>
+
+
+	
+
+	</body>
+</html>

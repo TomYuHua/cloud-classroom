@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com</groupId>
+	<artifactId>cloud-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>cloud-parent</name>
+	<url>http://maven.apache.org</url>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.3.RELEASE</version>
+		<!-- <relativePath /> -->
+
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<spring-boot.version>1.5.3.RELEASE</spring-boot.version>
+		<!-- spring版本号 -->
+		<!-- <spring.version>4.3.8.RELEASE</spring.version> -->
+		<!-- mybatis版本号 -->
+		<!-- <mybatis.version>3.3.0</mybatis.version> <mybatis-spring.version>1.2.3</mybatis-spring.version> -->
+		<!-- poi 版本号 -->
+		<poi.version>3.13</poi.version>
+		<!-- log4j日志文件管理包版本 -->
+		<!-- <slf4j.version>1.7.7</slf4j.version> <log4j.version>1.2.17</log4j.version> -->
+		<pagehelper.version>4.2.1</pagehelper.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+
+			<!-- Spring Boot -->
+			<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-dependencies</artifactId> 
+				<version>${spring-boot.version}</version> <type>pom</type> <scope>import</scope> 
+				</dependency> -->
+
+			<!-- Spring cloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Dalston.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>1.0.29</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>6.0.3</version>
+			</dependency>
+
+
+
+			<!-- <dependency> <groupId>com.netflix.hystrix</groupId> <artifactId>hystrix-javanica</artifactId> 
+				<version>1.5.10</version> </dependency> -->
+
+			<!-- <dependency> <groupId>org.mybatis</groupId> <artifactId>mybatis</artifactId> 
+				<version>${mybatis.version}</version> </dependency> <dependency> <groupId>org.mybatis</groupId> 
+				<artifactId>mybatis-spring</artifactId> <version>${mybatis-spring.version}</version> 
+				</dependency> -->
+			<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+				<version>3.8.1</version> <scope>test</scope> </dependency> -->
+
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+
+		<!-- web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+
+
+
+
+
+		<!-- devtools可以实现页面热部署
+		（即页面修改后会立即生效，这个可以直接在application.properties文件中配置spring.thymeleaf.cache=false来实现）， 
+			实现类文件热部署（类文件修改后不会立即生效），
+			实现对属性文件的热部署。 
+			即devtools会监听classpath下的文件变动，并且会立即重启应用（发生在保存时机），
+			注意：因为其采用的虚拟机机制，该项重启是很快的 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>false</optional><!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
+		</dependency>
+
+
+	</dependencies>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-public</id>
+			<name>Nexus Snapshot</name>
+			<url>http://192.168.1.200:8081/repository/maven-public/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>dav:http://192.168.1.200:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>nexus-public</id>
+			<name>nexus-public</name>
+			<url>http://192.168.1.200:8081/repository/maven-public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+
+
+	<modules>
+		<module>../cloud-entity</module>
+		<module>../cloud-common</module>
+		<module>../cloud-eureka-server</module>
+		<module>../cloud-api-gateway</module>
+		<module>../cloud-classroom-app-ui</module>
+		<module>../cloud-service-classroom</module>
+		<module>../common-dfs</module>
+		<module>../cloud-examination-app-ui</module>
+		<module>../cloud-service-examination</module>
+	</modules>
+
+
+	<build>
+		<plugins>
+			<!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+				</plugin> -->
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork><!-- 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+					<source>1.8</source>
+					<target>1.8</target>
+					<!-- 打包跳过测试 -->
+					<skipTests>true</skipTests>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,4 @@
+.svn
+.idea
+/src/main/resources/static/AdminBackend/node_modules/
+/src/main/resources/static/AdminBackend/.sass-cache/

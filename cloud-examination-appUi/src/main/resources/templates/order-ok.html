@@ -1,0 +1,55 @@
+<script th:inline="javascript">
+/*<![CDATA[*/  
+function checkExplains(c)
+{   
+	 var a=c;
+     var b=[[${rightNum}]];
+     var c=[[${wrongNum}]];
+     var d=[[${unFinishedNum}]];
+     var e=[[${scores}]];
+	$(".main-all").load("/recording/practiceSee",{timesId:a,rightNum:b,wrongNum:c,unFinishedNum:d,scores:e});
+	
+}
+/*]]>*/ 
+</script>
+		<div class="alert alert-light ov-height" role="alert">
+			<h5>
+				<i class="fa fa-check-circle fa-02x text-success"></i>
+				<label>试卷提交成功！</label>
+			</h5>
+			<hr />
+			<div class="row">
+				<div class="col-3">
+					<div class="alert alert-info" role="alert">
+						<font>得分:</font>
+				        <strong class="fa-2x" th:text="${scores}+'分'">70分</strong>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="alert alert-info" role="alert">
+						<font>做对试题:</font>
+				        <strong class="fa-2x" th:text="${rightNum}+'题'">55题</strong>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="alert alert-info" role="alert">
+						<font>做错试题:</font>
+				        <strong class="fa-2x" th:text="${wrongNum}+'题'">5题</strong>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="alert alert-info" role="alert">
+						<font>未做试题:</font>
+				        <strong class="fa-2x" th:text="${unFinishedNum}+'题'">0题</strong>
+					</div>
+				</div>
+			</div>
+			<p class="pt-3 text-info" th:text="'本次答题共答（'+${totalNum}+'）题，答对（'+${rightNum}+'）题，答错（'+${wrongNum}+'）题，未答（'+${unFinishedNum}+'）题。'">本次答题共答（60）题，答对（55）题，答错（5）题，未答（0）题。</p>
+			<p class="float-right">
+				<button type="button" class="btn btn-info"  th:onclick="'javascript:againAnswer(\''+${timesId}+'\')'">再来一遍</button>
+			    <a class="btn btn-info"  role="button" th:href="'javascript:checkExplains(\''+${timesId}+'\')'">查看解析</a>
+			</p>		
+		</div> 
+		
+
+

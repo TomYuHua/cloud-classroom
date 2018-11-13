@@ -1,0 +1,29 @@
+<div class="title">
+	<span class="dot left"></span>
+	<h3>最近学习</h3>
+</div>
+<div class="study">
+	<ul>
+		<li th:each="course:${lists}"> 
+		   <div th:if="${course.batchResources!=null}">
+			<div class="study-date left">
+				<h2 th:text="${#dates.format(course.watchTime,'yyyy')}">2017</h2>
+				<p th:text="${#dates.format(course.watchTime,'MM-dd')}">06月24日</p>
+			</div>
+			<div class="studys right" th:each="resources:${course.batchResources}">
+				<img class="left" th:src="${resources.imgsrc}" />
+				<div class="st-tit">
+					<h3>
+						<a th:href="@{'/getvideocontent/'+${resources.id}}" th:text="${resources.name}">章节title</a>
+					</h3>
+					<div class="study-points">
+						<span class="red" th:text="${resources.createauthor}"></span>
+						<span><div th:if="${resources.scores==null}"><div th:text="暂未被评分">综合评分8.9</div></div><div th:if="${resources.scores!=null}"><div th:text="'综合评分:'+${resources.scores}">综合评分8.9</div></div></span>
+					</div>
+					<a th:href="@{'/getvideocontent/'+${resources.id}}"><button class="blue right">继续学习</button></a>
+				</div>
+			</div>
+			</div>
+			</li>
+	    </ul>
+</div>

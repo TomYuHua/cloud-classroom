@@ -1,0 +1,42 @@
+/*ztree-role-tree-menu container and patch*/
+/*ztree- common container and patch*/
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-role-tree-menu .curSelectedNode {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-role-tree-menu .curSelectedNode_Edit {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-role-tree-menu .tmpTargetNode_inner {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-role-tree-menu .tmpTargetzTree {
+  opacity: 1 !important;
+}
+
+/* line 6, patch-for-ztree-role-tree-menu.scss */
+.tree-container {
+  box-sizing: border-box;
+  width: 100%;
+}
+/* line 10, patch-for-ztree-role-tree-menu.scss */
+.tree-container .ztree-role-tree-menu .click_box {
+  display: inline-block;
+  box-sizing: border-box;
+  margin-left: 0.5em;
+  margin-right: 0.25em;
+}
+/* line 16, patch-for-ztree-role-tree-menu.scss */
+.tree-container .ztree-role-tree-menu .menu_node {
+  margin-right: 0.25em;
+  margin-top: 0.25em;
+}
+/* line 22, patch-for-ztree-role-tree-menu.scss */
+.tree-container .ztree-role-tree-menu .ico_docu:before {
+  content: '' !important;
+}
+
+/*# sourceMappingURL=patch-for-ztree-role-tree-menu.css.map */

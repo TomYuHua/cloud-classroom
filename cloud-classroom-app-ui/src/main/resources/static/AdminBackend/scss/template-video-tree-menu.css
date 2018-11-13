@@ -1,0 +1,368 @@
+.bra-list {
+  width: 15%;
+  border: 1px solid #ececec;
+  height: 700px;
+  background-color: #F8F8F8;
+  overflow-y: scroll;
+  overflow-x: scroll; }
+
+.bra-list ul.level-0 {
+  overflow: hidden; }
+
+.bra-list ul.level-0 li {
+  line-height: 40px;
+  border-bottom: 1px solid #ececec;
+  text-indent: 20px; }
+
+.bra-list ul.level-1 {
+  background-color: #FFFFFF;
+  border-top: 1px solid #ececec; }
+
+.bra-list ul.level-0 li {
+  border: none;
+  text-indent: 30px; }
+
+.bra-list ul.level-2 {
+  border: none; }
+
+.bra-list ul.level-2 li {
+  border: none;
+  text-indent: 45px; }
+
+.bra-list ul.level-3 {
+  border: none; }
+
+.bra-list ul.level-3 li {
+  border: none;
+  text-indent: 60px; }
+
+.bra-list ul.level-4 {
+  border: none; }
+
+.bra-list ul.level-4 li {
+  border: none;
+  text-indent: 75px; }
+
+.bra-list ul.level-5 {
+  border: none; }
+
+.bra-list ul.level-5 li {
+  border: none;
+  text-indent: 90px; }
+
+.bra-list ul.level-6 {
+  border: none; }
+
+.bra-list ul.level-6 li {
+  border: none;
+  text-indent: 105px; }
+
+.bra-list ul.level-7 {
+  border: none; }
+
+.bra-list ul.level-7 li {
+  border: none;
+  text-indent: 120px; }
+
+.bra-list ul.level-8 {
+  border: none; }
+
+.bra-list ul.level-8 li {
+  border: none;
+  text-indent: 135px; }
+
+.bra-list ul.level-9 {
+  border: none; }
+
+.bra-list ul.level-9 li {
+  border: none;
+  text-indent: 150px; }
+
+.bra-list ul.level-10 {
+  border: none; }
+
+.bra-list ul.level-10 li {
+  border: none;
+  text-indent: 165px; }
+
+.bra-list ul.level-11 {
+  border: none; }
+
+.bra-list ul.level-11 li {
+  border: none;
+  text-indent: 180px; }
+
+.bra-list ul.level-12 {
+  border: none; }
+
+.bra-list ul.level-12 li {
+  border: none;
+  text-indent: 195px; }
+
+.bra-list ul.level-13 {
+  border: none; }
+
+.bra-list ul.level-13 li {
+  border: none;
+  text-indent: 210px; }
+
+.bra-list ul.level-14 {
+  border: none; }
+
+.bra-list ul.level-14 li {
+  border: none;
+  text-indent: 225px; }
+
+.bra-list ul.level-15 {
+  border: none; }
+
+.bra-list ul.level-15 li {
+  border: none;
+  text-indent: 240px; }
+
+.bra-list ul.level-16 {
+  border: none; }
+
+.bra-list ul.level-16 li {
+  border: none;
+  text-indent: 255px; }
+
+.bra-list ul.level-17 {
+  border: none; }
+
+.bra-list ul.level-17 li {
+  border: none;
+  text-indent: 270px; }
+
+.bra-list ul.level-18 {
+  border: none; }
+
+.bra-list ul.level-18 li {
+  border: none;
+  text-indent: 285px; }
+
+.bra-list ul.level-19 {
+  border: none; }
+
+.bra-list ul.level-19 li {
+  border: none;
+  text-indent: 300px; }
+
+.bra-list ul.level-20 {
+  border: none; }
+
+.bra-list ul.level-20 li {
+  border: none;
+  text-indent: 315px; }
+
+.bra-list ul.level-21 {
+  border: none; }
+
+.bra-list ul.level-21 li {
+  border: none;
+  text-indent: 330px; }
+
+.bra-list ul.level-22 {
+  border: none; }
+
+.bra-list ul.level-22 li {
+  border: none;
+  text-indent: 345px; }
+
+.bra-list ul.level-23 {
+  border: none; }
+
+.bra-list ul.level-23 li {
+  border: none;
+  text-indent: 360px; }
+
+.bra-list ul.level-24 {
+  border: none; }
+
+.bra-list ul.level-24 li {
+  border: none;
+  text-indent: 375px; }
+
+.bra-list ul.level-25 {
+  border: none; }
+
+.bra-list ul.level-25 li {
+  border: none;
+  text-indent: 390px; }
+
+.bra-list ul.level-26 {
+  border: none; }
+
+.bra-list ul.level-26 li {
+  border: none;
+  text-indent: 405px; }
+
+.bra-list ul.level-27 {
+  border: none; }
+
+.bra-list ul.level-27 li {
+  border: none;
+  text-indent: 420px; }
+
+.bra-list ul.level-28 {
+  border: none; }
+
+.bra-list ul.level-28 li {
+  border: none;
+  text-indent: 435px; }
+
+.bra-list ul.level-29 {
+  border: none; }
+
+.bra-list ul.level-29 li {
+  border: none;
+  text-indent: 450px; }
+
+.bra-list ul.level-30 {
+  border: none; }
+
+.bra-list ul.level-30 li {
+  border: none;
+  text-indent: 465px; }
+
+.bra-list ul.level-31 {
+  border: none; }
+
+.bra-list ul.level-31 li {
+  border: none;
+  text-indent: 480px; }
+
+.bra-list ul.level-32 {
+  border: none; }
+
+.bra-list ul.level-32 li {
+  border: none;
+  text-indent: 495px; }
+
+.bra-list ul.level-33 {
+  border: none; }
+
+.bra-list ul.level-33 li {
+  border: none;
+  text-indent: 510px; }
+
+.bra-list ul.level-34 {
+  border: none; }
+
+.bra-list ul.level-34 li {
+  border: none;
+  text-indent: 525px; }
+
+.bra-list ul.level-35 {
+  border: none; }
+
+.bra-list ul.level-35 li {
+  border: none;
+  text-indent: 540px; }
+
+.bra-list ul.level-36 {
+  border: none; }
+
+.bra-list ul.level-36 li {
+  border: none;
+  text-indent: 555px; }
+
+.bra-list ul.level-37 {
+  border: none; }
+
+.bra-list ul.level-37 li {
+  border: none;
+  text-indent: 570px; }
+
+.bra-list ul.level-38 {
+  border: none; }
+
+.bra-list ul.level-38 li {
+  border: none;
+  text-indent: 585px; }
+
+.bra-list ul.level-39 {
+  border: none; }
+
+.bra-list ul.level-39 li {
+  border: none;
+  text-indent: 600px; }
+
+.bra-list ul.level-40 {
+  border: none; }
+
+.bra-list ul.level-40 li {
+  border: none;
+  text-indent: 615px; }
+
+.bra-list ul.level-41 {
+  border: none; }
+
+.bra-list ul.level-41 li {
+  border: none;
+  text-indent: 630px; }
+
+.bra-list ul.level-42 {
+  border: none; }
+
+.bra-list ul.level-42 li {
+  border: none;
+  text-indent: 645px; }
+
+.bra-list ul.level-43 {
+  border: none; }
+
+.bra-list ul.level-43 li {
+  border: none;
+  text-indent: 660px; }
+
+.bra-list ul.level-44 {
+  border: none; }
+
+.bra-list ul.level-44 li {
+  border: none;
+  text-indent: 675px; }
+
+.bra-list ul.level-45 {
+  border: none; }
+
+.bra-list ul.level-45 li {
+  border: none;
+  text-indent: 690px; }
+
+.bra-list ul.level-46 {
+  border: none; }
+
+.bra-list ul.level-46 li {
+  border: none;
+  text-indent: 705px; }
+
+.bra-list ul.level-47 {
+  border: none; }
+
+.bra-list ul.level-47 li {
+  border: none;
+  text-indent: 720px; }
+
+.bra-list ul.level-48 {
+  border: none; }
+
+.bra-list ul.level-48 li {
+  border: none;
+  text-indent: 735px; }
+
+.bra-list ul.level-49 {
+  border: none; }
+
+.bra-list ul.level-49 li {
+  border: none;
+  text-indent: 750px; }
+
+.bra-list ul.level-50 {
+  border: none; }
+
+.bra-list ul.level-50 li {
+  border: none;
+  text-indent: 765px; }
+
+/*# sourceMappingURL=template-video-tree-menu.css.map */

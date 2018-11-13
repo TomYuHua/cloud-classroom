@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-用户登陆-忘记密码</title>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/main.js" th:src="@{/js/main.js}"></script>
+</head>
+<body class="login-body">
+	<div class="login-container">
+		<div class="login">
+			<h1 class="login-top">忘记密码，重新设置</h1>
+			<form class="cd-login">
+				<p class="cd-register-p">
+					<input class="login-input login-username has-border left" type="text" id="email" placeholder="输入邮箱" />
+				</p>
+				<p class="cd-login-p">
+					<input class="register-input login-register has-border left" type="text" id="veryCode" placeholder="输入邮箱验证码" />
+					<input class="login-btn grays right" type="button" id="sendCode" onclick="javascript:sendMail()" name="重新发送"  value="发送"></input>
+				</p>
+				<p class="p-ts">
+					<a href="#">去邮箱接收验证码</a>
+				</p>
+				<a>
+					<button type="button" class="login-btn cd-login-p blue" name="下一步" onclick="turnToNext()">下一步</button>
+				</a>
+			</form>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+function checkEmail(email){
+	 var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+	 if(re.test(email)){
+	 return true;
+	 }else{
+	 return false; 
+	 }
+	 }
+
+	function sendMail()
+	{  	
+		 var email = $("#email").val();
+		 var i=email.indexOf("@");
+		 if(i>0){
+		 if(checkEmail(email)){
+			 document.getElementById("sendCode").value ="重新发送";
+		$.ajax({ type : "GET", url : "/userui/sendemail",
+			data : { "email" : email }, dataType : 'json',
+			async : false, success : function(data)
+			{
+				if (data.result == "success")
+				{
+					alert("发送成功");
+				}else{
+					alert("发送失败,所填邮箱并未注册");
+				}
+			}, error : function(data)
+			{
+				alert("发送失败,所填邮箱并未注册");
+			}
+
+		});
+		 }else{
+			 alert("请输入邮箱正确格式");
+			 }
+		 }else{
+			 alert("请输入邮箱正确格式"); 
+		 }
+	}
+
+
+	function turnToNext()
+	{
+		var email = $("#email").val();
+		
+		var code = $("#veryCode").val();
+		$.ajax({ type : "GET", url : "/userui/turnToNext",
+			data : { "email" : email, "code" : code },
+			dataType : 'json', async : false,
+			success : function(data)
+			{
+				if (data.result == "success")
+				{
+					alert("跳转到修改密码")
+					window.location.href="/userui/forgetNext/"+email;
+				}else{
+					alert("操作失败");
+				}
+			}, error : function(data)
+			{
+				alert("操作失败,请检查邮箱（电话）或验证码填写正确与否");
+			}
+
+		});
+	}
+</script>
+</html>

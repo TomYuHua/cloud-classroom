@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/jwplayer/jwplayer.js" th:src="@{/js/jwplayer/jwplayer.js}"></script>
+<script type="text/javascript" src="/resources/static/js/jwplayer/jwplayer.flash.swf" th:src="@{/js/jwplayer/jwplayer.flash.swf}"></script>
+<script>
+	jwplayer.key = "q8LLhUydfg6k3ocTRcK0XPZDUIYOr8JhMreyeg==";
+</script>
+</head>
+<body>
+	<!-- <video width="620" height="500" controls="controls">
+		<source src="http://192.168.1.203/a.mp4" type="video/mp4" />
+		<source src="/i/movie.ogg" type="video/ogg" />
+
+		Your browser does not support the video tag.
+	</video> -->
+
+	<h1 th:text="${host}">Hello World</h1>
+
+	总共用户数
+	<h1 th:text="${countUser}"></h1>
+
+	index.jsp is here value from inteceptor 处理耗时:${handlingTime}ms
+
+	<div id='myplayer'></div>
+	<script type='text/javascript'>
+		jwplayer('myplayer')
+				.setup(
+						{
+							file : 'http://192.168.1.211/group1/M00/00/00/wKgB01mCpFeAAtV5A6rJNBDAc1Q263.mp4',
+							width : '640', height : '480' });
+	</script>
+	
+	<div id='myplayerflash'></div>
+	<script type='text/javascript'>
+		jwplayer('myplayerflash')
+				.setup(
+						{
+							file : 'http://192.168.1.211/adassssssssssssssssssssssssssd.flv',
+							width : '640', height : '480' });
+	</script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+
+	
+	
+		<div class="test_title" >
+			<font>
+				<input type="button" 
+						name="test_jiaojuan" 
+			           th:onclick="'javascript:againAnswer(\''+${timesId}+'\')'"
+						value="再来一遍"/>
+			</font>
+        </div>
+        
+		<div class="test-left">
+			<div class="alert alert-light ov-height" role="alert">
+				<div class="float-left">
+				<span class="pr-5">
+					<font>正确率:</font>
+				    <strong class="text-info fa-2x" th:text="${scores}+'%'">70%</strong>
+				</span>
+				
+				<span class="pr-5">
+					<font>做对试题:</font>
+				    <strong class="text-info fa-2x" th:text="${rightNum}+'题'">7题</strong>
+				</span>
+				
+				<span class="pr-5">
+					<font>做错试题:</font>
+				    <strong class="text-info fa-2x" th:text="${wrongNum}+'题'">3题</strong>
+				</span>
+				
+				<span class="pr-5">
+					<font>未做试题:</font>
+				    <strong class="text-info fa-2x" th:text="${unFinishedNum}+'题'">0题</strong>
+				</span>
+				</div>
+				
+				<div class="float-right">
+					<div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-info">显示全部</button>
+                        <button type="button" class="btn btn-outline-info">只看错题</button>
+                    </div>
+                </div>
+			</div>  
+			
+			<div class="test">
+				<form action="" method="post">
+					<div class="test_content">
+						<div class="test_content_title">
+							<b class="ml-3">单选题</b>
+							<span class="title-test"><!--  共60题，合计60分 --></span>
+						</div>
+					</div>
+					
+					<div class="test_content_nr">
+						<ul th:each="question,questionStat: ${lists}">
+							<li th:id="qu_0_+${questionStat.index}">
+								<div class="test_content_nr_tts">
+									<span class="circle" th:text="${questionStat.count}">1</span>
+										<font class="pl-4">
+											<span class="text-warning"><!--  (1分) --></span>
+											<div th:text="${question.contents}">无人机的英文缩写是（  ）</div>
+										</font>
+										<span class="float-right">
+											<a class="fa fa-heart-o fa-02x text-warning"></a>
+											<!--<a class="fa fa-heart fa-02x text-warning"></a>收藏后的样式-->
+											<font class="pr-3">收藏</font>
+												<button type="button" 
+														data-toggle="modal" 
+														data-target=".bd-example-modal-lg"
+														class="jcuo">
+														<a class="fa fa-pencil-square-o fa-02x text-danger"></a>
+													<font>纠错</font>
+												</button>
+                                        </span>
+								</div>
+								
+								<div class="test_content_nr_main">
+									<ul>
+										<li class="option">
+											<input type="radio" class="radioOrCheck" name="answer1"
+													id="0_answer_1_option_1" runat="server" disabled="disabled"/>
+												<label for="0_answer_1_option_1">A.
+													<p class="ue" style="display: inline;" th:text="${question.choiceA}">UVS</p>
+												</label>
+										</li>
+													
+										<li class="option">
+											<input type="radio" class="radioOrCheck" name="answer1"
+													id="0_answer_1_option_2" disabled="disabled"/>
+											    <label for="0_answer_1_option_2">B.
+													<p class="ue" style="display: inline;" th:text="${question.choiceB}">UA.S</p>
+												</label>
+										</li>
+													
+										<li class="option">
+											<input type="radio" class="radioOrCheck" name="answer1"
+													id="0_answer_1_option_3" disabled="disabled"/>
+												<label for="0_answer_1_option_3">C.
+													<p class="ue" style="display: inline;" th:text="${question.choiceC}">UA.V</p>
+												</label>
+										</li>
+										<li class="option">
+											<input type="radio" class="radioOrCheck" name="answer1"
+													id="0_answer_1_option_3" disabled="disabled"/>
+												<label for="0_answer_1_option_4">D.
+													<p class="ue" style="display: inline;" th:text="${question.choiceD}">后台启动流程推进</p>
+											   </label>
+									    </li>
+									</ul>
+									
+									<div class="alert alert_dd ov-height" role="alert">
+									     <p>
+											<label>答题结果：</label>
+											<b class="text-success"><div th:if="${question.isCorrect==0}">正确</div><div th:if="${question.isCorrect==1}">错误</div><div th:if="${question.isCorrect==2}">未做</div></b>
+										</p>
+										<p>
+											<label>正确答案：</label>
+											<b class="text-success" th:text="${question.results}">C</b>
+										</p>
+										<p>
+											<label>您的答案：</label>
+											<b class="text-danger" th:text="${question.inputAnswer}">A</b>
+										</p>
+										<p th:text="${question.knowledgePoints}==null?'知识点：暂无':${'知识点：'+question.knowledgePoints}">知识点：章节名称</p>
+										<p th:text="${question.explains}==null?'答案解析：暂无':${'答案解析：'+question.knowledgePoints}" >答案解析：C:答案解析答案解析答案解析答案解析</p>
+									</div>
+									
+								</div>
+							</li>
+							
+					
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+		</div>
+		
+		<div class="test-right rt_nr1 pr-3">
+				
+					<div class="card">
+						<div class="card_header">
+							<span class="float-left test-dtk">答题卡</span>
+						</div>
+						
+							<div class="card-body">
+								<div class="rt_content_tt pb-2">
+									<b>单选题</b>
+									<span><!--（共60题)--></span>
+								</div>
+								<div class="rt_content_nr answerSheet">
+									<ul>
+										<li th:each="question,questionStat: ${lists}">
+										<div th:if="${question.isCorrect==0}"><a class="text-white bg-info" th:text="${questionStat.count}">1</a></div>
+										 <div th:if="${question.isCorrect==1}"><a class="text-white bg-danger" th:text="${questionStat.count}">2</a></div>
+										 <div th:if="${question.isCorrect==2}"><a class="text-white bg-secondary" th:text="${questionStat.count}">3</a></div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						
+						
+							
+							<div class="card-body">
+								<i class="fa fa-square text-info"></i>
+								<label>正确</label>
+								<i class="fa fa-square text-danger"></i>
+								<label>错误</label>
+								<i class="fa fa-square text-secondary"></i>
+								<label>未做</label>
+							</div>
+							
+			
+							
+					</div>
+					
+					
+
+			</div>
+
+	
+
+
+
+	
+
+	
+	<script>
+		window.jQuery(function($) {
+			"use strict";
+			
+			$('time').countDown({
+				with_separators : false
+			});
+			$('.alt-1').countDown({
+				css_class : 'countdown-alt-1'
+			});
+			$('.alt-2').countDown({
+				css_class : 'countdown-alt-2'
+			});
+			
+		});
+		
+		
+		$(function() {
+			$('li.option label').click(function() {
+			debugger;
+				var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+				var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+				// 设置已答题
+				if(!cardLi.hasClass('hasBeenAnswer')){
+					cardLi.addClass('hasBeenAnswer');
+				}
+				
+			});
+		});
+	</script>
+		<!--纠错弹出-->
+<div class="modal fade bd-example-modal-lg" 
+	tabindex="-1" role="dialog" 
+	aria-labelledby="jcuo" 
+	aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="jcuo">试题纠错反馈</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert">
+                                    一直在完善，从未停歇过，但有些题目可能仍然存在瑕疵，对您造成的不便我们深表歉意！
+        </div>
+        <div class="text-info">
+        	为方便我们排查错误，请您详细描述本题错误，例如：
+        </div>
+<div class="form-check form-check-inline">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">含有错别字</span>
+</label>
+</div>
+<div class="form-check form-check-inline">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">答案不正确</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">题目不完整</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">图片不存在</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">解析不正确</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">题目带答案</span>
+</label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="custom-control custom-radio">
+  <input id="radio1" name="radio" type="radio" class="custom-control-input"/>
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description">其他错误</span>
+</label>
+</div>
+
+<div class="form-group">
+    <label for="exampleFormControlTextarea1" class="text-info">错题描述:</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-info">发送</button>
+      </div>
+    </div>
+ </div>
+  
+</div>
+
+<!-- 开始做题弹出 -->
+<div class="modal fade" id="again" tabindex="-1" role="dialog" aria-labelledby="again" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h6 class="modal-title" id="again">
+        	<b>练习设置</b>
+        	<span class="text-info">(共41题，已做0，未做41)</span>
+        </h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+			</div>
+			<div class="modal-body">
+				<div class="">
+					<label>分类:</label>
+					<div class="btn" data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked="checked"/> 未做题 (41)
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 已做题 (0)
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 错题 (0)
+  </label>
+					</div>
+				</div>
+
+				<div class="">
+					<label>题量:</label>
+					<div class="btn" data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked="checked"/> 10
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 20
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 30
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 50
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 80
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 100
+  </label>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">关闭</button>
+				<a href="order-zt.html"><button type="button" class="btn btn-sm btn-info">开始练习</button></a>
+			</div>
+		</div>
+	</div>
+</div>

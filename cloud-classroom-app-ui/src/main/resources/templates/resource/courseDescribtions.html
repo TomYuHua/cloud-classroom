@@ -1,0 +1,13 @@
+						<li>
+						    <i class="fa fa-user mar5"></i>
+							<a th:text="${course.createauthor}==null?'暂没有姓名':${course.createauthor}">金元宝</a>
+						</li>
+						<li th:text="${course.clickcount}==null?'暂未进行学习':${course.clickcount+'次学习'}">5632 次学习</li>
+						<li>
+						    <i>评分：</i>
+							<b class="red" th:text="${course.scores}==null?'暂未进行评分':${'评分:'+course.scores}">评分：9.2</b>
+						</li>
+						<li>
+						  <span th:if="${course.isCollectedByLoginUser!=true}"><a href="javascript:addCollections()"><i class="fa fa-star-o mar5"></i></a>收藏</span>
+				          <span th:if="${course.isCollectedByLoginUser==true}"><a th:href="'javascript:deleteCollections(\''+${collections.id}+'\')'"><i class="fa fa-star mar5"></i></a>取消收藏</span>
+						</li>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/fragments/comm">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>鑫广飞无人机课堂应用平台-文档</title>
+		<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}"/>
+		<link rel="stylesheet" type="text/css" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+       <!--  <link rel="stylesheet" href="/resources/static/css/good.css" th:href="@{/css/good.css}" /> -->
+        <link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+      <script type="text/javascript" src="/resources/static/AdminBackend/node_modules/lodash/lodash.min.js" th:src="@{/AdminBackend/node_modules/lodash/lodash.min.js}"></script>
+        <script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+  <!--  <script type="text/javascript" src="/resources/static/js/jwplayer/comentInputShow.js" th:src="@{/js/jwplayer/comentInputShow.js}"></script>  -->
+        <script type="text/javascript" src="/resources/static/js/star.js" th:src="@{/js/star.js}"></script>
+          <!--  <script type=" text/javascript" src="/resources/static/js/parise.js" th:src="@{/js/parise.js}"></script> -->
+       
+ <script type="text/javascript"> 
+
+ 
+ $(function (){
+	 document.body.onclick=function(e){    
+ 
+		 if($(e.target).is('.makeReply')){
+		 $(e.target).closest('.allComments').find('.intro').css('display','none'); 
+		 $(e.target).closest('.allComments').find('#intro').removeAttr('id'); 
+		 $(e.target).closest('.coments-each-root').find('.coments-each-textarea').css('display','block'); 
+		 $(e.target).closest('.coments-each-root').find('.coments-each-textarea').addClass('intro'); 
+	     $(e.target).closest('.coments-each-root').find('.replyContent').attr('id','intro');
+
+ }
+    	 
+  
+	
+	 }
+	
+ });
+ 
+
+ 
+ 
+ 
+	$(document)
+			.ready(
+			
+				//	function(event){           
+				//		$(event.currentTarget).closest('.coments-each-root').find('.coments-each-textarea').show();
+				//	}		
+					function()
+					{ 
+					 var resourceId=$("#resourceId").val();
+					 var userId=$("#userId").val();
+   		              $("#reply").load('/getCommentsByResourceId',{id:resourceId});
+   			          $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+   			        if(userId!=""){ 
+   			    	   $(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+   			          }
+				 		/* $subblocks = $(".subpage") */
+						$("#proinfo").css({ display : 'none' });
+						var $subblocks = $(".allbtn"), $heads = $subblocks
+								.find('h2'), $uls = $("#proinfo"), $liss = $uls
+								.find("li");
+						
+						$uls.click(function(event)
+						{
+							event.stopPropagation();
+						});
+						
+						$subblocks.hover(function()
+						{
+							
+							$("#proinfo").css({ display : 'block' });
+							
+						}, function()
+						{
+							
+							$("#proinfo").css({ display : 'none' });
+							
+						});
+					});
+	 </script>	
+	</head>
+	<body>
+<!--haeder开始-->
+<div th:fragment="content" th:remove="tag">
+
+	 <script th:inline="javascript">
+	 function addComments(){
+		 var userId=$("#userId").val();
+		 var contents=$("#tesInput").val();
+		 var resourceId=$("#resourceId").val();
+		 var score=$("#score").val();
+			$.ajax({
+			    type:'POST',
+				url:"/resource/addcomments",
+			    data:JSON.stringify({"contents":contents,
+			    	   "resourceId":resourceId,
+			    	    "score":score,
+			    	    "parentId":0
+			        }),
+			    contentType:"application/json;charset=utf-8",  
+			    dataType:'json', 
+				async: false,
+				success:function(data){
+					if(data.result=="ok"){
+               $(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+				$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+		 		 document.getElementById("score").value =null;
+					document.getElementById('tesInput').value ="";
+					$("#star1").attr("src","../img/star.png");
+					$("#star2").attr("src","../img/star.png");
+					$("#star3").attr("src","../img/star.png");
+					$("#star4").attr("src","../img/star.png");
+					$("#star5").attr("src","../img/star.png");
+			      }	
+				},
+			    error:function(data){
+					alert("评论失败");
+				  }
+			});
+	 }
+	 
+	 
+	    function addReply(a){  
+	
+			//document.getElementById("replyButton").style.visibility = "visible";
+	       // document.getElementById("replyContent").style.visibility = "visible";
+	        document.getElementById("stateNum").value = "0";
+	        document.getElementById("resourceCommentsId").value = a;
+	    }
+        function makeReply(a,b){
+			//document.getElementById("replyButton").style.visibility = "visible";
+	     //  document.getElementById("replyContent").style.visibility = "visible";
+	        document.getElementById("stateNum").value = "1";
+	        document.getElementById("resourceCommentsId").value = a;
+	        document.getElementById("replyTo").value = b;
+	        
+        }
+        
+        function sendReply(){
+        	var userId=$("#userId").val();
+       	    var a=$("#stateNum").val();
+   		    var resourceId=$("#resourceId").val();
+        	var contents=$("#intro").val();
+        	var parentId=$("#resourceCommentsId").val();
+        	var replyTo;
+        	if(a==0){
+        		replyTo="";
+        	}else{
+        		replyTo=$("#replyTo").val();
+        	}
+        
+        	$.ajax({
+			    type:'POST',
+				url:"/resource/addcomments",
+			    data:JSON.stringify({"contents":contents,
+			    	    "resourceId":resourceId,
+			    	    "parentId":parentId,
+			    	     "replyTo":replyTo
+			        }),
+			    contentType:"application/json;charset=utf-8",  
+			    dataType:'json', 
+				async: false,
+				success:function(data){	
+					if(data.result=="ok"){
+						 $(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+						$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+			            
+					}
+				},
+			    error:function(data){
+					alert("评论失败");
+				  }
+			});
+        }
+        
+        
+        
+   	 function clickScore(a){
+ 		var score=a;
+ 		 document.getElementById("score").value =score;
+ 		click(score);
+ 	  }
+ 	    
+        
+     function deleteComment(a){
+    	var userId=$("#userId").val();
+		 var resourceId=$("#resourceId").val();
+    	 var c=a;
+       $.ajax({
+		        type:'GET',    
+			    url:"/resource/deletecomments",
+		        data:{"id":c},
+		       dataType:'json', 
+			   async:  false,
+			   success:function(data){
+				   
+				if(data.result=="ok"){
+					$(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+					$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+				}
+			},
+		        error:function(data){
+				  alert("删除失败");
+			  }
+		});
+        
+     }  
+     
+     
+     function addCollections(){
+ 		var resourceId=$("#resourceId").val();
+ 		  $.ajax({
+ 		        type:'GET',    
+ 			    url:"/resource/addCollections",
+ 		        data:{"id":resourceId,"types":3},
+ 		       dataType:'json', 
+ 			   async: false,
+ 			   success:function(data){
+ 				if(data.result="ok"){
+ 				       $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+ 				}
+ 			},
+ 		        error:function(data){
+ 				  alert("添加收藏失败");
+ 			  }
+ 		});
+ 	}
+        
+     function deleteCollections(id){
+ 		var resourceId=$("#resourceId").val();
+ 		var collectionsId=id;
+ 		 $.ajax({
+ 		        type:'GET',    
+ 			    url:"/resource/deleteCollections",
+ 		        data:{id:collectionsId},
+ 		       dataType:'json', 
+ 			   async: false,
+ 			   success:function(data){
+ 				if(data.result="ok"){
+ 				       $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+ 				}
+ 			},
+ 		        error:function(data){
+ 				  alert("取消收藏失败");
+ 			  }
+ 		});
+ 	}
+</script>	
+    <!--主题框架-->
+    <div class="main-container">
+	     <!--panel面板开始-->
+         <div class="panel mar-top">
+         	<div class="read left" >
+         		<ul class="breadcrumb">
+                    <li><a href="#">课程</a></li>
+                    <li><a href="#">飞行原理与飞行性能</a></li>
+                    <li><a href="#">无人机动力学基础</a></li>
+                </ul>
+                <h1 class="headlines" th:if="${resources!=null}">
+                	<p class="left">
+                	    <i class="fa fa-file-pdf-o red mar5"></i>
+                	    <span class="reader-title" th:if="${resources!=null}" th:text="${resources.name}" ></span>
+                	</p>
+                	<input type="hidden" th:value="${resources}==null?'':${resources.id}" id="resourceId"></input>
+                    <input type="hidden" th:value="${user}==null?'':${user.userId}" id="userId"></input>
+                	<input type="hidden" id="resourceCommentsId" value=""></input>
+                	<input type="hidden" value="" id="score"></input>
+                	<input type="hidden" id="replyTo" value=""></input>
+                	<input type="hidden" id="replyContent" value=""></input>
+                	<button class="left footer-down"></button>
+                </h1>
+                <ul class="bread-crumb" id="desctribtions" th:if="${resources}!=null"></ul>
+               <!--  <h2 class="reader-title" th:if="${resources!=null}" th:text="${resources.name}" >3.2.1速度与加速度</h2> -->
+                <div class="reader">                                    
+                	<div class="reader-txt"  th:if="${resources}!=null" th:utext="${resources.contents}">
+                                                                     文档内容
+                	</div>
+                </div>
+                    <div class="file-video">
+                    <input type="hidden" id="stateNum" value=""/>
+                       <!--评价区域-->
+                       <div class="video-message">  
+                           <div class="tea-tx left" th:if="${user.imgSrc}!=null"><img th:src="${user.imgSrc}"></img></div>
+						   <div class="tea-tx left" th:if="${user.imgSrc}==null"><img src="../img/user-pic.png"></img></div>
+                            <div class="tea-txt right">
+                                <form class="tes-form" method="get">
+                                    <textarea class="tes-input"  id="tesInput" clos="20" rows="3" type="text"   placeholder="扯淡、吐槽、表扬、鼓励......想说啥就说啥！"></textarea>
+                                </form>
+                                <div class="send-out" th:if="${resources!=null}">
+                                </div>
+                            </div>
+                       </div>
+                       <!--回复区域-->
+                       <div class="reply" id="reply">
+                       </div>
+                    </div>
+             </div><!--read-left-->
+       	   <div class="down right">
+       	   	<!--下载排行榜-->
+				<div class="down-load">
+					<div class="title">
+                        <div class="title-name left">
+                            <span class="dot left"></span>
+                            <h3>下载排行榜</h3>
+                        </div>
+			    	</div>
+                    <div class="down-link">
+                       <ul>
+                        	<li th:each="resourceshow:${listresources}">
+                        	    <i class="fa fa-bookmark fa-2x left indigo"></i>
+                        	    <span class="nemb"><b>1</b></span>
+                        		<p><b th:text="${resourceshow.name+'——'+resourceshow.createauthor}"><a href="#">速度与加速度——王老师</a></b></p>
+                        		<!--  <p th:text="${'文件大小：'+resourceshow.fileSize+'|'+'下载次数：'+resourceshow.downloadCount}">-->
+                        		<p>
+                        		    <span class="zipmax" th:text="${'文件大小：'+resourceshow.fileSize}">文件大小：12M</span>
+                        			<span class="zipdol" th:text="${'下载次数：'+resourceshow.downloadCount}">下载次数：521次</span>
+                        		</p>
+                        	</li>
+                        </ul>
+                    </div>
+				</div>
+			</div>
+         </div>	<!--panel面板结束-->
+	</div><!--主题框架-->
+	<!--footer开始-->
+		</div>
+	</body>
+ 
+</html>

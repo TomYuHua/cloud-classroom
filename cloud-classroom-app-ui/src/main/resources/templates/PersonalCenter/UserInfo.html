@@ -1,0 +1,246 @@
+<div class="title">
+	        		<span class="dot left"></span>
+                    <h3>个人资料</h3>
+                </div>
+                <h4 class="red">*必填</h4>
+                <form action="/userui/uploadStudent" method="post" enctype="multipart/form-data" target="hidden_frame"> 
+                <table class="required">
+                	<tbody>
+                	<tr>
+                		<td class="td-text">用户名：</td>
+                		<td class="td-sr"><input class="td-input td-border input85  gray-bgc" type="text" value="用户名" disabled="disabled"></input></td>
+                		<td class="td-zs">
+                		   <button id="edit" class="blue" onclick="javascript:makeEditable()"><i class="fa fa-pencil-square-o mar5 size-2o"></i>编辑</button>
+                		</td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">昵称：</td>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text"  th:value="${user.nickName}" id="nickName" name="nickName" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">姓名：</td>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text" th:value="${user.student.name}" id="name" name="name" disabled="true" ></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">性别：</td>
+                		<td class="td-sr">
+                		    <div th:if="${user.sex==0}">
+                			<input type="radio" name="sex" value="0" id="male" disabled="true"  checked="checked"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="1" id="female"  name="sex" disabled="true" />
+                            <label for="male">女</label>
+                            </div>
+                            <div th:if="${user.sex==1}">
+                			<input type="radio" name="sex" value="0"  id="male" disabled="true"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="1" id="female"  name="sex" disabled="true" checked="checked" />
+                            <label for="male">女</label>
+                            </div>
+                           <div th:if="${user.sex==null}">
+                			<input type="radio" name="sex" value="0"  id="male" disabled="true"/>
+                			<label for="female">男</label>
+                			<input type="radio"  value="1" id="female"  name="sex" disabled="true" checked="checked" />
+                            <label for="male">女</label>
+                            </div>
+                		</td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">手机：</td>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text" id="phone" th:value="${user.phone}" name="phone" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">邮箱：</td>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text" id="email"  th:value="${user.email}" name="email" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">身份证：</td>
+                		<input type="hidden" name="studentId" th:value="${user.student.id}"></input>
+                		<input type="hidden" name="id" th:value="${user.userId}"></input>
+                		<input type="hidden" name="userType" th:value="${user.userType}"></input>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text" id="idNumber"  th:value="${user.student.idNumber}"  name="idNumber" disabled="true"></input></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">学号：</td>
+                		<td class="td-sr"><input class="td-input input85 td-border" type="text" id="studentNo" th:value="${user.student.studentNo}" name="studentNo" disabled="true"></input></td>
+                	</tr>
+                	</tbody>
+                </table>
+                <h4 class="gray">*选填</h4>
+                <table class="required">
+                	<tbody>
+                	<tr>
+                		<td class="td-text">头像：</td>
+                		<td class="td-sr red">*仅支持jpg、png格式，文件小于1M（方形图）</td>
+                		<td class="gray td-zs"></td>
+                	</tr>
+                	<tr>
+                		<td class="td-text"></td>                                                                                                                           
+                		<td><img th:src="${user.imgSrc}" src="img/tx-u.png" id ="img" class="send-img"/></td>
+                		<td class="gray td-zs">
+                		<a href="#" class="file-pic">选择文件
+                           <input type="file" name="file" id="upload-file"/>
+                        </a>
+                		</td>
+                	</tr>
+                	<tr>
+                		<td class="td-text">个性签名：</td>
+                		<td class="td-sr red"><textarea class="tes-input" clos="20" rows="3"  disabled="true" id="introduction" name="description" th:text="${user.student.description}"></textarea></td>
+                		<td class="gray td-zs"></td>
+                	</tr>
+                	</tbody>
+                </table>
+                <div class="sav-u">
+                    <p class="savss">
+                	<input class="send blue" id="save" type="submit" style="visibility: hidden;" value="保存" />
+                	<input class="send grays" id="quit" type="button"  style="visibility: hidden;" value="取消" />
+                    </p>
+                </div>
+                </form>
+                <iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
+
+<script th:src="@{/AdminBackend/js/ly-lib/ly-selector-ssx-no-lodash.js}"></script>
+<script type="text/javascript">
+$('#hidden_frame').load(function(){
+    var text=$(this).contents().find("body").text();
+       // 根据后台返回值处理结果
+    var j=$.parseJSON(text);
+    if(j.result=="success") {
+        alert("修改成功");
+    } 
+    else if(j.result=="fail"){
+    	alert("修改失败");
+    }  
+});
+ 
+	$(document).ready(function() {
+	
+		$(".fortab").click(function() {
+			var number = $(".fortab").index(this);
+			$(this).addClass("checked");
+			$(this).siblings().removeClass("checked");
+			$(".tablelist:eq(" + number + ")").show();
+			$(".tablelist:eq(" + number + ")").siblings().hide();
+		});
+	});
+
+	function makeEditable() {
+		document.getElementById("save").style.visibility = "visible";
+		document.getElementById("quit").style.visibility = "visible";
+		document.getElementById("edit").style.display = "none";
+		$("#nickName").attr("disabled", false);
+		$("#name").attr("disabled", false);
+		$("#phone").attr("disabled", false);
+		$("#email").attr("disabled", false);
+		$("#idNumber").attr("disabled", false);
+		$("#male").attr("disabled", false);
+		$("#female").attr("disabled", false);
+		$("#studentNo").attr("disabled", false);
+		$("#introduction").attr("disabled", false);
+	}
+
+
+	/*function updateUser(){	
+	 var nickName=$("#nickName").val();
+	 var name=$("#name").val();
+	 var sex=$("input[name='sex']:checked").val()
+	 var phone=$("#phone").val();
+	 var emai=$("#email").val();
+	 var idNumber=$("#idNumber").val();
+	 var igeUrl=$("#igeUrl").val();
+	 var introduction=$("#introduction").val();  
+	 $.ajax({
+	 type:'PUT',
+	 url:"/userui/updateUser",
+	 data:JSON.stringify({
+	 "nickName":nickName,
+	 "name":name,
+	 "sex":sex,
+	 "phone":phone,
+	 "emai":email,
+	 "idCard":idCard,
+	 "igeUrl":igeUrl,
+	 "introduction":introduction
+	 }),
+	 contentType:"application/json;charset=utf-8",  
+	 dataType:'json', 
+	 async: false,
+	 success:function(data){
+	 if(data.result=="success"){
+	 alert("修改成功");
+	 }
+	 },
+	 error:function(data){
+	 alert("修改失败");
+	 },
+	 });
+	
+	 }*/
+	
+	 document
+	    .querySelector('#upload-file')
+	    .addEventListener('change', function(){
+	        //当没选中图片时，清除预览
+	        if(this.files.length === 0){
+	            document.querySelector('#img').src = '';
+	            return;
+	        }
+	        
+	        //实例化一个FileReader
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            //当reader加载时，把图片的内容赋值给
+	            document.querySelector('#img').src = e.target.result;
+	        };
+
+	    //读取选中的图片，并转换成dataURL格式
+	    reader.readAsDataURL(this.files[0]);
+	    }, false); 
+	/*function uploadFile() {
+
+		var fileObj = document.getElementById("upload-file").files[0]; // 获取文件对象  
+		var FileController = "http://localhost:8080/upload"; // 接收上传文件的后台地址  
+
+		if (fileObj) {
+			alert(fileObj);
+			// FormData 对象  
+			var form = new FormData();
+			form.append("file", fileObj);// 文件对象     
+
+			// XMLHttpRequest 对象  
+			var xhr = new XMLHttpRequest();
+			xhr.open("post", FileController, true);
+			xhr.onload = function() {
+				alert(xhr.responseText);
+			};
+			xhr.send(form);
+
+		} else {
+			alert("未选择文件");
+		}
+	}*/
+
+	/*function addFile(obj){  
+	 //document.getElementById('img').src = path;  
+	 $.ajaxFileUpload({  
+	 url:'/userUI/fileUpload', //用于文件上传的服务器端请求地址  
+	 secureuri: false, //是否需要安全协议，一般设置为false  
+	 fileElementId: 'photoFile', //文件上传域的ID  
+	 dataType: 'json', //返回值类型 一般设置为json  
+	 success: function (data){//服务器成功响应处理函数  
+	 var infoArray = eval("("+data+")"); //包数据解析为json格式  
+	 var arr = infoArray.data;  
+	 $("#img").attr("src","/images/"+arr.photo);  
+	
+	 },  
+	 error: function (){//服务器响应失败处理函数  
+	 alert('与服务器通信失败，请稍后再试！');  
+	 parent.location.reload();  
+	 }  
+	 */
+</script>
+
+
+
+        
+			

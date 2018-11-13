@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.StudentDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.UserVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="userType" jdbcType="INTEGER" property="userType" />
+		<result column="sex" jdbcType="INTEGER" property="sex" />
+		<result column="relationId" jdbcType="INTEGER" property="relationId"/>
+		<association property="student" resultMap="studentResultMap" />
+	</resultMap>	
+	<resultMap id="studentResultMap" type="com.singFly.cloud_examination_student.Student">
+		<result column="studentId" jdbcType="INTEGER" property="id" />
+		<result column="clazzId" jdbcType="INTEGER" property="clazzId"/>
+		<result column="schoolId" jdbcType="INTEGER" property="schoolId"/>
+		<result column="studyNo" jdbcType="VARCHAR" property="studyNo"/>
+		<result column="studentName" jdbcType="VARCHAR" property="studentName"/>
+	</resultMap>
+	
+	<update id="updateStudent" parameterType="com.singFly.cloud_examination_student.Student">
+		update Student
+		<set>
+			<if test="clazzId!=null and clazzId=''">
+				clazzId = #{clazzId},
+			</if>
+			<if test="schoolId!=null and schoolId=''">
+				schoolId=#{schoolId},
+			</if>
+			<if test="studyNo!=null and studyNo=''">
+				studyNo=#{studyNo},
+			</if>
+			<if test="studentName!=null and studentName=''">
+				studentName=#{studentName}
+			</if>
+		</set>
+		where id = #{id};
+	</update>
+   
+   
+  <insert id="addStudent" parameterType="com.singFly.cloud_examination_student.Student" >
+        insert into Student
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="clazzId!= null and clazzId=''" >
+         clazzId,
+	    </if>
+		<if test="schoolId!= null and schoolId!=''" >
+         schoolId,
+	     </if>
+		<if test="studyNo!= null and studyNo!=''" >
+          studyNo,
+		</if>
+	     <if test="studentName!= null and studentName!=''" >
+          studentName
+		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+         <if test="clazzId!= null and clazzId=''" >
+         #{clazzId},
+	    </if>
+		<if test="schoolId!= null and schoolId!=''" >
+         #{schoolId},
+	     </if>
+		<if test="studyNo!= null and studyNo!=''" >
+          #{studyNo},
+		</if>
+	     <if test="studentName!= null and studentName!=''" >
+          #{studentName}
+		</if>
+		</trim>
+	</insert>
+	
+<delete id="deleteStudent" parameterType="int">
+delete from Student where id =#{id}; 
+</delete>
+
+<select id="getUser" resultMap="BaseResultMap">
+select a.id,a.userName,a.userType,a.sex,a.relationId,b.id as studentId,b.clazzId,b.studyNo,b.schoolId,b.studentName from User left join Student on a.relationId=b.id where a.id=#{id};
+</select>
+
+</mapper>

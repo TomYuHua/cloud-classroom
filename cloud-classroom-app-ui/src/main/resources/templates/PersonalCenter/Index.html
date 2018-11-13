@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/fragments/UserCenterComm">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台</title>
+<link rel="stylesheet" type="text/css" href="/resources/static/css/zTreeStyle/zTreeStyle.css" th:href="@{/css/zTreeStyle/zTreeStyle.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/zTree/jquery.ztree.core.js" th:src="@{/js/zTree/jquery.ztree.core.js}"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function()
+					{
+						/* $subblocks = $(".subpage") */
+						$("#proinfo").css({ display : 'none' });
+						var $subblocks = $(".allbtn"), $heads = $subblocks
+								.find('h2'), $uls = $("#proinfo"), $liss = $uls
+								.find("li");
+						
+						$uls.click(function(event)
+						{
+							event.stopPropagation();
+						});
+						
+						$subblocks.hover(function()
+						{
+							
+							$("#proinfo").css({ display : 'block' });
+							
+						}, function()
+						{
+							
+							$("#proinfo").css({ display : 'none' });
+							
+						});
+					});
+	// 树形菜单···············································
+	var treeArray = new Array();
+	var resourceTree = function()
+	{
+		//zTree设置
+		var setting = {
+			view : { dblClickExpand : false, showLine : true,
+				selectedMulti : false, showTitle : false },
+			data : { simpleData : { enable : true, idKey : "id",
+				pIdKey : "pId", rootPId : "0" } }, callback : {
+			/* onExpand : zTreeOnExpand, //节点展开事件*/
+			onClick : zTreeOnClick
+
+			} };
+		
+		var nextNodeListsetting = {
+			view : { dblClickExpand : false, showLine : true,
+				selectedMulti : false, showTitle : false },
+			data : { simpleData : { enable : true, idKey : "id",
+				pIdKey : "pId", rootPId : "0" } }, callback : {
+			/* onExpand : zTreeOnExpand, //节点展开事件*/
+			onClick : middlezTreeOnClick
+
+			} };
+		
+		function zTreeOnClick(event,treeId,treeNode,clickFlag)
+		{
+			console.log("event" + event);
+			console.log("treeid" + treeId);
+			console.log("treenode" + treeNode);
+			console.log("clickFlag" + clickFlag);
+			//1 根据当前节点，获取当前节点下一级子节点的 文件以及文件夹
+			if (isClickTreeNode == false)
+			{
+				$("#saidpanel").addClass("saidpanel-ebook");
+				isClickTreeNode = true;
+				$("div[id='saidpanel']").empty();
+				$("div[id='saidpanel']").load('/personalcenter/resource');
+			}
+			
+			// 把获取的节点信息 展示在 第二级框中 （默认展示第一个文件（如果是文件夹则不显示））
+			console.log(treeNode.id);
+			$("#contentdiv").empty();
+			setNLevelNodeData(treeNode.id, 1, "middleTree");
+			// 根据2级中的节点，
+			
+		}
+		;
+		function middlezTreeOnClick(event,treeId,treeNode,clickFlag)
+		{
+			console.log("event");
+			console.log(event);
+			console.log("treeid");
+			console.log(treeId);
+			console.log("treenode");
+			console.log(treeNode);
+			/* console.log("clickFlag");
+			csonsole.log(clickFlag); */
+			try
+			{
+				$("#contentdiv").empty();
+				
+				if (treeNode.isParent != true)
+				{
+					
+					$.ajax({
+						global : true,
+						type : "GET",
+						url : '/resource/getResourcesById',
+						//async: false,
+						data : { id : treeNode.id },
+						contentType : "application/																																								on",
+						dataType : "text",
+						success : function(data)
+						{
+							try
+							{
+								if (data == undefined || data == null
+										|| data == "")
+								{
+									return;
+								}
+								
+								var result = JSON.parse(data);
+								
+								$("#contentdiv").append(result.contents);
+								
+							} catch (e)
+							{
+								console.log(e);
+							}
+							
+						}, error : function()
+						{
+							alert("加载2级树形菜单失败");
+						}
+
+					});
+					
+				}
+			} catch (e)
+			{
+				console.log(e);
+				alert("获取信息出错");
+			}
+			
+		}
+		;
+		
+		//设置数据中心树节点数据
+		var setNLevelNodeData = function(treeId,nlevel,bindLocation)
+		{
+			$.ajax({
+						global : true,
+						type : "GET",
+						url : '/resource/GetNLevelTreeData',
+						//async: false,
+						data : { rootId : treeId, n : nlevel },
+						dataType : "text",
+						success : function(data)
+						{
+							var dt = $("#" + bindLocation);
+							dt.empty();
+							if (data == undefined || data == null || data == "")
+							{
+								return;
+							}
+							var result = eval(data);				
+							if (result)
+							{
+								var treeObj = $.fn.zTree.init(dt,nextNodeListsetting,result);
+								console.log("treeObj.......................................");
+								console.log(treeObj);
+								var nodes = treeObj.getNodes();
+								console.log(nodes);
+								var firstNode = nodes[0];
+								treeObj.selectNode(firstNode);
+								console.log(firstNode);
+								
+							/*	try
+								{
+									if (firstNode.isParent!=true)
+									{
+										//读取文档信息
+										$("#contentdiv").empty();
+										$("#contentdiv").append(firstNode.Contents);
+									}
+								} catch (e)
+								{
+									console.log(e);
+									alert("获取信息出错");
+								}*/
+								
+							}
+						}, error : function()
+						{
+							alert("加载2级树形菜单失败");
+						}
+
+					});
+		};
+		
+		//设置数据中心树节点数据
+		var setNodeData = function(treeId)
+		{
+			$.ajax({ global : true, type : "GET",
+				url : '/resource/gettreedata',
+				//async: false,
+				data : { rootId : 0 }, dataType : "text",
+				success : function(data)
+				{
+					
+					if (data == undefined || data == null || data == "")
+					{
+						return;
+					}
+					var result = eval(data);
+					var dt = $("#" + treeId);
+					if (result)
+					{
+						$.fn.zTree.init(dt, setting, result);
+					} else
+					{
+						dt.remove()
+					}
+				}, error : function()
+				{
+					alert("加载树形菜单失败");
+				}
+
+			});
+		};
+		
+		return {
+
+		setTreeNodeData : function(treeId)
+		{
+			setNodeData(treeId);
+		} };
+	}();
+	
+	$(document).ready(
+			function()
+			{
+				try
+				{    
+				
+					$.ajax({
+						type:'POST',
+						url:"/resource/checkresourcepemission",
+						data:{"checkNo":"fsdafwr"},
+						dataType:'json',
+						async:false,
+						success:function(data){
+						if(data.result=="ok"){	
+							resourceTree.setTreeNodeData("treediv");
+							
+						}}
+						});
+				$("#menudiv").load("/resource/menu",
+						function(responseTxt,statusTxt,xhr)
+						{
+							tabIndex.loadMenu();
+							tabIndex.doClickMenu();
+							tabIndex.displayDefaultMenu();
+						});
+					
+			} catch (e)
+			{
+				alert("树形菜单加载问题");
+				console.log(e);
+			}
+				
+			});
+	
+	var isClickTreeNode = false;
+	//左边导航栏菜单
+	var tabIndex = function()
+	{
+		var loadMenu = function()
+		{
+			$.ajax({ global : true, type : "GET",
+				url : '/personalcenter/loadmenu', async : false, data : {},
+				dataType : "text", success : function(data)
+				{
+					try
+					{
+						if (data == undefined || data == null || data == "")
+						{
+							return;
+						}
+						//var result = eval(data);
+						$("#topMenuDiv").append(data);
+					} catch (e)
+					{
+						alert("菜单页面出错");
+					}
+					
+				}, error : function()
+				{
+					alert("加载菜单失败");
+				}
+
+			});
+			
+		};
+		var doClickMenu = function()
+		{
+			var selectObj = $("#topMenuDiv>ul>li>a");
+			$(selectObj).click(function()
+			{
+				//未选择的li设置他的样式为 未选择状态
+				//$("#topMenuDiv>ul>li").attr("class", "ht-ic-stu");
+				$("#topMenuDiv>ul>li").removeClass("hitdown");
+				//选中的li设置，样式为选中的样式hitdown
+				//$(this).closest("li").attr("class", "hitdown");
+				$(this).closest("li").addClass("hitdown");
+				var id = $(this).closest("li").attr("id");
+				
+				//隐藏上个选中状态菜单对应的 右边部分页
+				
+				//显示本次选中的右边的部分页
+				
+				loadPartalView(id);
+			})
+		};
+		var displayDefaultMenu = function()
+		{
+			//alert("11");
+			try
+			{
+				var menuLlist = $("#topMenuDiv>ul>li");
+				console.log(menuLlist);
+				
+				$(menuLlist).each(function()
+				{
+					//	alert($(this).text());
+					var check = $(this).attr("check");
+					if (check == 1)
+					{
+						var id = $(this).attr("id");
+						$(this).addClass("hitdown");
+						loadPartalView(id);
+						
+					}
+				})
+			} catch (e)
+			{
+				alert("a");
+				console.log(e);
+			}
+		};
+		var loadPartalView = function(id)
+		{
+			switch (id)
+			{
+				case "LastLearn":
+					if($("div[id='saidpanel']").hasClass("saidpanel-ebook")){
+						$("div[id='saidpanel']").removeClass("saidpanel-ebook");
+					}
+					if(isClickTreeNode ==true){
+						isClickTreeNode=false;
+					}
+					$("div[id='saidpanel']").load('/personalcenter/lastlearn');
+					break;
+				case "MyBookmark":
+					if($("div[id='saidpanel']").hasClass("saidpanel-ebook")){
+						$("div[id='saidpanel']").removeClass("saidpanel-ebook");
+					}
+					if(isClickTreeNode ==true){
+						isClickTreeNode=false;
+					}
+					$("div[id='saidpanel']").load('/personalcenter/collections');
+					break;
+				case "MyDownload":
+					if($("div[id='saidpanel']").hasClass("saidpanel-ebook")){
+						$("div[id='saidpanel']").removeClass("saidpanel-ebook");
+					}
+					if(isClickTreeNode ==true){
+						isClickTreeNode=false;
+					}
+					$("div[id='saidpanel']").load('/personalcenter/getPersonalDownload');
+					break;
+				case "MyCourse":
+					if($("div[id='saidpanel']").hasClass("saidpanel-ebook")){
+						$("div[id='saidpanel']").removeClass("saidpanel-ebook");
+					}
+					if(isClickTreeNode ==true){
+						isClickTreeNode=false;
+					}
+					$("div[id='saidpanel']").load('/personalcenter/getPersonlCoursePage');
+					break;
+				case "PersonInfor":
+					if($("div[id='saidpanel']").hasClass("saidpanel-ebook")){
+						$("div[id='saidpanel']").removeClass("saidpanel-ebook");
+					}
+					if(isClickTreeNode ==true){
+						isClickTreeNode=false;
+					}
+					$("div[id='saidpanel']").load('/personalcenter/personinfor');
+					break;
+				default:
+					return;
+			}
+		};
+		return { loadMenu : function()
+		{
+			loadMenu();
+		}, displayDefaultMenu : function()
+		{
+			displayDefaultMenu();
+		}, doClickMenu : function()
+		{
+			doClickMenu();
+		}, loadPartalView : function(id)
+		{
+			loadPartalView(id);
+		} };
+		
+	}();
+</script>
+
+</head>
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<!--panel面板开始-->
+		<div class="container-su">
+			<!--panel面板开始-->
+			<!--saidbar-->
+			<div class="saidbar left" id="menudiv"></div>
+			<!--saidpanel-->
+			<div class="saidpanel" id="saidpanel"></div>
+		</div>
+		<!--panel面板结束-->
+	</div>
+</body>
+<!--banner-->
+</html>

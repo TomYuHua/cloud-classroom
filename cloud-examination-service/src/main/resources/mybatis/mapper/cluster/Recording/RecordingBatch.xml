@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.RecordingBatchDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_recordingBatch.RecordingBatch">
+		<result column="chapterName" jdbcType="VARCHAR" property="chapterName"/>
+		<result column="chapterId" jdbcType="INTEGER" property="chapterId"/>
+		<result column="inputTime" jdbcType="TIMESTAMP" property="practiseTime"/>
+		<result column="totalTime" jdbcType="VARCHAR" property="totalTime"/>
+		<result column="rightNum" jdbcType="INTEGER" property="rightNum"/>
+		<result column="wrongNum" jdbcType="INTEGER" property="wrongNum"/>
+		<result column="unfinishedNum" jdbcType="INTEGER" property="unfinishedNum"/>
+		<result column="totalNum" jdbcType="INTEGER" property="totalNum"/>
+		<result column="timesId" jdbcType="INTEGER" property="timesId"/>
+		<result column="score" jdbcType="INTEGER" property="score"/>
+	</resultMap>
+	
+
+<select id="getRecordingBatches" resultMap="BaseResultMap">
+select distinct a.chapterId,a.userId,a.timesId,b.chapterName,c.inputTime,c.rightNum,c.wrongNum,c.unfinishedNum,c.totalNum,ROUND(c.rightNum/c.totalNum*100,0) as score from (
+
+select inputTime,sum(rightNum) rightNum,sum(wrongNum) wrongNum,sum(unfinishedNum) unfinishedNum,sum(rightNum+wrongNum+unfinishedNum) totalNum from (SELECT inputTime,count(isCorrect) rightNum,0 wrongNum,0 unfinishedNum FROM recording where isCorrect=0 
+group by inputTime
+ 
+UNION ALL
+ 
+SELECT inputTime,0 rightNum,count(isCorrect) wrongNum,0 unfinishedNum FROM recording where isCorrect=1 
+group by inputTime
+
+ 
+ UNION ALL
+ 
+SELECT inputTime,0 rightNum,0 wrongNum,count(isCorrect) unfinishedNum FROM recording where isCorrect=2 
+group by inputTime
+
+) t group by inputTime) c left join recording a on a.inputTime=c.inputTime left join Chapter b on a.chapterId=b.id;
+</select>
+
+<select id="getErrorRecordingBatches" resultMap="BaseResultMap">
+select a.wrongNum,a.chapterId,b.chapterName from(select count(1) as wrongNum,chapterId from questionRecord where userId=#{userId} and isCorrect=1 group by chapterId) a left join Chapter b on a.chapterId=b.id;
+</select>
+
+
+</mapper>

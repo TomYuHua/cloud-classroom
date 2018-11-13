@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/fragments/comm">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-视频</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" type="text/css" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+<!--<link rel="stylesheet" href="/resources/static/css/good.css" th:href="@{/css/good.css}" />-->
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/tab.js" th:src="@{/js/tab.js}"></script>
+<script type="text/javascript" src="/resources/static/js/star.js" th:src="@{/js/star.js}"></script>
+<!-- <script type="text/javascript" src="/resources/static/js/parise.js" th:src="@{/js/parise.js}"></script>-->
+<!-- <script type="text/javascript" src="/resources/static/js/jwplayer/jwplayer.js" th:src="@{/js/jwplayer/jwplayer.js}"></script>
+<script type="text/javascript" src="/resources/static/js/jwplayer/jwplayer.flash.swf" th:src="@{/js/jwplayer/jwplayer.flash.swf}"></script>
+
+ -->
+<script type="text/javascript" src="/js/ckplayer68/ckplayer/ckplayer.js" th:src="@{/js/ckplayer68/ckplayer/ckplayer.js}"  charset="utf-8"></script>
+<script type="text/javascript" src="/js/ckplayer68/js/offlights.js" th:src="@{/js/ckplayer68/js/offlights.js}"  charset="utf-8"></script>
+<!-- <script>
+	jwplayer.key = "q8LLhUydfg6k3ocTRcK0XPZDUIYOr8JhMreyeg==";
+</script> -->
+
+<script th:inline="javascript" type="text/javascript">
+
+ 
+
+
+$(function (){
+	 document.body.onclick=function(e){    
+
+		 if($(e.target).is('.makeReply')){
+		 $(e.target).closest('.allComments').find('.intro').css('display','none'); 
+		 $(e.target).closest('.allComments').find('#intro').removeAttr('id'); 
+		 $(e.target).closest('.coments-each-root').find('.coments-each-textarea').css('display','block'); 
+		 $(e.target).closest('.coments-each-root').find('.coments-each-textarea').addClass('intro'); 
+	     $(e.target).closest('.coments-each-root').find('.replyContent').attr('id','intro');
+
+}
+   	 
+ 
+	
+	 }
+	
+});
+
+$(document).ready(
+	
+		function()
+		{ 
+
+			$("#proinfo").css({ display : 'none' });
+			var $subblocks = $(".allbtn"), $heads = $subblocks
+					.find('h2'), $uls = $("#proinfo"), $liss = $uls
+					.find("li");
+			
+			$uls.click(function(event)
+			{
+				event.stopPropagation();
+			});
+			
+			$subblocks.hover(function()
+			{
+				
+				$("#proinfo").css({ display : 'block' });
+				
+			}, function()
+			{
+				
+				$("#proinfo").css({ display : 'none' });
+				
+			});
+		}); 
+		
+	function tunToNext()
+	{
+		var count = $("#number").val();
+		document.getElementById("number").value = parseInt(count) + 1;
+		
+		showYouLike();
+	};
+	
+	function showYouLike()
+	{
+		
+		var c = $("#number").val();
+		
+		loadlist.loadLikeResource(c, 5);
+		
+	};
+	
+	var loadlist = function()
+	{
+		var loadLikeResource = function(m,n)
+		{
+			$.ajax({
+				type : "GET",
+				url : '/selectYouLike',
+				data : { "m" : m, "n" : n },
+				dataType : "json",
+				async : true,
+				success : function(data)
+				{
+					if (data == undefined || data == null)
+					{
+						return;
+					}
+					$("#someYouLike").empty();
+					console.log(data);
+					var arrydiv = new Array("");
+					<!--
+					arrydiv.push(" <ul>");
+					-->
+					console.log(data);
+					$.each(data, function(index,content)
+					{
+						arrydiv.push(' <li> ');
+						arrydiv.push('<a href="'+content.id+'">');
+						arrydiv.push(' <i class="fa fa-caret-right mar5"></i> ');
+						arrydiv.push(' <span>' + content.createauthor
+								+ '——' + content.name + ' </span>');
+						arrydiv.push("</a>");
+						arrydiv.push(" </li> ");
+					})
+					<!--arrydiv.push("</ul>");
+					-->
+					var lis = arrydiv.join(" ");
+					console.log(lis);
+					$("#someYouLike").append(lis);
+					
+				} })
+		};
+		return {
+		//加载物理机下面的虚拟机列表
+		loadLikeResource : function(m,n)
+		{
+			loadLikeResource(m, n);
+			
+		}
+
+		};
+		
+	}();
+	
+	 
+	
+	function addComments()
+	{  	var userId=$("#userId").val();
+		var contents = $("#tesInput").val();
+		var resourceId = $("#resourceId").val();
+		var score = $("#score").val();
+		if(contents==""){
+			alert("评论不能为空");
+		}else{
+		$.ajax({
+			type : 'POST',
+			url : "/resource/addcomments",
+			data : JSON.stringify({ "contents" : contents,
+				"resourceId" : resourceId, "score" : score,
+				"parentId" : 0 }),
+			contentType : "application/json;charset=utf-8",
+			dataType : 'json', async : false,
+			success : function(data)
+			{
+				if (data.result = "ok")
+				{    document.getElementById("score").value =null;
+				    
+					$(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+					$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+					document.getElementById('tesInput').value ="";
+					$("#star1").attr("src","../img/star.png");
+					$("#star2").attr("src","../img/star.png");
+					$("#star3").attr("src","../img/star.png");
+					$("#star4").attr("src","../img/star.png");
+					$("#star5").attr("src","../img/star.png");
+				}
+			}, error : function(data)
+			{
+				alert("评论失败");
+			} });
+		}
+	};
+	
+	function addReply(a)
+	{
+		
+		document.getElementById("reply").style.visibility = "visible";
+		document.getElementById("replyContent").style.visibility = "visible";
+		document.getElementById("stateNum").value = "0";
+		document.getElementById("resourceCommentsId").value = a;
+	};
+	function makeReply(a,b)
+	{
+
+		document.getElementById("stateNum").value = "1";
+        document.getElementById("resourceCommentsId").value = a;
+        document.getElementById("replyTo").value = b;
+		
+	};
+	
+	function sendReply()
+	{   
+		var userId=$("#userId").val();
+		var a = $("#stateNum").val();
+		var resourceId = $("#resourceId").val();	
+		var contents = $("#intro").val();
+		var parentId = $("#resourceCommentsId").val();
+		var replyTo;
+		if (a == 0)
+		{
+			replyTo = "";
+		} else
+		{
+			replyTo = $("#replyTo").val();
+		}
+		
+		$.ajax({
+			type : 'POST',
+			url : "/resource/addcomments",
+			data : JSON.stringify({ "contents" : contents,
+				"resourceId" : resourceId, "parentId" : parentId,
+				"replyTo" : replyTo }),
+			contentType : "application/json;charset=utf-8",
+			dataType : 'json', async : false,
+			success : function(data)
+			{
+				if (data.result = "ok")
+				{     $(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+					$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+				}
+			}, error : function(data)
+			{
+				alert("评论失败");
+			} });
+	};
+	
+	$(document).ready(function() {
+		loadlist.loadLikeResource(0, 5);
+		
+		var resourceId=$("#resourceId").val();
+		var userId=$("#userId").val();
+	       $("#reply").load('/getCommentsByResourceId',{id:resourceId});
+	       $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+	       if(userId!=""){
+	       $(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});}
+	  })
+
+       
+	function clickScore(a)
+	{
+		var score = a;
+		document.getElementById("score").value = score;
+		click(score);
+	};
+	
+
+					   
+	 function deleteComment(a){
+			var userId=$("#userId").val();
+		 var resourceId=$("#resourceId").val();
+    	 var c=a;
+       $.ajax({
+		        type:'GET',    
+			    url:"/resource/deletecomments",
+		        data:{"id":c},
+		       dataType:'json', 
+			   async: false,
+			   success:function(data){
+				if(data.result="ok"){
+					$(".send-out").load('/getScoreSituations',{id:resourceId,userId:userId});
+					$("#reply").load('/getCommentsByResourceId',{id:resourceId});
+				}
+			},
+		        error:function(data){
+				  alert("删除失败");
+			  }
+		});
+        
+     } 
+	 
+	 
+	 
+	
+	function addCollections(){
+		var resourceId=$("#resourceId").val();
+		  $.ajax({
+		        type:'GET',    
+			    url:"/resource/addCollections",
+		        data:{"id":resourceId,"types":1},
+		       dataType:'json', 
+			   async: false,
+			   success:function(data){
+				if(data.result="ok"){
+				       $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+				}
+			},
+		        error:function(data){
+				  alert("添加收藏失败");
+			  }
+		});
+	}
+	
+	function deleteCollections(id){
+		var resourceId=$("#resourceId").val();
+		var collectionsId=id;
+		 $.ajax({
+		        type:'GET',    
+			    url:"/resource/deleteCollections",
+		        data:{id:collectionsId},
+		       dataType:'json', 
+			   async: false,
+			   success:function(data){
+				if(data.result="ok"){
+				       $("#desctribtions").load('/resource/getCourseDescribtions',{id:resourceId});
+				}
+			},
+		        error:function(data){
+				  alert("取消收藏失败");
+			  }
+		});
+	}
+	
+	function videoplay()
+	{
+		var resourceId = $("#resourceId").val();
+		$.ajax({
+			global : true,
+			type : "GET",
+			url : '/resource/getResourcesById',
+			//async: false,
+			data : { id : resourceId },
+			contentType : "application/json",
+			dataType : "text",
+			async : false,
+			success : function(data)
+			{
+				
+				try
+				{
+					if (data == undefined || data == null
+							|| data == "")
+					{
+						return;
+					}
+					
+					console.log(".................");
+					console.log(data);
+					var result = JSON.parse(data);
+					
+					if (data == undefined || data == null
+							|| data == "")
+					{
+						return;
+					}
+					var resourcePath = result.resourcepath;
+			
+					if (resourcePath == null || resourcePath == "")
+					{
+						return;
+					} else
+					{
+						videoPath = result.resourcepath;
+					
+						/*  videoPath = "http://192.168.1.211:8888/group1/M00/00/0A/wKgBylnLIteEP40tAAAAAAAAAAA440.mp4"; */
+						 
+					}
+					
+				} catch (e)
+				{
+					alert(e);
+				}
+				
+			}, error : function()
+			{
+				alert("获取视频信息");
+			} });
+	};
+	 
+	var videoPath = "";
+	$(document).ready(
+			function()
+			{
+				
+				$('[js-tab=1]').tab();
+				$('[js-tab=2]')
+						.tab(
+								{ curDisplay : 2,
+									changeMethod : 'horizontal' });
+				
+				videoplay();
+				
+				var flashvars={
+						//f:'http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4',
+				
+						f:videoPath,//视频地址
+						a:'',//调用时的参数，只有当s>0的时候有效
+						s:'0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
+						c:'0',//是否读取文本配置,0不是，1是
+						/* x:'',//调用配置文件路径，只有在c=1时使用。默认为空调用的是ckplayer.xml
+						i:'http://www.ckplayer.com/static/images/cqdw.jpg',//初始图片地址
+						d:'http://www.ckplayer.com/down/pause6.1_1.swf|http://www.ckplayer.com/down/pause6.1_2.swf',//暂停时播放的广告，swf/图片,多个用竖线隔开，图片要加链接地址，没有的时候留空就行
+						u:'',//暂停时如果是图片的话，加个链接地址
+						l:'http://www.ckplayer.com/down/adv6.1_1.swf|http://www.ckplayer.com/down/adv6.1_2.swf',//前置广告，swf/图片/视频，多个用竖线隔开，图片和视频要加链接地址
+						r:'',//前置广告的链接地址，多个用竖线隔开，没有的留空
+						t:'10|10',//视频开始前播放swf/图片时的时间，多个用竖线隔开
+						y:'',//这里是使用网址形式调用广告地址时使用，前提是要设置l的值为空
+						z:'http://www.ckplayer.com/down/buffer.swf',//缓冲广告，只能放一个，swf格式
+						e:'8',//视频结束后的动作，0是调用js函数，1是循环播放，2是暂停播放并且不调用广告，3是调用视频推荐列表的插件，4是清除视频流并调用js功能和1差不多，5是暂停播放并且调用暂停广告
+						v:'80',//默认音量，0-100之间
+						p:'0',//视频默认0是暂停，1是播放，2是不加载视频
+						h:'0',//播放http视频流时采用何种拖动方法，=0不使用任意拖动，=1是使用按关键帧，=2是按时间点，=3是自动判断按什么(如果视频格式是.mp4就按关键帧，.flv就按关键时间)，=4也是自动判断(只要包含字符mp4就按mp4来，只要包含字符flv就按flv来)
+						q:'',//视频流拖动时参考函数，默认是start
+						m:'',//让该参数为一个链接地址时，单击播放器将跳转到该地址
+						/* //当p=2时，可以设置视频的时间，单位，秒 */
+						o:'', 
+						/* //当p=2时，可以设置视频的总字节数 */
+						w:'', 
+						/* //视频直接g秒开始播放 */
+						g:'',
+						/* //跳过片尾功能，j大于0则从播放多少时间后跳到结束，小于0则总总时间-该值的绝对值时跳到结束 */
+						j:'',
+						/* //提示点时间，如 30|60鼠标经过进度栏30秒，60秒会提示n指定的相应的文字 */
+						k:'32|63',
+						n:'这是提示点的功能，如果不需要删除k和n的值|提示点测试60秒',//提示点文字，跟k配合使用，如 提示点1|提示点2
+						wh:'',//宽高比，可以自己定义视频的宽高或宽高比如：wh:'4:3',或wh:'1080:720'
+						lv:'0',//是否是直播流，=1则锁定进度栏
+						loaded:'loadedHandler',//当播放器加载完成后发送该js函数loaded
+						//调用播放器的所有参数列表结束
+						//以下为自定义的播放器参数用来在插件里引用的
+						my_title:'演示视频标题文字',
+						my_url:encodeURIComponent(window.location.href)//本页面地址 */
+						//调用自定义播放器参数结束
+						};
+				
+				/* jwplayer('videoplay').setup(
+						{ file : videoPath, 
+						width : '100%',
+						height : '580' }); */
+						
+				var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always'};//这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+				var video=[videoPath+'->video/mp4'];
+/* 				CKobject.embed('/js/ckplayer68/ckplayer/ckplayer.swf','videoplay','ckplayer_a1','100%','600px',false,flashvars,video,params);
+ */				
+                var support=['all'];
+				CKobject.embedHTML5('videoplay','ckplayer_a1','100%','100%',video,flashvars,support);
+			
+			});
+	
+	
+	 
+	
+	 
+	 
+	 
+	
+	
+	
+</script>
+
+</head>
+
+<body>
+	<!--视频播放区域-->
+	<div th:fragment="content" th:remove="tag">
+	<!-- <div class="video-play" id="videoplay"></div> -->
+	<div  class="video-play"  id="videoplay"></div>
+	<!-- 主题框架 -->
+	<div class="main-container">
+		<!--评论回复区域-->
+		<div class="comment">
+			<div class="personal left">
+				<!--章节简介-->
+				<div class="chapter">
+					<ul id="desctribtions" class="bread-crumb">
+
+					</ul>
+			
+					<h3>章节简介</h3>
+					
+					<p th:text="${resources}==null?'':${resources.describes}">跟大家分享一个百度、google、搜狗等搜索引擎的一个搜索技巧，刚好能跟今天的“语义化”有关系，就是在搜索引擎输入关键词的时候，百度通常都会在零点几毫秒的时间内抓取几百万张网页，但很多跟我们想要看的没多大关系，因为很多是百度竞价排名推荐的广告商链接地址</p>
+						    <input type="hidden" th:value="${resources}==null?'':${resources.id}" id="resourceId"></input>
+                            <input type="hidden" th:value="${user}==null?'':${user.userId}" id="userId"></input> 
+                            <input type="hidden" value="" id="score"></input>
+                            <input type="hidden" id="resourceCommentsId" value=""></input>
+                	        <input type="hidden" id="replyTo" value=""></input>
+							<input type="hidden" id="number" value="0"></input>
+							<input type="hidden" id="stateNum" value=""/>
+							<input type="hidden" id="replyContent" value=""></input>
+				</div>
+				<div class="personal-tab">
+
+					<!--tab-->
+					<div class="tab" js-tab="1">
+						<div class="tab-video">
+							<ul class="tab-cont__wrap">
+								<div class="file-video">
+
+									<div class="video-message">
+										 <div class="tea-tx left" th:if="${user!=null}"><img th:src="${user.imgSrc}==null?'../img/user-pic.png':${user.imgSrc}"></img></div> 
+					                     <div class="tea-tx left" th:if="${user==null}"><img src="../img/user-pic.png"></img></div>
+										<!--<div class="tea-tx left" ><img th:src="${user.imgSrc}==null?'../img/user-pic.png':${user.imgSrc}"></img></div>	 -->	 
+										<div class="tea-txt right">
+											<form class="tes-form" method="get">
+												<textarea class="tes-input" id="tesInput" clos="20" rows="3" placeholder="扯淡、吐槽、表扬、鼓励......想说啥就说啥！"></textarea>
+												<div class="send-out" >
+												</div>
+											</form>
+										</div>
+									</div>
+									<!--回复区域-->
+									<div class="reply" id="reply">
+									</div>
+								</div>
+							</ul>
+					</div>
+				</div>
+				<!--tab选项卡切换-->
+			</div>
+		</div>
+		<!--猜你喜欢-->
+			<div class="like right">
+				<div class="title">
+					<div class="title-name left">
+						<span class="dot left"></span>
+						<h3>猜你喜欢</h3>
+					</div>
+					<span class="refresh right">
+						<a href="javascript:tunToNext()">换一批</a>
+					</span>
+				</div>
+				<div class="video-link">
+					<ul id="someYouLike">
+					    <li>
+					        <a href="#">
+					           <i class="fa fa-caret-right mar5"></i>
+					           fdjaskldfjdkldasfj
+					        </a>
+					    </li>
+                        <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                        <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                        <li><a href="#">fdjaskldfjdkldasfj</a></li>
+                        <li><a href="#">fdjaskldfjdkldasfj</a></li>
+					</ul>
+				</div>
+			</div>
+	</div>
+	<!--comment结束-->
+</div>
+</div>
+</body>
+</html>

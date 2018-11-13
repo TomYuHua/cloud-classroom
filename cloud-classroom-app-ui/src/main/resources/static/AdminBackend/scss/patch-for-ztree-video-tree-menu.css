@@ -1,0 +1,55 @@
+/*ztree-video-tree-menu container and patch*/
+/*ztree- common container and patch*/
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-video-tree-menu .curSelectedNode {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-video-tree-menu .curSelectedNode_Edit {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-video-tree-menu .tmpTargetNode_inner {
+  opacity: 1 !important;
+}
+/* line 6, patch-for-ztree-common.scss */
+.tree-container .ztree-video-tree-menu .tmpTargetzTree {
+  opacity: 1 !important;
+}
+
+/* line 6, patch-for-ztree-video-tree-menu.scss */
+.tree-container {
+  display: inline-block;
+  width: 15%;
+}
+/* line 9, patch-for-ztree-video-tree-menu.scss */
+.tree-container .adding-root {
+  cursor: pointer;
+  border: 1px dashed #CCCCCC;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  width: 100%;
+  color: #555;
+  line-height: 20px;
+  background: #FFFFFF;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 23, patch-for-ztree-video-tree-menu.scss */
+.tree-container .ztree-video-tree-menu {
+  border: 1px solid #ececec;
+  overflow: hidden;
+}
+/* line 26, patch-for-ztree-video-tree-menu.scss */
+.tree-container .ztree-video-tree-menu .menu_node {
+  margin-right: 0.25em;
+  margin-top: 0.25em;
+}
+
+/*.ztree-video-tree-menu a {*/
+/*width: 100% !important;*/
+/*}*/
+
+/*# sourceMappingURL=patch-for-ztree-video-tree-menu.css.map */

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+
+    <!--强制国产浏览器使用现代内核--><!--360浏览器-->
+    <meta name="renderer" content="webkit"/>
+    <!--其它双核浏览器-->
+    <meta name="force-rendering" content="webkit"/>
+    <!--如果安装了GCF，则使用GCF来渲染页面，如果没有安装GCF，则使用最高版本的IE内核进行渲染。-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <title>鑫广飞无人机课堂应用平台-管理员后台-视频管理</title>
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css"
+          th:href="@{/AdminBackend/node_modules/font-awesome/css/font-awesome.min.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/scss/admin.css"
+          th:href="@{/AdminBackend/scss/admin.css}"
+    />
+
+    <!-- 3th lib css -->
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/scss/patch-for-ztree-video-tree-menu.css"
+          th:href="@{/AdminBackend/scss/patch-for-ztree-video-tree-menu.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/ztree/css/zTreeStyle/zTreeStyle.css"
+          th:href="@{/AdminBackend/node_modules/ztree/css/zTreeStyle/zTreeStyle.css}"
+    />
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/toastr/build/toastr.min.css"
+          th:href="@{/AdminBackend/node_modules/toastr/build/toastr.min.css}"
+    />
+
+    <!--<link rel="stylesheet" href="../../static/AdminBackend/node_modules/jquery-modal/jquery.modal.css" media="screen"/>-->
+    <link rel="stylesheet"
+          href="../../static/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css"
+          th:href="@{/AdminBackend/node_modules/jquery-modal/jquery.modal.min.css}"
+          media="screen"
+    />
+
+    <!--polyfill-->
+    <script src="../../static/AdminBackend/node_modules/core-js/client/core.min.js"
+            th:src="@{/AdminBackend/node_modules/core-js/client/core.min.js}"></script>
+    <script src="../../static/AdminBackend/js/template-polyfill.js"
+            th:src="@{/AdminBackend/js/template-polyfill.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/jquery/dist/jquery.min.js"
+            th:src="@{/AdminBackend/node_modules/jquery/dist/jquery.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js"
+            th:src="@{/AdminBackend/node_modules/bluebird/js/browser/bluebird.min.js}"></script>
+    <script src="../../static/AdminBackend/node_modules/loadjs/dist/loadjs.min.js"
+            th:src="@{/AdminBackend/node_modules/loadjs/dist/loadjs.min.js}"></script>
+
+    <script type="text/javascript">
+        // set init value
+        document.page2jsPath = "../../static/AdminBackend/";
+        document.templatePath = "../../static/AdminBackend/template/";
+        document.isJsDebug = true;
+        // TODO follow code use in java mode
+        //document.page2jsPath = "/AdminBackend";
+        //document.templatePath = "/AdminBackend/template";
+    </script>
+    <script type="text/html" th:type="@{text/javascript}">
+        document.isJsDebug = false;
+        document.page2jsPath = "/AdminBackend/";
+        document.templatePath = "/AdminBackend/template/";
+    </script>
+    <!--load main and main will load other lib-->
+    <script src="../../static/AdminBackend/js/videos.js"
+            th:src="@{/AdminBackend/js/videos.js}"></script>
+
+    <!-- umeditor lib js -->
+    <script type="text/javascript">
+        //document.UMEditorBaseURL = "../../static/AdminBackend/lib/umeditor1.2.3-src/_src/";
+        //window.UMEDITOR_HOME_URL = "../../static/AdminBackend/lib/umeditor1.2.3-src/";
+        // TODO follow code use in java mode
+        document.UMEditorBaseURL = "/AdminBackend/lib/umeditor1.2.3-src/_src/";
+        window.UMEDITOR_HOME_URL = "/AdminBackend/lib/umeditor1.2.3-src/";
+    </script>
+    <script type="text/html" th:type="@{text/javascript}">
+        document.UMEditorBaseURL = "/AdminBackend/lib/umeditor1.2.3-src/_src/";
+        window.UMEDITOR_HOME_URL = "/AdminBackend/lib/umeditor1.2.3-src/";
+    </script>
+    <link type="text/css" rel="stylesheet"
+          href="../../static/AdminBackend/lib/umeditor1.2.3-src/themes/default/_css/umeditor.css"
+          th:href="@{/AdminBackend/lib/umeditor1.2.3-src/themes/default/_css/umeditor.css}"
+    />
+    <script type="text/javascript" src="../../static/AdminBackend/lib/umeditor1.2.3-src/third-party/template.min.js"
+            th:src="@{/AdminBackend/lib/umeditor1.2.3-src/third-party/template.min.js}"
+    ></script>
+    <script type="text/javascript" charset="utf-8"
+            src="../../static/AdminBackend/lib/umeditor_init_4_videos_page/umeditor.config.js"
+            th:src="@{/AdminBackend/lib/umeditor_init_4_videos_page/umeditor.config.js}"
+    ></script>
+    <script src="../../static/AdminBackend/lib/umeditor_init_4_videos_page/editor_api.js"
+            th:src="@{/AdminBackend/lib/umeditor_init_4_videos_page/editor_api.js}"></script>
+    <script type="text/javascript" src="../../static/AdminBackend/lib/umeditor1.2.3-src/lang/zh-cn/zh-cn.js"
+            th:src="@{/AdminBackend/lib/umeditor1.2.3-src/lang/zh-cn/zh-cn.js}"
+    ></script>
+
+</head>
+<body>
+<!--header-->
+<header class="aheader">
+    <div class="avatar left"></div>
+    <a class="logo left display-block" href="/" target="_blank"></a>
+</header>
+<div class="container">
+    <!--menu-->
+    <div class="ly-left-menu"></div>
+    <!--内容区域-->
+    <div class="panel">
+        <div class="title">
+            <span class="dot left"></span>
+            <b class="title-name left">视频管理</b>
+        </div>
+        <div class="vid-txt tag-double-line-changer">
+            <!--章节菜单-->
+            <div class="tree-container">
+                <div class="adding-root">
+                    <b>+</b>
+                    <!--<input type="file" id="ff"/>-->
+                    <!--<input type="button" value="添加文件" onclick="document.getElementById('ff').click();"/>-->
+                    添加章节
+                </div>
+                <div class="ztree-video-tree-menu ztree" id="ztree-video-tree-menu"></div>
+            </div>
+            <!--章节菜单-->
+            <!--视频，文档，电子书内容-->
+            <div class="barlist-by right">
+                <div class="flag-content" style="display: none;">
+                    <table class="result-table ly-list-select-table ly-table" cellspacing="0" cellpadding="0">
+                        <thead class="result-thead">
+                        <tr class="width-videos-table">
+                            <th class="td-all width-td-all">
+                            <input class="ly-list-select-parent" name="all" type="checkbox" value=""/>全部
+                            </th>
+                            <th class="td-title">标题</th>
+                            <th class="td-author">作者</th>
+                            <th class="td-upload">上传时间</th>
+                            <th class="td-status">审核状态</th>
+                            <th class="td-score width-td-all">评分</th>
+                            <th class="td-operator width-td-all">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody class="result-tbody ly-template-table-tbody">
+                        <!--下面那个template中的内容将不会被显示  会在运行时被动态地插入到这个位置进行渲染-->
+                        <template class="ly-template-table-tbody-row">
+                            <tr class="width-videos-table table-right-border">
+                                <td class="td-all width-td-all">
+                                <input class="ly-list-select-child" name="all" type="checkbox" value=""/>
+                                </td>
+                                <td class="td-title">速度与加速度</td>
+                                <td class="td-author">张三</td>
+                                <td class="td-upload">2017-06-24</td>
+                                <td class="td-status">未审核</td>
+                                <td class="td-score width-td-all">9.3</td>
+                                <td class="td-operator width-td-menu row-button">
+                                    <a class="cursor-pointer b-review operation"><i class="fa fa-hourglass-start fa-2xs orange mar5"></i>审核</a>
+                                    <a class="cursor-pointer b-view operation"><i class="fa fa-eye fa-2xo green mar5"></i>查看</a>
+                                    <a class="cursor-pointer b-change operation"><i class="fa fa-pencil-square-o fa-2xo green mar5"></i>修改</a>
+                                    <a class="cursor-pointer b-delete operation"><i class="fa fa-trash-o fa-2xo reds mar5"></i>删除</a>
+                                </td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+
+                    <!--button添加，删除-->
+                    <div class="butn right button-panel">
+                        <button class="red b-delete">删除</button>
+                        <button class="blue b-add-pdf">添加PDF</button>
+                        <button class="blue b-add-word">添加WORD</button>
+                        <button class="blue b-add-video">添加VIDEO</button>
+                        <button class="blue b-add-text">添加TEXT</button>
+                    </div>
+                    <!--翻页-->
+                    <!--翻页器将会注入在此 (will insert before 'div.ly-pagination' node)-->
+                    <!--<div class="ly-pagination">-->
+                    <!--</div>-->
+                </div><!--视频，文档，电子书内容-->
+                <div class="center-flex flag-content-placeholder">
+                    <i class="fa fa-sticky-note-o placeholder-flag"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex-container flex-justify-content-end" style="margin-top: 20px;">
+            <label>
+                显示子孙课程：<input type="checkbox" class="tag-show-all-children-changer"/>
+            </label>
+            <label style="margin-left: 1em;">
+                双行显示：<input type="checkbox" class="tag-double-line-changer-trigger"/>
+            </label>
+        </div>
+    </div>
+    <!--panel-->
+    <div class="popup-container f-add-book-node" style="display: none;">
+        <div class="increase tiancu">
+            <ul>
+                <li class="add-node cursor-pointer">新建章节</li>
+                <li class="rename-node cursor-pointer">重新命名</li>
+                <li class="delete-node cursor-pointer">删除</li>
+                <li class="add-pdf-node cursor-pointer">添加PDF</li>
+                <li class="add-word-node cursor-pointer">添加WORD</li>
+                <li class="add-video-node cursor-pointer">添加VIDEO</li>
+                <li class="add-text-node cursor-pointer">添加TEXT</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="popup-container f-change-info double-col" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">修改内容</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li>
+                        <label>封面图：</label>
+                            <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-showImg ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-showImg"/></a>  
+                            </div>
+                           <input type="file"
+                               name="img"
+                               class="imge-input td-border f-img"
+                               accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                               title=""
+                          />
+                    </li>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name="name"
+                               class="xg-input td-border f-name"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                   <!--  <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name="note"
+                               class="xg-input td-border f-note"
+                               title=""
+                               required=""
+                        />
+                    </li> -->
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="xg-input td-border f-sort"
+                               title=""
+                               required=""
+                        />
+                    </li>
+                   <!--  <li>
+                        <label>预览图：</label>
+                        <input type="file"
+                               name="img"
+                               class="query-input td-border f-img"
+                               accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                               title=""
+                               style="width: 80%;"
+                        />
+                    </li> -->
+                    <li>
+                        <label>查&emsp;看：</label>&emsp;&emsp;
+                        <a class="cursor-pointer f-link" target="_blank">点击打开</a>
+                    </li>
+                    <li class="flag-UM">
+                        <div class="f-text" id="f-text-change"  title=""></div>
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="blue b-save">保存</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-add-PDF" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加PDF内容</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name="name"
+                               class="query-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name="note"
+                               class="query-input td-border f-note"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="query-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>封面图：</label>
+                        <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-img ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-img"/></a>  
+                        </div>
+                        <input type="file"
+                                   name="img"
+                                   class="img-input td-border f-img"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                        />
+                    </li>
+                    <li>
+                        <label>文&emsp;件：</label>
+                        <input type="file"
+                               name="uploadfile"
+                               class="query-input td-border f-file"
+                               accept=".pdf,application/pdf,application/vnd.cups-pdf,application/vnd.sealedmedia.softseal-pdf"
+                               title=""
+                        />
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="blue b-save">保存</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-add-WORD" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加WORD内容</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name="name"
+                               class="query-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name="note"
+                               class="query-input td-border f-note"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="query-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>封面图：</label>
+                        <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-img ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-img"/></a>  
+                        </div>
+                        <input type="file"
+                                   name="img"
+                                   class="img-input td-border f-img"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                        />
+                    </li>
+                    <li>
+                        <label>文&emsp;件：</label>
+                        <input type="file"
+                               name="uploadfile"
+                               class="query-input td-border f-file"
+                               accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                               title=""
+                        />
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="blue b-save">保存</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-add-VIDEO" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加视频内容</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name="name"
+                               class="query-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name="note"
+                               class="query-input td-border f-note"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="query-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>封面图：</label>
+                        <!--<div class="bluequestionmark ad-user-head users-header-img">-->
+                            	<!--<img src="" class="f-img ad-user-head "/>-->
+                                <!--<a class="tipinfo"><img src="" class=" f-img"/></a>  -->
+                        <!--</div>-->
+                        <input type="file"
+                                   name="img"
+                                   class="img-input td-border f-img"
+                                   accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                                   title=""
+                                   required=""
+                        />
+                    </li>
+                    <li>
+                        <label>文&emsp;件：</label>
+                        <input type="file"
+                               name="uploadfile"
+                               class="query-input td-border f-file"
+                               accept=".3gp,.avi,.divx,.flv,.m4v,.mkv,.mov,.mp4,.mpeg,.mpg,.ogm,.ogv,.ogx,.rm,.rmvb,.smil,.webm,.wmv,.xvid"
+                               title=""
+                        />
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="blue b-save">保存</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-add-TEXT double-col" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加内容</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <form class="pop-body">
+                <ul>
+                   <li>
+                        <label>封面图：</label>
+                            <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-showImg ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-showImg"/></a>  
+                            </div>
+                           <input type="file"
+                               name="img"
+                               class="imge-input td-border f-img"
+                               accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                               title=""
+                          />
+                    </li>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name="name"
+                               class="xg-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <!-- <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name="note"
+                               class="xg-input td-border f-note"
+                               title=""
+                        />
+                    </li> -->
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="xg-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                   <li>
+                        <div class="f-text" id="f-text-add" title=""></div>
+                    </li>
+                </ul>
+            </form>
+            <div class="butn btn-center">
+                <button class="blue b-save">保存</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-node-name" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">添加章节</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <label>章节名：</label>
+                        <input type="text"
+                               name=""
+                               class="query-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="query-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">添加</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-change-node-name" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">修改章节</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <label>章节名：</label>
+                        <input type="text"
+                               name=""
+                               class="query-input td-border f-name"
+                               title=""
+                        />
+                    </li>
+                    <li>
+                        <label>排&emsp;序：</label>
+                        <input type="number"
+                               name="sort"
+                               class="query-input td-border f-sort"
+                               title=""
+                        />
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">修改</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-review" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">审核章节</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-ok">通过</button>
+                <button class="blue b-no">不通过</button>
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-delete" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <b class="title-names left reds">您确定要删除以下内容吗？</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <p class="t-title-name"></p>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-delete-warning" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">不能删除</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <li>
+                        <i class="fa fa-warning fa-5x" style="color: red;"></i>
+                        <span class="fa-2x">不能删除含有内容的章节</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="blue b-save">确定</button>
+                <button class="grays b-close">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container f-view" style="display: none;">
+        <div class="popup">
+            <div class="title">
+                <span class="dot left"></span>
+                <b class="title-name left">查看</b>
+                <a class="b-close"><i class="fa fa-times right fa-2x"></i></a>
+            </div>
+            <div class="pop-body">
+                <ul>
+                    <!-- <li>
+                        <img src="" class="users-header-img f-img"/>
+                    </li> -->
+                    <li>
+                        <label>封面图：</label>
+                            <div class="bluequestionmark ad-user-head users-header-img">
+                            	<img src="" class="f-img ad-user-head "/>
+                                <a class="tipinfo"><img src="" class=" f-img"/></a>  
+                            </div>
+                           <input type="file"
+                               name="img"
+                               class="img-input td-border f-img"
+                               accept=".jpe,.jpeg,.jpg,.gif,.png,.bmp"
+                               title=""
+                          />
+                    </li>
+                    <li>
+                        <label>标&emsp;题：</label>
+                        <input type="text"
+                               name=""
+                               class="query-input td-border f-name"
+                               title=""
+                               readonly=""
+                        />
+                    </li>
+                  <!--   <li>
+                        <label>简&emsp;介：</label>
+                        <input type="text"
+                               name=""
+                               class="query-input td-border f-note"
+                               title=""
+                               readonly=""
+                        />
+                    </li> -->
+                    <li>
+                        <label>查&emsp;看：</label>&emsp;&emsp;
+                        <a class="cursor-pointer f-link" target="_blank">点击打开</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="butn btn-center">
+                <button class="grays b-close">关闭</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

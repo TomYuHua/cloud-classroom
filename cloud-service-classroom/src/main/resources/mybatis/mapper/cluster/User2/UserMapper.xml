@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.UserDao">
+
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.every.User">
+		<result column="UserId" jdbcType="INTEGER" property="userId" />
+		<result column="UserName" jdbcType="VARCHAR" property="userName" />
+		<result column="UserName2" jdbcType="VARCHAR" property="userName" />
+		<result column="UserType2" jdbcType="INTEGER" property="userType" />
+		<result column="state" jdbcType="INTEGER" property="state" />
+		<result column="Password" jdbcType="VARCHAR" property="passWord" />
+		<result column="Sex" jdbcType="VARCHAR" property="sex" />
+		<result column="Phone" jdbcType="VARCHAR" property="phone" />
+		<result column="Email" jdbcType="VARCHAR" property="email" />
+		<result column="imgsrc" jdbcType="VARCHAR" property="imgSrc" />
+		<result column="LoginTime" jdbcType="TIMESTAMP" property="loginTime" />
+		<result column="LoginCount" jdbcType="INTEGER" property="loginCount" />
+		<result column="UserType" jdbcType="INTEGER" property="userType" />
+		<result column="FieldTargetId" jdbcType="INTEGER" property="fieldTargetId" />
+		<result column="NickName" jdbcType="VARCHAR" property="nickName" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="userRoleId" jdbcType="INTEGER" property="userRoleId" />
+		<result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="Score" jdbcType="INTEGER" property="scoresForOneResource" />
+		<association property="student" resultMap="studentResult" />
+		<association property="teacher" resultMap="teacherResult" />
+	</resultMap>
+	<resultMap id="studentResult" type="cloud.entity.classroom.every.Student">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="idNumber" jdbcType="VARCHAR" property="idNumber" />
+		<result column="joinYear" jdbcType="VARCHAR" property="joinYear" />
+		<result column="studentNo" jdbcType="VARCHAR" property="studentNo" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="area" jdbcType="VARCHAR" property="area" />
+		<result column="addr" jdbcType="VARCHAR" property="addr" />
+		<result column="nameA" jdbcType="VARCHAR" property="name" />
+		<result column="birthday" jdbcType="DATE" property="birthday" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="className" jdbcType="VARCHAR" property="className" />
+		<result column="gradeName" jdbcType="VARCHAR" property="gradeName" />
+		<result column="nationality" jdbcType="VARCHAR" property="nationality" />
+		<result column="overSeasChinese" jdbcType="VARCHAR" property="overSeasChinese" />
+		<result column="politicalStatus" jdbcType="VARCHAR" property="politicalStatus" />
+		<result column="health" jdbcType="VARCHAR" property="health" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+	</resultMap>
+	<resultMap id="teacherResult" type="cloud.entity.classroom.every.Teacher">
+		<result column="TeacherId" jdbcType="INTEGER" property="teacherId" />
+		<result column="idNumberB" jdbcType="VARCHAR" property="idNumber" />
+		<result column="jobNum" jdbcType="VARCHAR" property="jobNum" />
+		<result column="highDegree" jdbcType="VARCHAR" property="highDegree" />
+		<result column="jobTitle" jdbcType="VARCHAR" property="jobTitle" />
+		<result column="provinceB" jdbcType="VARCHAR" property="province" />
+		<result column="cityB" jdbcType="VARCHAR" property="city" />
+		<result column="areaB" jdbcType="VARCHAR" property="area" />
+		<result column="addrB" jdbcType="VARCHAR" property="addr" />
+		<result column="nameB" jdbcType="VARCHAR" property="name" />
+		<result column="teacherIntroduction" jdbcType="VARCHAR"
+			property="teacherIntroduction" />
+		<result column="birthdayB" jdbcType="DATE" property="birthday" />
+	</resultMap>
+
+	<select id="getUser" resultMap="BaseResultMap">
+		select * from user where
+		UserId=#{id};
+	</select>
+
+	<select id="getStudent" resultMap="BaseResultMap">
+		select
+		a.UserId,a.UserType,a.UserName,a.FieldTargetId,
+		a.Sex,a.Email,a.Phone,a.name,a.NickName,a.imgsrc,b.id,b.idNumber,b.studentNo,b.birthday,b.province,b.city,b.area,b.addr,b.className,b.gradeName,b.description
+		from user a left join student_base b on a.FieldTargetId=b.id where
+		a.UserId=#{userId};
+	</select>
+
+	<select id="getTeacher" resultMap="BaseResultMap">
+		select
+		a.UserId,a.UserType,a.FieldTargetId,a.UserName,a.Sex,a.Email,a.Phone,a.name,a.NickName,a.imgsrc,b.TeacherId,b.idNumber
+		as
+		idNumberB,b.jobNum,b.jobTitle,b.highDegree,b.teacherIntroduction,b.birthday
+		as birthdayB,b.province as provinceB,b.city as cityB,b.area as
+		areaB,b.addr as addrB
+		from user a left join Teachingstaff b on
+		a.FieldTargetId=b.TeacherId
+		where a.UserId=#{userId};
+	</select>
+
+
+	<select id="checkPassWord" resultMap="BaseResultMap">
+		select * from user where
+		UserName=#{userName};
+	</select>
+
+	<select id="getByNamePassword" resultMap="BaseResultMap">
+		SELECT
+		UserName,Password,state FROM user WHERE (UserName =#{userName} OR
+		Phone =#{userName} OR Email =#{userName}) AND PASSWORD =#{password};
+	</select>
+
+	<update id="resetPassWord" parameterType="cloud.entity.classroom.every.User">
+		update user set
+		Password=#{inputPassWord} where UserName=#{userName};
+	</update>
+
+	<update id="updateUser" parameterType="cloud.entity.classroom.every.User">
+		update user
+		<set>
+			<if test="userName!=null">
+				UserName = #{userName},
+			</if>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="passWord!=null">
+				Password=#{passWord},
+			</if>
+			<if test="email!=null">
+				Email=#{email},
+			</if>
+		   <if test="state!=null">
+				state=#{state},
+			</if>
+			<if test="sex!=null ">
+				Sex=#{sex},
+			</if>
+			<if test="phone!=null ">
+				Phone= #{phone},
+			</if>
+			<if test="loginTime!=null ">
+				LoginTime= #{loginTime},
+			</if>
+			<if test="loginCount!=null ">
+				LoginCount= #{loginCount},
+			</if>
+			<if test="userType!=null ">
+				UserType= #{userType},
+			</if>
+			<if test="fieldTargetId!=null ">
+				FieldTargetId= #{fieldTargetId},
+			</if>
+			<if test="nickName!=null ">
+				NickName= #{nickName},
+			</if>
+			<if test="createTime!=null ">
+				CreateTime= #{createTime},
+			</if>
+			<if test="imgSrc!=null">
+				imgsrc=#{imgSrc}
+			</if>
+		</set>
+
+		where UserId = #{userId};
+	</update>
+
+
+
+
+	<select id="getByPage" parameterType="cloud.entity.classroom.every.User" resultMap="BaseResultMap">
+		select a.UserId,a.UserName as UserName2,a.Sex,a.name,a.state,a.Email,a.UserType as UserType2,a.CreateTime,a.Phone,b.RoleId as userRoleId
+		from user a  left join User_Role b on a.UserId=b.UserId
+		<where>
+			<if test="userName!=null and userName!=''">
+				and a.UserName like '%${userName}%'
+			</if>
+			<if test="sex!=null ">
+				and a.Sex=#{sex}
+			</if>
+			<if test="email!=null and email!=''">
+				and a.Email like '%${email}%'
+			</if>
+			<if test="name!=null and name!=''">
+				and a.name like '%${name}%'
+			</if>
+			<if test="state!=null">
+				and a.state=${state}
+			</if>
+			<if test="userType!=null">
+				and a.UserType=${userType}
+			</if>
+		</where>
+		<!--  -group by UserId having (0=(select count(1) from user where (UserType=1
+		or UserType=2) and UserName=UserName2) and UserType2=0) or
+		(UserType2=1 or UserType2=2)  -->
+	</select>
+
+	<select id="getUserByUserName" resultMap="BaseResultMap">
+		select * from user
+		where UserName=#{userName} limit 1;
+	</select>
+
+
+	<select id="checkExistMail" resultMap="BaseResultMap">
+		select * from user where
+		Email=#{email} limit 1;
+	</select>
+
+	<insert id="insertUser" parameterType="cloud.entity.classroom.every.User">
+		<selectKey resultType="java.lang.Integer" keyProperty="userId"
+			keyColumn="UserId">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			UserName,
+			Password,
+			state,
+			<if test="sex!= null">
+				Sex,
+			</if>
+			<if test="phone!= null">
+				Phone,
+			</if>
+			<if test="loginTime != null">
+				LoginTime,
+			</if>
+			<if test="loginCount != null">
+				LoginCount,
+			</if>
+			<if test="userType != null">
+				UserType,
+			</if>
+			<if test="fieldTargetId != null">
+				FieldTargetId,
+			</if>
+			<if test="nickName != null">
+				NickName,
+			</if>
+			<if test="createTime != null">
+				CreateTime,
+			</if>
+			<if test="email != null">
+				Email,
+			</if>
+			<if test="imgSrc!=null">
+				imgsrc,
+			</if>
+			<if test="name!=null">
+				name
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{userName},
+			#{passWord},
+			#{state},
+			<if test="sex != null">
+				#{sex},
+			</if>
+			<if test="phone != null">
+				#{phone},
+			</if>
+			<if test="loginTime!= null">
+				#{loginTime},
+			</if>
+			<if test="loginCount != null">
+				#{loginCount},
+			</if>
+			<if test="userType != null">
+				#{userType},
+			</if>
+			<if test="fieldTargetId  != null">
+				#{fieldTargetId},
+			</if>
+			<if test="nickName != null">
+				#{nickName},
+			</if>
+			<if test="createTime!= null">
+				#{createTime},
+			</if>
+			<if test="email!= null">
+				#{email},
+			</if>
+			<if test="imgSrc!= null">
+				#{imgSrc},
+			</if>
+			<if test="name!= null">
+				#{name}
+			</if>
+		</trim>
+	</insert>
+
+
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+		delete from user where
+		UserId =#{id}
+	</delete>
+
+
+	<update id="auditUser">
+		update user SET state =#{type} WHERE UserId in
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+ <delete id="deleteUserRole">
+     delete from User_Role where UserId in 
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}    
+        </foreach>
+  </delete>    
+
+
+    <insert id="insertUserRole">
+        INSERT INTO User_Role(
+        UserId,
+        RoleId,
+        CreateTime,
+        CreateUserId
+        ) VALUES
+        <foreach item="userId" collection="list" separator=",">
+            (
+            #{userId},
+            #{userRoleId},
+            now(),
+            #{createUserId}
+            )
+        </foreach>
+    </insert>
+
+	<update id="makeRole">
+		update user SET userType =#{type} WHERE UserId=#{id}
+	</update>
+
+
+	<select id="getFamousTeacher" resultMap="BaseResultMap">
+		select a.UserId,a.name,a.imgsrc,AVG(b.scores) as avgScore,c.teacherIntroduction from user a left join resources b on
+		a.UserId=b.UserId left join Teachingstaff c on
+		a.FieldTargetId=c.TeacherId
+		where UserType=2
+		group by a.UserId
+		ORDER BY avgScore desc
+		LIMIT #{m,jdbcType=INTEGER} , #{n,jdbcType=INTEGER};
+	</select>
+
+
+
+	<select id="selectTypes" resultType="java.lang.Integer">
+		select UserType from user
+		where UserName=#{userName} limit 1;
+	</select>
+ 
+
+	<select id="IsExistsUser" resultType="java.lang.Integer">
+		SELECT COUNT(*)  FROM user WHERE UserName=#{account} OR Email=#{account} OR Phone=#{account}
+	</select>
+
+	<select id="checkUserType" resultMap="BaseResultMap">
+		select * from user where
+		UserName=#{userName} and (UserType=1 or UserType=2)
+	</select>
+	
+<select id="selectScores" resultMap="BaseResultMap">
+		select Score from ResourceComments where ResourceId=#{id} and UserId=#{userId} and Score is not null;
+</select>
+
+</mapper>

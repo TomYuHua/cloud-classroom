@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.StudentDao2">
+  <resultMap id="BaseResultMap" type="cloud.entity.classroom.every.Student">
+  <result column="id" jdbcType="INTEGER" property="id"/>
+  <result column="state" jdbcType="VARCHAR" property="state"/>
+  <result column="schoolNo" jdbcType="VARCHAR" property="schoolNo" />
+  <result column="typeId" jdbcType="VARCHAR" property="typeId"/>
+  <result column="idNumber" jdbcType="VARCHAR" property="idNumber"/>
+  <result column="name" jdbcType="VARCHAR" property="name" />
+  <result column="sex" jdbcType="VARCHAR" property="sex" />
+  <result column="birthday" jdbcType="DATE" property="birthday" />
+  <result column="birthPlace" jdbcType="VARCHAR" property="birthPlace" />
+  <result column="homeTown" jdbcType="VARCHAR" property="homeTown"/>
+  <result column="gradeName" jdbcType="VARCHAR" property="gradeName"/>
+  <result column="nation" jdbcType="VARCHAR" property="nation"/>
+  <result column="nationality" jdbcType="VARCHAR" property="nationality"/>
+  <result column="overSeasChinese" jdbcType="VARCHAR" property="overSeasChinese"/>
+  <result column="politicalStatus" jdbcType="VARCHAR" property="politicalStatus"/>
+  <result column="health" jdbcType="VARCHAR" property="health"/>
+  <result column="pic" jdbcType="VARCHAR" property="pic"/>
+  <result column="spell" jdbcType="VARCHAR" property="spell"/>
+  <result column="formerName" jdbcType="VARCHAR" property="formerName"/>
+  <result column="valid" jdbcType="VARCHAR" property="valid"/>
+  </resultMap>
+          
+ <insert id="insertStudent" useGeneratedKeys="true" keyProperty="id" parameterType="cloud.entity.classroom.every.Student">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" keyColumn="id">
+            SELECT LAST_INSERT_ID()
+  </selectKey> 
+     insert into student_base 
+     <trim prefix="(" suffix=")" suffixOverrides="," >
+       <if test="schoolNo!= null" >
+         schoolNo,
+       </if>
+      <if test="className!= null">
+        className,
+       </if>
+       <if test="gradeName!= null">
+         gradeName,
+       </if>
+        <if test="gradeId!= null">
+         gradeId,
+       </if>
+       <if test="province!= null">
+         province,
+       </if>
+       <if test="city!= null">
+         city,
+       </if>
+        <if test="area!= null">
+         area,
+       </if>
+      <if test="addr!= null">
+         addr,
+       </if>
+      <if test="classId!= null">
+         classId,
+       </if>
+       <if test="studentNo!= null" >
+         studentNo,
+       </if>
+        <if test="typeId!= null" >
+         typeId,
+        </if>
+        <if test="idNumber!= null" >
+         idNumber,
+       </if>
+        <if test="name!= null" >
+         name,
+       </if>
+        <if test="sex!= null" >
+         sex,
+       </if>
+        <if test="birthday!= null" >
+         birthday,
+       </if>
+        <if test="birthPlace != null" >
+         birthPlace,
+       </if>
+       <if test="homeTown != null" >
+         homeTown,
+       </if>
+       <if test="nation != null" >
+         nation,
+       </if>
+       <if test="nationality != null" >
+         nationality,
+       </if>
+       <if test="overSeasChinese!= null" >
+         overSeasChinese,
+       </if>
+        <if test="politicalStatus != null" >
+         politicalStatus,
+       </if>
+        <if test="health != null" >
+         health,
+       </if>
+        <if test="pic != null" >
+         pic,
+       </if>
+        <if test="spell != null" >
+         spell,
+       </if>
+        <if test="formerName != null" >
+         formerName,
+       </if>
+         <if test="valid != null" >
+         valid,
+       </if>
+       <if test="description!=null" >
+         description
+       </if>
+     </trim>
+     <trim prefix="values (" suffix=")" suffixOverrides="," >
+       <if test="schoolNo!= null" >
+         #{schoolNo},
+       </if> 
+    <if test="className!= null" >
+        #{className},
+       </if>
+    <if test="gradeName!= null" >
+         #{gradeName},
+       </if>       
+       <if test="gradeId!= null" >
+         #{gradeId},
+       </if>
+      <if test="province!= null" >
+         #{province},
+       </if>
+          <if test="city!= null" >
+         #{city},
+         </if>
+        <if test="area!= null" >
+         #{area},
+       </if>
+      <if test="addr!= null" >
+         #{addr},
+       </if>
+       <if test="classId!= null" >
+         #{classId},
+       </if>
+       <if test="studentNo!= null" >
+         #{studentNo}, 
+       </if>
+        <if test="typeId!= null" >
+         #{typeId},
+        </if>
+        <if test="idNumber!= null" >
+         #{idNumber},
+       </if>
+        <if test="name!= null" >
+        #{name},
+       </if>
+        <if test="sex!= null" >
+        #{sex},
+       </if>
+        <if test="birthday!= null" >
+        #{birthday},
+       </if>
+        <if test="birthPlace != null" >
+         #{birthPlace},
+       </if>
+       <if test="homeTown != null" >
+        #{homeTown},
+       </if>
+       <if test="nation != null" >
+        #{nation},
+       </if>
+       <if test="nationality != null" >
+        #{nationality},
+       </if>
+       <if test="overSeasChinese!= null" >
+         #{overSeasChinese},
+       </if>
+        <if test="politicalStatus != null" >
+        #{politicalStatus},
+       </if>
+        <if test="health != null" >
+        #{health},
+       </if>
+        <if test="pic!= null" >
+        #{pic},
+       </if>
+        <if test="spell!= null" >
+         #{spell},
+       </if>
+        <if test="formerName!= null" >
+         #{formerName},
+       </if>
+         <if test="valid!=null" >
+         #{valid},
+       </if>
+        <if test="description!=null" >
+       #{description}
+       </if>
+     </trim>
+</insert>
+
+<update id="updateStudent" parameterType="cloud.entity.classroom.every.Student">
+     update student_base 
+     <set>       
+      <if test="gradeId!= null" >
+         gradeId=#{gradeId},
+       </if>
+      <if test="schoolNo!= null" >
+         schoolNo=#{schoolNo},
+       </if>
+      <if test="className!= null" >
+        className=#{className},
+       </if>
+    <if test="gradeName!= null" >
+        gradeName=#{gradeName},
+       </if> 
+      <if test="province!= null" >
+         province=#{province},
+       </if>
+        <if test="city!= null" >
+         city=#{city},
+         </if>
+        <if test="area!= null" >
+         area=#{area},
+       </if>
+      <if test="addr!= null" >
+         addr=#{addr},
+       </if>
+       <if test="classId!= null" >
+         classId=#{classId},
+       </if>
+       <if test="studentNo!= null" >
+         studentNo=#{studentNo}, 
+       </if>
+        <if test="typeId!= null" >
+         typeId=#{typeId},
+        </if>
+        <if test="idNumber!= null" >
+         idNumber=#{idNumber},
+       </if>
+        <if test="name!= null" >
+        name=#{name},
+       </if>
+        <if test="sex!= null" >
+        sex=#{sex},
+       </if>
+        <if test="birthday!= null" >
+        birthday=#{birthday},
+       </if>
+        <if test="birthPlace != null" >
+         birthPlace=#{birthPlace},
+       </if>
+       <if test="overSeasChinese!= null" >
+         overSeasChinese=#{overSeasChinese},
+       </if>
+        <if test="politicalStatus!= null" >
+        politicalStatus=#{politicalStatus},
+       </if>
+        <if test="health != null" >
+        health=#{health},
+       </if>
+        <if test="pic!= null" >
+        pic=#{pic},
+       </if>
+        <if test="spell!= null" >
+         spell=#{spell},
+       </if>
+        <if test="formerName!= null" >
+         formerName=#{formerName},
+       </if>
+         <if test="valid!=null" >
+         valid=#{valid},
+       </if>
+        <if test="description!=null" >
+         description=#{description}
+       </if>
+     </set>
+       where id=#{id}
+</update>
+ 
+ 
+<delete id="deleteStudent" parameterType="java.lang.Integer">
+delete from student_base where id =#{fieldTargetId}  
+</delete>
+
+
+
+
+</mapper>

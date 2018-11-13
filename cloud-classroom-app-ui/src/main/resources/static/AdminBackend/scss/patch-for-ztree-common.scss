@@ -1,0 +1,11 @@
+/*ztree- common container and patch*/
+
+@mixin common_patch($container_name,$tree_name) {
+    .#{$container_name} {
+        @each $a in 'curSelectedNode', 'curSelectedNode_Edit', 'tmpTargetNode_inner', 'tmpTargetzTree' {
+            .#{$tree_name} .#{$a} {
+                opacity: 1 !important;
+            }
+        }
+    }
+}

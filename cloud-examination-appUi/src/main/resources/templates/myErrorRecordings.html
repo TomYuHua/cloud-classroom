@@ -1,0 +1,98 @@
+<script th:inline="javascript"> 
+function beginExcercise(a,b)
+{   
+
+	$(".main-all").load("/recording/myErrorRecordingsExcercise",{chapterId:a,userId:b});
+	
+}
+</script >
+
+		<div class="card">
+				<div class="card-body">
+					<table class="table table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">知识点</th>
+								<th scope="col">错题量</th>
+								<th scope="col">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="recordingBatch: ${lists}">
+								<td scope="row"><div th:text="${recordingBatch.chapterName}">飞行手册</div></td>
+								<td><div th:text="${recordingBatch.wrongNum}+'道'">1道</div></td>
+								<td>
+									<button class="btn btn-info btn-sm" 
+									  th:onclick="'javascript:beginExcercise(\''+${recordingBatch.chapterId}+'\',\''+${userId}+'\')'"  >开始做题
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+	
+
+    
+<!-- 开始做题弹出 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">
+        	<b>练习设置</b>
+        	<span class="text-info">(共41题，已做0，未做41)</span>
+        </h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+			</div>
+			<div class="modal-body">
+				<div class="">
+					<label>分类:</label>
+					<div class="btn" data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked="checked"/> 未做题 (41)
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 已做题 (0)
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 错题 (0)
+  </label>
+					</div>
+				</div>
+
+				<div class="">
+					<label>题量:</label>
+					<div class="btn" data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-info active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked="checked"/> 10
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 20
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 30
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option2" autocomplete="off"/> 50
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 80
+  </label>
+						<label class="btn btn-sm btn-outline-info">
+    <input type="radio" name="options" id="option3" autocomplete="off"/> 100
+  </label>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				<a href="order-zt.html"><button type="button" class="btn btn-info">开始做题</button></a>
+			</div>
+		</div>
+</div>
+</div>

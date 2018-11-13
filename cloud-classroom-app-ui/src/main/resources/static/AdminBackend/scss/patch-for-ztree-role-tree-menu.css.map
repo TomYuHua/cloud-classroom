@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,4CAA4C;ACA5C,qCAAqC;;AAKzB,sDAAsB;EAClB,OAAO,EAAE,YAAY;;;AADzB,2DAAsB;EAClB,OAAO,EAAE,YAAY;;;AADzB,0DAAsB;EAClB,OAAO,EAAE,YAAY;;;AADzB,qDAAsB;EAClB,OAAO,EAAE,YAAY;;;;ADDrC,eAAgB;EACZ,UAAU,EAAE,UAAU;EACtB,KAAK,EAAE,IAAI;;;AAEP,gDAAW;EACP,OAAO,EAAE,YAAY;EACrB,UAAU,EAAE,UAAU;EACtB,WAAW,EAAE,KAAK;EAClB,YAAY,EAAE,MAAM;;;AAExB,gDAAW;EACP,YAAY,EAAE,MAAM;EACpB,UAAU,EAAE,MAAM;;;AAIlB,sDAAS;EACL,OAAO,EAAE,aAAa",
+"sources": ["patch-for-ztree-role-tree-menu.scss","patch-for-ztree-common.scss"],
+"names": [],
+"file": "patch-for-ztree-role-tree-menu.css"
+}

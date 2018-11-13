@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.ResourcesDao">
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.Resources.Resources">
+		<result column="Id" jdbcType="INTEGER" property="id" />
+		<result column="ParentId" jdbcType="INTEGER" property="parentid" />
+		<result column="IsDocument" jdbcType="BIT" property="isdocument" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="Types" jdbcType="INTEGER" property="types" />
+		<result column="Icon" jdbcType="VARCHAR" property="icon" />
+		<result column="CreateAuthor" jdbcType="VARCHAR" property="createauthor" />
+		<result column="UserId" jdbcType="INTEGER" property="userid" />
+		<result column="ResourcePath" jdbcType="VARCHAR" property="resourcepath" />
+		<result column="describes" jdbcType="VARCHAR" property="describes" />
+		<result column="scores" jdbcType="REAL" property="scores" />
+		<result column="ClickCount" jdbcType="INTEGER" property="clickcount" />
+		<result column="IsOpen" jdbcType="BIT" property="isopen" />
+		<result column="imgsrc" jdbcType="VARCHAR" property="imgsrc" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="CreateTIme" jdbcType="DATE" property="createtime" />
+		<result column="Contents" jdbcType="LONGVARCHAR" property="contents" />
+	</resultMap>
+	<insert id="insert" parameterType="cloud.entity.classroom.Resources.Resources">
+		insert into resources (Id,
+		ParentId, IsDocument,
+		name, Types, Icon,
+		CreateAuthor, UserId,
+		ResourcePath,
+		describes, scores, ClickCount,
+		IsOpen, imgsrc, status,
+		CreateTIme, Contents)
+		values (#{id,jdbcType=INTEGER},
+		#{parentid,jdbcType=INTEGER},
+		#{isdocument,jdbcType=BIT},
+		#{name,jdbcType=VARCHAR}, #{types,jdbcType=INTEGER},
+		#{icon,jdbcType=VARCHAR},
+		#{createauthor,jdbcType=VARCHAR},
+		#{userid,jdbcType=INTEGER},
+		#{resourcepath,jdbcType=VARCHAR},
+		#{describes,jdbcType=VARCHAR}, #{scores,jdbcType=REAL},
+		#{clickcount,jdbcType=INTEGER},
+		#{isopen,jdbcType=BIT},
+		#{imgsrc,jdbcType=VARCHAR},
+		#{status,jdbcType=TINYINT},
+		#{createtime,jdbcType=DATE}, #{contents,jdbcType=LONGVARCHAR})
+	</insert>
+
+	<delete id="delete" parameterType="cloud.entity.classroom.Resources.Resources">
+		delete from resources
+		where Id in
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="changeResources" parameterType="cloud.entity.classroom.Resources.Resources">
+		update resources set
+		describes=#{describes}
+		where Id=#{id};
+	</update>
+
+	<update id="checkResources" parameterType="cloud.entity.classroom.Resources.Resources">
+		update resources set
+		status=#{status}
+		where Id=#{id};
+	</update>
+
+	<select id="showResources" resultMap="BaseResultMap">
+		select * from resources
+		where ParentId=#{parentid};
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select Id, ParentId,
+		IsDocument, name, Types, Icon, CreateAuthor, UserId,
+		ResourcePath,
+		describes, scores, ClickCount, IsOpen, imgsrc, status, CreateTIme,
+		Contents
+		from resources
+	</select>
+
+	<select id="selectLimit" resultMap="BaseResultMap">
+		select * from resources WHERE    Types=1 ORDER
+		BY ClickCount limit #{m,jdbcType=INTEGER} ,
+		#{n,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectLimitByTimeOrder" resultMap="BaseResultMap">
+		select * from
+		resources WHERE Types=#{types,jdbcType=INTEGER} ORDER
+		BY CreateTIme
+		limit #{m,jdbcType=INTEGER} ,
+		#{n,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectYouLike" resultMap="BaseResultMap">
+		SELECT * from resources a
+		WHERE a.ParentId in
+		(SELECT distinct c.ParentId from ResourceBrowse b
+		LEFT JOIN resources c on
+		b.ResourceType=1 and
+		b.UserId=#{userId,jdbcType=INTEGER} AND
+		b.ResourceId=c.Id)
+		LIMIT
+		#{m,jdbcType=INTEGER} , #{n,jdbcType=INTEGER}
+	</select>
+
+	<select id="GetNLevelChildNode" resultMap="BaseResultMap">
+		select * from
+		resources where
+		FIND_IN_SET(ParentId,GetNLevelChildNode(#{rootId,jdbcType=INTEGER},#{n,jdbcType=INTEGER}));
+	</select>
+
+	<select id="GetChildNodeList" resultMap="BaseResultMap">
+		select * from resources
+		where
+		FIND_IN_SET(ParentId,GetChildNodeList(#{parentId,jdbcType=INTEGER}));
+	</select>
+
+	<select id="getResourcesById" resultMap="BaseResultMap">
+		select a.*,count(b.Id) as ClickCount from resources a left join ResourceBrowse b on a.Id=b.ResourceId where a.Id=#{id};
+	</select>
+
+	<select id="getResourcesList" parameterType="cloud.entity.classroom.Resources.Resources"
+		resultMap="BaseResultMap">
+		SELECT distinct
+		Id,ParentId,name,describes,scores,ClickCount,imgsrc,CreateAuthor,CreateTIme
+		from resources
+		<where>
+			<if test="id !=null and id !=''">
+				FIND_IN_SET(id, getChildNodeList(#{id}))
+			</if>
+			<if test="types!=null and types!=''">
+				and Types=#{types}
+			</if>
+			and IsDocument=0
+		</where>
+
+		<if test="orderType==1">
+			ORDER BY (scores*0.5+ClickCount*0.5) desc
+		</if>
+		<if test="orderType==2">
+			ORDER BY scores desc
+		</if>
+		<if test="orderType==3">
+			ORDER BY ClickCount desc
+		</if>
+		<if test="orderType==4">
+			ORDER BY CreateTime desc
+		</if>
+	</select>
+
+	<update id="makeResourceEva" parameterType="cloud.entity.classroom.Resources.Resources">
+		update resources set
+		scores=#{scores}
+		where Id=#{id};
+	</update>
+
+	<!--<insert id="makeGreate" parameterType="cloud.entity.classroom.Resources.Resources"> 
+		insert into resourcesgreate ResourceId values (#{resourceId}) where Id=#{id}; 
+		</insert> -->
+	<update id="updateScores">
+		update resources set
+		scores=#{scores}
+		where Id=#{id};
+	</update>
+
+	<select id="getChildChpaterList" resultMap="BaseResultMap">
+		select * from
+		resources
+		where Id=#{id} and IsDocument=1 group by Id
+		UNION all
+		select *
+		from resources
+		where ParentId=#{id} and IsDocument=1 group by
+		Id;
+
+	</select>
+
+
+	<select id="getParallelChpaterList" resultMap="BaseResultMap">
+		select * from
+		resources where Id=(select ParentId from resources where
+		Id=#{currentid}) and IsDocument=1 and ParentId=0 group by Id
+		UNION all
+		select * from resources
+		where ParentId=(select ParentId from
+		resources
+		where Id=#{currentid}) and IsDocument=1 and ParentId!=0
+		group by Id;
+	</select>
+
+	<insert id="addCollections" parameterType="cloud.entity.classroom.Resources.Resources">
+		insert into
+		Collections (resourceId,userId,types)
+		values (#{id},#{userId},#{types});
+	</insert>
+
+
+	<select id="getPersonalDownload" resultMap="BaseResultMap">
+		select a.id,b.* from
+		ResourceDownload a left join resources b on
+		a.ResourceId=b.Id where
+		a.UserId=#{userId};
+	</select>
+
+	<select id="getPersonalCourse" resultMap="BaseResultMap">
+		select * from resources
+		where UserId=#{id} and Types=#{types};
+	</select>
+    
+    
+    
+  <select id="getHeadlineList" resultMap="BaseResultMap">
+ <!--  SELECT Id,name from resources where ParentId in (select ParentId from resources where Id=#{id}) and Id>=#{id} and IsDocument=1  limit 2;-->
+ <!-- select Id,name from resources where ParentId=(select ParentId from resources where Id =(select ParentId from resources where Id=#{id})) limit 2;-->
+    select Id,name from resources where FIND_IN_SET(Id,getParentList(#{id,jdbcType=INTEGER}));
+  </select>                                     
+     
+    <select id="getLowerResourcesList" resultMap="BaseResultMap">
+    select Id from resources where ParentId=#{currentId} and IsDocument=1;
+  </select>
+  
+  <delete id="deleteCollections">
+    delete  from Collections where Id=#{id};
+  </delete>
+
+ <delete id="deleteBacthCollections">
+		delete from Collections
+		where resourceId in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}</foreach>
+	</delete>
+		
+<update id="updateResourceClickCount">
+		update resources set
+		ClickCount=(select count(1) from ResourceBrowse where ResourceId=#{id})
+		where Id=#{id};
+</update>
+
+</mapper>

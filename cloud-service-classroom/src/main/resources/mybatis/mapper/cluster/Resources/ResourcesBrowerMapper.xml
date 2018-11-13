@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cloud.service.classroom.dao.cluster.ResourcesBrowerDao">
+
+	<resultMap id="BaseResultMap" type="cloud.entity.classroom.DTO.ResourcesBrower">
+		<result column="watchTime" jdbcType="DATE" property="watchTime"/>	                                 
+		<result column="ResourceId" jdbcType="INTEGER" property="resourceId"/>
+	    <result column="ResourceType" jdbcType="INTEGER" property="resourceType"/>
+	    <result column="UserId" jdbcType="INTEGER" property="userId"/>
+	    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime"/>
+	</resultMap> 
+	
+	<select id="getBrowerByUserId" resultMap="BaseResultMap">
+select a.Id,a.ResourceId,watchTime from  (select ResourceId as mt,max(CreateTime) as watchTime from ResourceBrowse where UserId=#{userId} and ResourceType=1 group by ResourceId) b left join ResourceBrowse a on a.ResourceId=mt and a.CreateTime=b.watchTime order by b.watchTime desc; 
+</select>
+	
+<insert id="inertResourcesBrower" parameterType="cloud.entity.classroom.DTO.ResourcesBrower">
+	insert into ResourceBrowse (ResourceId,ResourceType,UserId,CreateTime) values (#{resourceId},#{resourceType},#{userId},#{createTime}); 
+</insert>
+</mapper>

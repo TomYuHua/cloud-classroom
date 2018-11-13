@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>鑫广飞无人机课堂应用平台-管理员后台-用户管理</title>
+<link rel="stylesheet" href="/resources/static/css/admin.css" th:href="@{/css/admin.css}" />
+<link rel="stylesheet" href="/resources/static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="/resources/static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" />
+<link rel="stylesheet" type="text/css" href="/resources/static/css/jquery-confirm.css" th:href="@{/css/jquery-confirm.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/main.js" th:src="@{/js/main.js}"></script>
+<script src="/resources/static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="/resources/static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/resources/static/js/jquery-confirm.js" th:src="@{/js/jquery-confirm.js}"></script>
+</head>
+<body>
+	<!--header-->
+	<header class="aheader">
+		<div class="avatar left"></div>
+		<div class="logo left"></div>
+	</header>
+	<div class="container">
+		<!--menu-->
+		<div class="menu left">
+			<ul>
+				<li class="adm-yh">
+					<a href="users.html">用户管理</a>
+				</li>
+				<li class="adm-js">
+					<a href="role.html">角色管理</a>
+				</li>
+				<li class="adm-sp">
+					<a href="#">课程管理</a>
+					<!--<ul>
+						<li><a href="videos.html">视频管理</a></li>
+						<li><a href="document.html">文档管理</a></li>
+						<li><a href="ebooke.html">电子书</a></li>
+					</ul>-->
+				</li>
+				<li class="adm-wd">
+					<a href="chapter.html">章节管理</a>
+				</li>
+				<li class="adm-qx">
+					<a href="permissions.html">权限管理</a>
+				</li>
+				<li class="adm-zl">
+					<a href="information.html">个人资料</a>
+				</li>
+			</ul>
+		</div>
+		<!--内容区域-->
+		<div class="panel">
+			<div class="title">
+				<span class="dot left"></span>
+				<b class="title-name left">用户管理</b>
+			</div>
+			<div class="comment">
+				<!--查询条件-->
+				<div class="queryform">
+					<ul>
+						<li>
+							<label>角 色：</label>
+							<select name="" class="select-query" id="userType">
+								<option value="">全部</option>
+								<option value="0">学生</option>
+								<option value="1">教师</option>
+								<option value="2">学校管理员</option>
+								<option value="3">超级管理员</option>
+							</select>
+						</li>
+						<li>
+							<label>用户名：</label>
+							<input type="text" name="inputObj" class="query-input" id="userName" />
+						</li>
+						<li>
+							<label>姓 名：</label>
+							<input type="text" name="inputObj" class="query-input" id="name" />
+						</li>
+						<li>
+							<label>性 别：</label>
+							<select name="" class="select-query" id="sex">
+								<option value="0">男</option>
+								<option value="1">女</option>
+							</select>
+						</li>
+						<li>
+							<div class="butn right">
+								<button class="blue" onclick="javascript:searchObj()">查询</button>
+								<button class="blue" onclick="javascript:reset()">重置</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!--查询条件-->
+				<!--查询结果table-->
+				<div class="result">
+					<table class="result-table" cellspacing="0" cellpadding="0">
+						<thead class="result-thead">
+							<tr>
+								<th class="td-all">
+									<input name="all" type="checkbox" value="" />
+									全部
+								</th>
+								<th class="td-usename">用户id</th>
+								<th class="td-name">用户名</th>
+								<th class="td-all">性别</th>
+								<th class="td-all">电话</th>
+								<th class="td-class">邮箱</th>
+								<th class="td-xh">用户类型</th>
+							</tr>
+						</thead>
+						<tbody class="result-tbody">
+							<tr th:each="user : ${users} ">
+								<td class="td-all">
+									<input name="checkbox" type="checkbox" th:value="${user.userId}" />
+								</td>
+								<td class="td-usename" th:text="${user.userId}">全部</td>
+								<td class="td-name" th:text="${user.userName}">全部</td>
+								<td class="td-all" th:text="${user.sex}">全部</td>
+								<td class="td-all" th:text="${user.phone}">全部</td>
+								<td class="td-class" th:text="${user.email}">全部</td>
+								<td class="td-xh" th:text="${user.userType}">全部</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!--button添加，删除-->
+				<div class="butn right">
+					<button class="blue">添加</button>
+					<button class="red" onclick="javascript:audit()">删除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+	 
+	 function searchObj(){
+		 var userType=$("#userTyoe").val();
+		 var sex=$("#sex").val();
+		 var name=$("#name").val();
+		 var userName=$("#name").val();
+		 var name=$("#name").val();
+		 $(".result").load("/backuser/getuserpage",{"userType":userType,
+			"sex":sex,"name":name,"userName":userName})
+ }
+	 
+		$("input[name='all']").click(function(){
+
+			if($(this).is(":checked")){
+
+			$("input[name='checkbox']").prop("checked",true);
+
+			}else{
+
+			$("input[name='checkbox']").prop("checked",false);
+
+			}
+
+			});
+	 
+		
+		function deleteObj(){
+			var checkedNum = $("input[name='checkbox']:checked").length; //取到对象数组后，我们来循环检测它是不是被选中
+			if(checkedNum == 0){
+		   alert("请选择至少一项！");
+				return;
+				}
+				// 批量选择
+			 if(confirm("确定要删除所选内容？")) {
+				var checkedList = new Array();
+				$("input[name='checkbox']:checked").each(function() {
+				checkedList.push($(this).val());
+				});
+				$.ajax({
+				type: "POST",
+				url: "backUser/deleteUser",
+				data: {"items":checkedList.toString()},
+				 success: function(data) {
+                      if(data.result=="success"){
+				window.location.reload();
+				}}
+				});
+				}
+		}
+		
+		
+	function reset(){
+		 $("input[name='inputObj']").val("");  
+		 $('select').prop('selectedIndex', 0);
+	}	
+		
+
+	
+	
+	
+   function audit(){
+	/*	var checkedNum = $("input[name='checkbox']:checked").length; //取到对象数组后，我们来循环检测它是不是被选中
+		if(checkedNum == 0){
+	   alert("请选择至少一项！");
+			return;
+			}
+		var checkedList = new Array();
+		$("input[name='checkbox']:checked").each(function() {
+		checkedList.push($(this).val());
+		});*/
+	   $.confirm({
+		    title: '用户审核',
+		    content: '用户是否审核通过',
+		    confirmButton: '审核通过',
+		    cancelButton: '审核不通过',
+		    backgroundDismiss: false,
+
+		    confirm: function(){
+		    	alert("123");
+		    }
+		    	/*$.ajax({
+					type: "POST",
+					url: "backUser/auditUser",
+					data: {"items":checkedList.toString(),type:"1"},
+					 success: function(data) {
+	                      if(data.result=="success"){
+					window.location.reload();
+					}}
+					});
+		    },*/
+		    cancel:function(){
+		    	alert("789");
+		    }
+		    	/*$.ajax({
+					type: "POST",
+					url: "backUser/auditUser",
+					data: {"items":checkedList.toString(),type:"2")},
+					 success: function(data) {
+	                      if(data.result=="success"){
+					window.location.reload();
+					}}
+					});
+		    }
+		});    
+   }
+    /*   if(0 == $(":checkbox.item:checked").length) {
+              alert("请先选择！");
+                  return;
+            }
+           var ids = "";
+         $(":checkbox.item:checked").each(function () {
+             ids += "_" + $(this).attr("name");
+         });
+         ids = ids.substr(1, ids.length);*/
+   
+     /*  var  html="<br>123</br>";
+        　$.jBox(html,{
+    　　　　　　　　title:"审核用户",
+    　　　　　　　　width:650,
+    　　　　　　　　height:450,
+    　　　　　　　　buttons:{"审核通过":'ok',"审核不通过":'cancel'},
+    　　　　　　　　buttonsFocus:'ok',
+    　　　　　　　　submit:function(v,h,f){
+    　　　　　　　　　　if(v == "ok"){
+    　　　　　　　　　　 alert("123");
+    　　　　　　　　　　}
+    　　　　　　　　　if(v == "cancel"){
+    　　　　　　　　　　　alert("789！");
+    　　　　　　　
+    　　　　　　　　　　}
+    　　　　　　　　}
+    　　　　　　});*/
+
+
+
+ </script>
+</html>

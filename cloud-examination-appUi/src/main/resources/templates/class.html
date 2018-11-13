@@ -1,0 +1,272 @@
+	
+    
+	<nav aria-label="crumbs" role="navigation">
+		<ol class="crumbs">
+			<li class="crumbs-item">
+				<a href="index.html">
+					<i class="fa fa-home"></i>首页
+				</a>
+			</li>
+			<li class="crumbs-item active" aria-current="page">班级管理</li>
+		</ol>
+	</nav>
+	
+	<div class="main-all pl-3 pr-3">
+	    <div class="card">
+	    	<div class="card-header">班级列表</div>
+	    	<div class="card-body">
+	    		<form>
+	    			<div class="row mb-3">
+	    				<div class="col-3">
+	    					<div class="form-inline">
+	    				        <label for="colFormLabelSm" class="p-1">学校：</label>
+	    				        <select class="custom-select custom-select-sm col-sm-8">
+		                           <option value="">清华大学</option>
+		                           <option value="">中央美术学院</option>
+		                           <option value="">四川美术学院</option>
+	                            </select>
+                            </div>
+	    				</div>
+	    				<div class="col-3">
+	    					<div class="form-inline">
+	    				        <label for="colFormLabelSm" class="p-1">班级：</label>
+	    				        <select class="custom-select custom-select-sm col-sm-8">
+		                           <option value="">A班</option>
+		                           <option value="">B班</option>
+		                           <option value="">C班</option>
+	                            </select>
+                            </div>
+	    				</div>
+	    				<div class="col-6">
+	    					<button class="btn btn-sm btn-info ml-3" type="button">
+                                <i class="fa fa-search"></i>查询
+                            </button>
+                            <button class="btn btn-sm btn-success ml-3" type="button">
+                                <i class="fa fa-refresh"></i>重置
+                            </button>
+	    				</div>
+	    			</div>
+	    		</form>
+	    	</div>
+	    	
+	    	<div class="card-body border-top">
+	    		<button type="button" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#Plus">
+	    		    <i class="fa fa-plus"></i>添加
+	    		</button>
+	    		<button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#Edit">
+	    			<i class="fa fa-edit"></i>修改
+	    		</button>
+	    		<button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#Delete">
+	    			<i class="fa fa-trash"></i>删除
+	    		</button>
+	    	</div>
+	    	
+	    	<div class="card-body">
+	    		<table class="table table-hover">
+	    	 	<thead class="thead-light">
+					<th scope="col" class="td-check">
+                        <input type="checkbox" aria-label="Checkbox for following text input"/>
+                        <span>全部</span>
+					</th>
+					<th scope="col">班级ID</th>
+					<th scope="col">班级名称</th>
+					<th scope="col">所属学校</th>
+					<th scope="col">操作</th>
+				</thead>
+				
+				<tbody>
+	    	 	<tr th:each="clazz:${clazzLists}">
+	    	 		<td scope="row">
+						<input type="checkbox" aria-label="Checkbox for following text input"/>
+					</td>
+					<td th:text="${clazz.id}">01</td>
+					<td th:text="${clazz.clazzName}">艺术设计</td>
+					<td th:text="${clazz.schoolName}">中央美术学院</td>
+					<td>
+						<a href="#" class="badge badge-primary" data-toggle="modal" data-target="#See">
+							<i class="fa fa-search pr-1"></i>查看
+						</a>                                                                   
+						<a  data-toggle="modal" th:href="@{'/clazz/getClazzById/'+${clazz.id}}"  data-target="#Edit" class="badge badge-info">
+							<i class="fa fa-edit pr-1"></i>修改
+						</a>
+						<a th:href="@{'/clazz/deleteDetails/'+${clazz.id}+'/'+${clazz.clazzName}}" class="badge badge-danger" data-toggle="modal" data-target="#Delete">
+							<i class="fa fa-trash-o pr-1"></i>删除
+						</a>
+					</td>
+	    	 	</tr>
+	    	    </tbody>
+	    	    </table>
+	    	</div>
+	    	
+	    </div>
+	</div>
+
+
+
+	
+
+
+<!--添加班级弹出-->
+<form method="post" action="/clazz/addClazz" class="form-horizontal" role="form" id="my2Form" onsubmit="return ">
+<div class="modal fade bd-example-modal-lg" id="Plus" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+       <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">添加班级</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  <table class="table table-bordered">
+      	  	<tbody>
+      	  		<tr>
+      	  			<th scope="col" class="td-th bg-light">
+      	  				<span class="text-danger">*</span>班级名称
+      	  			</th>
+      	  			<td>
+      	  				<input type="text" name="clazzName" class="form-control form-control-sm" placeholder="班级名称"/>
+      	  			</td>
+      	  			<th scope="col" class="td-th bg-light">
+      	  				<span class="text-danger">*</span>所属学校
+      	  			</th>
+      	  			<td>
+      	                 <select class="custom-select custom-select-sm col-sm-8" name="schoolId">
+                            <option value="7">北京一中</option>
+                            <option value="3">北京八中</option>
+                        </select>
+      	  			</td>
+      	  		</tr>  	  	
+      	  	</tbody>
+      	  </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-sm btn-info">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--修改班级信息弹出-->
+<form method="post" action="/clazz/updateClazz" class="form-horizontal" role="form" id="myForm" onsubmit="return ">
+<div class="modal fade bd-example-modal-lg" id="Edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    </div>
+  </div>
+</div>
+</form>
+
+<!--查看班级弹出-->
+<div class="modal fade bd-example-modal-lg" id="See" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+       <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">查看班级信息</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  <table class="table table-bordered">
+      	  	<tbody>
+      	  		<tr>
+      	  			<th scope="col" class="td-th bg-light">
+      	  				<span class="text-danger">*</span>班级名称
+      	  			</th>
+      	  			<td>
+      	  				<input type="text" class="form-control form-control-sm" placeholder="班级名称"/>
+      	  			</td>
+      	  			<th scope="col" class="td-th bg-light">
+      	  				<span class="text-danger">*</span>所属学校
+      	  			</th>
+      	  			<td>
+      	  				<select class="custom-select custom-select-sm col-sm-8">
+                            <option selected="selected">北京大学</option>
+                            <option value="1">中央美术学院</option>
+                        </select>
+      	  			</td>
+      	  		</tr>
+      	  		<tr>
+      	  			<th scope="col" class="td-th bg-light">
+      	  				<span class="text-danger">*</span>入学年
+      	  			</th>
+      	  			<td>
+      	  				<select class="custom-select custom-select-sm col-sm-8">
+                            <option selected="selected">2016</option>
+                            <option value="1">2017</option>
+                        </select>
+      	  			</td>
+      	  			<th scope="col" class="td-th bg-light">省</th>
+      	  			<td>
+      	  				<select class="custom-select custom-select-sm col-sm-8">
+                            <option selected="selected">班级</option>
+                            <option value="1">班级</option>
+                       </select>
+      	  			</td>
+      	  		</tr>
+      	  		<tr>
+      	  			<th scope="col" class="td-th bg-light">市</th>
+      	  			<td>
+      	  				<select class="custom-select custom-select-sm col-sm-8">
+                            <option selected="selected">班级</option>
+                            <option value="1">班级</option>
+                       </select>
+      	  			</td>
+      	  			<th scope="col" class="td-th bg-light">区</th>
+      	  			<td>
+      	  				<select class="custom-select custom-select-sm col-sm-8">
+                            <option selected="selected">班级</option>
+                            <option value="1">班级</option>
+                      </select>
+      	  			</td>
+      	  		</tr>
+      	  		<tr>
+      	  			<th scope="col" class="td-th bg-light">地址</th>
+      	  			<td>
+      	  				<input type="text" class="form-control form-control-sm" placeholder="地址"/>
+      	  			</td>
+      	  			<th scope="col" class="td-th bg-light"></th>
+      	  			<td></td>
+      	  		</tr>
+      	  	</tbody>
+      	  </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">关闭</button>
+        <!--<button type="button" class="btn btn-sm btn-info">保存</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--删除用户弹出-->                                                   
+
+<div class="modal fade bd-example-modal-sm" id="Delete" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+           
+        </div>
+    </div>
+    </div>
+
+
+<script>
+/*function editClass(id){
+    $.get("/clazz/getClazzById",{id:id},function(data) {
+        $("#Edit").html(data);
+    });
+   $("#Edit").modal({
+        remote: "/clazz/getClazzById?id="+id
+    });*/
+
+    
+   /* $("#Edit").modal({
+        remote: "/clazz/getClazzById"
+    });*/
+   
+
+</script>

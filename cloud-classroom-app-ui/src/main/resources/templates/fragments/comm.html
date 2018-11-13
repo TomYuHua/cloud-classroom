@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+
+<title>鑫广飞无人机课堂系统-首页</title>
+<link rel="stylesheet" href="/resources/static/css/css.css" th:href="@{/css/css.css}" />
+<link rel="stylesheet" type="text/css" href="/resources/static/css/nav-list.css" th:href="@{/css/nav-list.css}" />
+<link rel="stylesheet" href="resources/static/css/menustyle.css" th:href="@{/css/menustyle.css}" />
+<link rel="stylesheet" href="resources/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" />
+<script type="text/javascript" src="/resources/static/js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+
+
+
+<script th:inline="javascript">
+	$(document).ready(
+			function()
+			{
+				var $subblock = $(".subpage"), $head = $subblock
+						.find('h2'), $ul = $("#proinfo"), $lis = $ul
+						.find("li"), inter = false;
+				
+				/* 	$head.click(function(e){
+				 e.stopPropagation();
+				 if(!inter){
+				 $ul.show();
+				 }else{
+				 $ul.hide();
+				 }
+				 inter=!inter;
+				 }); */
+
+				$ul.click(function(event)
+				{
+					event.stopPropagation();
+				});
+				
+				/* $(document).click(function(){
+					$ul.hide();
+					inter=!inter;
+				}); */
+
+				$lis
+						.hover(function()
+						{
+							if (!$(this).hasClass('nochild'))
+							{
+								
+								console.log($(this));
+								$(this).addClass("prosahover");
+								$(this).find(".prosmore")
+										.removeClass('hide');
+							}
+						},
+								function()
+								{
+									if (!$(this).hasClass('nochild'))
+									{
+										if ($(this).hasClass(
+												"prosahover"))
+										{
+											$(this).removeClass(
+													"prosahover");
+										}
+										$(this).find(".prosmore")
+												.addClass('hide');
+									}
+								});
+			})
+
+	$(document).ready(
+			function()
+			{
+				var ali = $('#lunbonum li');
+				var aPage = $('#lunhuanback p');
+				var aslide_img = $('.lunhuancenter b');
+				var iNow = 0;
+				
+				ali.each(function(banner)
+				{
+					$(this).mouseover(function()
+					{
+						slide(banner);
+					})
+				});
+				
+				function slide(banner)
+				{
+					iNow = banner;
+					ali.eq(banner).addClass('lunboone').siblings()
+							.removeClass();
+					aPage.eq(banner).siblings().stop().animate(
+							{ opacity : 0 }, 600);
+					aPage.eq(banner).stop().animate({ opacity : 1 },
+							600);
+					aslide_img.eq(banner).stop().animate(
+							{ opacity : 1, top : -10 }, 600)
+							.siblings('b').stop().animate(
+									{ opacity : 0, top : -40 }, 600);
+				}
+				
+				function autoRun()
+				{
+					iNow++;
+					if (iNow == ali.length)
+					{
+						iNow = 0;
+					}
+					slide(iNow);
+				}
+				
+				var timer = setInterval(autoRun, 2000);
+				
+				ali.hover(function()
+				{
+					clearInterval(timer);
+				}, function()
+				{
+					timer = setInterval(autoRun, 2000);
+				});
+			})
+	
+
+	
+ function show(){
+		alert("您暂无进入个人中心的权限")
+	}
+</script>
+</head>
+<body>
+	<!--haeder开始-->
+	<div class="haeder">
+		<!--top-->
+		<div class="top-box">
+			<div class="top">
+				<div class="logo">
+					<a th:href="@{/}">
+						<img alt="" src="../img/logo-index.png" />
+					</a>
+				</div>
+				<div class="top-right">
+					<div class="search">
+						<form action="" method="get">
+							<div class="kuan">
+								<input name="搜索框" type="text" />
+							</div>
+							<!--搜索框-->
+							<button class="search-bto bto-text">搜索</button>
+						</form>
+					</div>
+
+					<!--消息提示-->
+					<div class="prompt left" th:if="${user!=null}">
+						<div th:if="${typeChecker==null}">
+							<a th:href="@{/binduser/bindpage}" title="审核状态">
+								<i class="fa fa-bell size-2X mar5 white"></i>
+								请绑定身份
+							</a>
+						</div>
+						<div th:if="${typeChecker!=null and typeChecker.userType!=3}">
+							<div th:if="${typeChecker.state==0}">
+								<a th:href="@{/binduser/bindnext}" title="审核状态">
+									<i class="fa fa-bell size-2X mar5 white"></i>
+									审核中
+								</a>
+							</div>
+							<div th:if="${typeChecker.state==1}">
+								<a th:href="@{/binduser/resultsuccess}" title="审核状态">
+									<i class="fa fa-bell size-2X mar5 white"></i>
+									审核结果
+								</a>
+							</div>
+							<div th:if="${typeChecker.state==2}">
+								<a th:href="@{/binduser/resultfail}" title="审核状态">
+									<i class="fa fa-bell size-2X mar5 white"></i>
+									审核结果
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!--管理员后台-->
+					<div th:if="${user!=null}">
+					<div th:if="${user.menuNoLists.size()!=0}">
+					<div th:each="menuNo:${user.menuNoLists}">
+					 <div th:if="${menuNo}=='backgroundManageNO'">
+					<div class="administrators left">
+						<a target="_blank" th:href="@{/backuser/users}">
+							<i class="fa fa-cog size-2X mar5"></i>
+							管理员后台
+						</a>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+         
+					<div id="main">
+						<!--登陆注册链接-->
+						<div th:if="${user==null}" class="main_nav">
+							<ul>
+								<li>
+									<a class="cd-signin" th:href="@{/userui/loginPage}">登录</a>
+								</li>
+								<li>
+									<a class="cd-signup" th:href="@{/userui/registpage}">注册</a>
+								</li>
+							</ul>
+						</div>
+
+						<div th:if="${user!=null}" class="menuitem right">
+						
+							<a th:href="@{/personal}" target="_blank" >
+								<i class="users-pic left">
+							     <div th:if="${user.imgSrc}!=null">
+								<img th:src="${user.imgSrc}"></img>
+								</div>
+							    <div th:if="${user.imgSrc}==null">
+								<img src="../img/user-pic.png"></img>
+								</div>	
+								</i>	
+							   </a>
+									<span class="menuitem-name">
+								<a th:href="@{/personal}" target="_blank">
+									<i th:text="${user.nickName}==null?(${user.Email}==null?用户:${user.Email}):${user.nickName}" class="fa fa-sort-desc size-2X mar10"></i>
+								</a>
+							</span>
+															 
+						<ul class="submenuitem">
+								<li>
+									<a th:href="@{'/userui/ChangePassWord/'+${user.userName}}" target="_blank">
+										<i class="fa fa-lock mar5"></i>
+										修改密码
+									</a>
+								</li>
+								<li>
+									<a th:href="@{/userui/logout}">
+										<i class="fa fa-sign-out mar5"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</div>
+						<!--登陆注册链接-->
+						<div class="cd-user-modal">
+							<div class="cd-user-modal-container">
+								<div id="cd-login">
+									<!-- 登录表单 -->
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username" for="signin-username">用户名</label>
+											<input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password" for="signin-password">密码</label>
+											<input class="full-width has-padding has-border" id="signin-password" type="text" placeholder="输入密码"></input>
+										</p>
+
+										<p class="fieldset">
+											<input type="checkbox" id="remember-me" checked="checked"></input>
+											<label for="remember-me">记住登录状态</label>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="登 录"></input>
+										</p>
+									</form>
+								</div>
+								<!-- 登录表单 -->
+								<div id="cd-signup">
+									<!-- 注册表单 -->
+									<h1 class="user-zc">用户注册</h1>
+									<form class="cd-form">
+										<p class="fieldset">
+											<label class="image-replace cd-username" for="signup-username">用户名</label>
+											<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="输入用户名"></input>
+										</p>
+
+										<p class="fieldset">
+											<label class="image-replace cd-password" for="signup-password">短信验证码</label>
+											<input class="message has-padding has-border" id="signup-email" type="email" placeholder="输入短信验证码"></input>
+											<button class="message-again ">重新发送</button>
+										</p>
+
+										<p class="fieldset">
+											<input class="full-width2" type="submit" value="注册新用户"></input>
+										</p>
+									</form>
+								</div>
+								<a href="#0" class="cd-close-form">关闭</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--top-->
+
+		<div class="hc_lnav jslist">
+			<div class="nav-box">
+				<div class="allbtn">
+					<h2>
+						<a th:href="@{/currentchapter/0}">
+							<i class="fa fa-bars mar5 mar10 size-2o"></i>
+							所有课程章节
+						</a>
+					</h2>
+					<ul class="prosul clearfix" id="proinfo">
+						<li class="food" th:each="list : ${result} ">
+							<a class="ti" th:href="@{'/currentchapter/'+${list.chapterdirectories.id}}" th:text="${list.chapterdirectories.name}">默认第一级</a>
+							<span th:if="${list.hot!=null}">
+								<a class="hot" th:href="@{'/currentchapter/'+${list.hot.id}}" th:text="${list.hot}!=null ? ${list.hot.name} :'' ">地方菜</a>
+							</span>
+							
+							<div class="prosmore hide">
+								<span> 
+									<em>
+										<a th:href="@{'/currentchapter/'+${list.chapterdirectories.id}}">全部</a>
+									</em>
+								</span>
+								<span th:each="two : ${list.listChapter}">
+									<em class="morehot">
+										<a class="morehot" th:href="@{'/currentchapter/'+${two.id}}" th:text="${two.name}">火锅(17)</a>
+									</em>
+								</span>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+
+				<!--home-->
+				<div class="home">
+					<a th:href="@{/}">
+						<i class="fa fa-home mar5 mar10 size-2o"></i>
+						首页
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--header结束-->
+
+	<!--panel面板开始-->
+	<div th:include="this :: content"></div>
+	<!--panel面板结束-->
+
+	<!--footer开始-->
+	<div class="footer ordinary-footer">
+		<p>© 2017 Singfly. All Rights Reserved.</p>
+		<p>广州市鑫广飞信息科技有限公司 版权所有 | 鑫广飞无人机课堂系统 | 站点地图 | 侵权投诉 | 帮助</p>
+	</div>
+	<!--footer结束-->
+	<!--  <div th:insert="~{footer::copy}">&copy; 2011 </div> -->
+
+	<!-- 	<div th:include="footer :: footers"></div> -->
+
+</body>
+</html>

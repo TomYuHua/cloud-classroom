@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singFly.cloud_examination_service.dao.cluster.TeacherDao">
+	<resultMap id="BaseResultMap" type="com.singFly.cloud_examination_DTO.UserVo">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="userType" jdbcType="INTEGER" property="userType" />
+		<result column="sex" jdbcType="INTEGER"  property="sex" />
+		<result column="relationId" jdbcType="INTEGER" property="relationId"/>
+		<association property="teacher" resultMap="teacherResultMap" />
+	</resultMap>	
+	<resultMap id="teacherResultMap" type="com.singFly.cloud_examination_teacher.Teacher">
+		<result column="teacherId" jdbcType="INTEGER" property="id" />
+		<result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+		<result column="jobNum" jdbcType="INTEGER" property="jobNum" />
+		<result column="schoolId" jdbcType="INTEGER" property="schoolId" />
+	</resultMap>
+
+	<update id="updateTeacher" parameterType="com.singFly.cloud_examination_teacher.Teacher">
+		update Teacher
+		<set>
+			<if test="teacherName!=null and teacherName=''">
+				teacherName = #{teacherName},
+			</if>
+			<if test="jobNum!=null and jobNum=''">
+				jobNum=#{jobNum},
+			</if>
+			<if test="schoolId!=null and schoolId=''">
+				schoolId=#{schoolId}
+			</if>
+		</set>
+		where id = #{id};
+	</update>
+   
+   
+  <insert id="addTeacher" parameterType="com.singFly.cloud_examination_teacher.Teacher" >
+        insert into Teacher
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="teacherName!= null and teacherName=''" >
+         teacherName,
+	    </if>
+		<if test="jobNum!= null and jobNum!=''" >
+         jobNum,
+	     </if>
+		<if test="schoolId!= null and schoolId!=''" >
+          schoolId
+		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	    <if test="teacherName!= null and teacherName=''">
+         #{teacherName},
+	    </if>
+		<if test="jobNum!= null and jobNum!=''">
+         #{jobNum},
+	     </if>
+		<if test="schoolId!= null and schoolId!=''" >
+          #{schoolId}
+		</if>
+		</trim>
+	</insert>
+	
+<delete id="deleteTeacher" parameterType="int">
+delete from Teacher where id =#{id}; 
+</delete>
+
+<select id="getUser" resultMap="BaseResultMap">
+select a.id,a.userName,a.userType,a.sex,a.relationId,b.id as teacherId,b.teacherName,b.jobNum,b.schoolId from User left join Teacher on a.relationId=b.id where a.id=#{id};
+</select>
+
+
+
+</mapper>

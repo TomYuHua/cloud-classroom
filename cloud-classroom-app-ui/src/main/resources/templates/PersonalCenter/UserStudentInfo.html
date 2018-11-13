@@ -1,0 +1,360 @@
+ <div class="title">
+	<span class="dot left"></span>
+	<h3>个人资料</h3>
+</div>
+<h4 class="red">*必填</h4>
+<form action="/userui/uploadStudent" method="post"  id="studentForm"
+	enctype="multipart/form-data" target="hidden_frame">
+	<table class="required">
+		<tbody>
+			<tr>
+				<td class="td-text">用户名：</td>
+				<td class="td-sr"><input
+					class="td-input input85 td-border gray-bgc" type="text"
+					th:value="${user}==null?'':${user.userName}" disabled="disabled"> </input></td>
+				<td class="td-zs">
+					<button id="edit" type="button" class="blue"
+						onclick="javascript:makeEditable()">
+						<i class="fa fa-pencil-square-o mar5 size-2o"></i>编辑
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-text">昵称：</td>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" th:value="${user}==null?'':${user.nickName}" id="nickName"
+					name="nickName" disabled="true"> </input></td>
+			</tr>
+			<tr>
+				<td class="td-text">姓名：</td>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" th:value="${user}==null?'':${user.name}" id="name" name="name"
+					disabled="true" onblur="checkName()"></input></td>
+				<td class="td-text" id="nameMessage"></td>
+			</tr>
+			<tr>
+				<td class="td-text">性别：</td>
+				<td class="td-sr">
+					<div th:if="${user.sex}==0">
+						<input type="radio" name="sex" value="0" id="male" disabled="true"
+							checked="checked" /> <label for="female">男</label> <input
+							type="radio" value="1" id="female" name="sex" disabled="true" />
+						<label for="male">女</label>
+					</div>
+					<div th:if="${user.sex}==1">
+						<input type="radio" name="sex" value="0" id="male" disabled="true" />
+						<label for="female">男</label> <input type="radio" value="1"
+							id="female" name="sex" disabled="true" checked="checked" /> <label
+							for="male">女</label>
+					</div>
+					<div th:if="${user.sex}==null">
+						<input type="radio" name="sex" value="0" id="male" disabled="true" />
+						<label for="female">男</label> <input type="radio" value="1"
+							id="female" name="sex" disabled="true" checked="checked" /> <label
+							for="male">女</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-text">手机：</td>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" id="phone" th:value="${user}==null?'':${user.phone}" name="phone"
+					disabled="true" onblur="checkPhone()"></input></td>
+				<td class="td-text" id="phoneMessage"></td>
+			</tr>
+			<tr>
+				<td class="td-text">邮箱：</td>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" id="email" th:value="${user}==null?'':${user.email}" name="email"
+					disabled="true" onblur="checkEmail()"></input></td>
+				<td class="td-text" id="emailMessage"></td>
+			</tr>
+			<tr>
+				<td class="td-text">身份证：</td>
+				<input type="hidden" th:value="${user}==null?'':${user.userId}" id="userId"></input> 
+				<input type="hidden" name="studentId" th:value="${user.student}==null?'':${user.student.id}"></input>
+				<input type="hidden" name="id" th:value="${user.userId}"></input>
+				<input type="hidden" name="userType" th:value="${user.userType}"></input>
+				<input  type="hidden" id="province" th:value="${user.student}==null?'':${user.student.province}"></input>
+				<input  type="hidden" id="city" th:value="${user.student}==null?'':${user.student.city}"></input>
+				<input  type="hidden" id="area" th:value="${user.student}==null?'':${user.student.area}"></input>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" id="idNumber" th:value="${user.student}==null?'':${user.student.idNumber}"
+					name="idNumber" onblur="checkIdNumber()" disabled="true"></input></td>
+				<td class="td-text" id="idNumberMessage"></td>
+			</tr>
+			<tr>
+				<td class="td-text">学号：</td>
+				<td class="td-sr"><input class="td-input input85 td-border"
+					type="text" id="studentNo" th:value="${user.student}==null?'':${user.student.studentNo}"
+					name="studentNo" disabled="true"></input></td>
+			</tr>
+			<tr>
+				<td class="td-text">年级：</td>
+				<td class="td-sr"><input class="td-input input85 td-border" type="text"
+					id="gradeName" th:value="${user.student}==null?'':${user.student.gradeName}"
+					name="gradeName" disabled="true"></input></td>
+			</tr>
+			<tr>
+				<td class="td-text">班级：</td>
+				<td class="td-sr"><input class="td-input input85 td-border" type="text"
+					id="className" th:value="${user.student}==null?'':${user.student.className}"
+					name="className" disabled="true"></input></td>
+			</tr>
+			<tr>
+				<td class="td-text">地址：</td>
+				<td class="td-sr"><select name="province" class="select-s" 
+					title="" required="" disabled="true"></select> <select
+					name="city" class="select-s" title="" required="" disabled="true"></select>
+					<select name="area" class="select-s" title="" required="" disabled="true"></select>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-text">街道：</td>
+				<td class="td-sr"><input class="td-input input85 td-border" type="text"
+					id="addr"
+					th:value="${user.student}==null?'':${user.student.addr}"
+					name="addr" disabled="true"></input></td>
+			</tr>
+		</tbody>
+	</table>
+	<h4 class="gray">*选填</h4>
+	<table class="required">
+		<tbody>
+			<tr>
+				<td class="td-text">头像：</td>
+				<td class="td-sr red">*仅支持jpg、png格式，文件小于1M（方形图）</td>
+				<td class="gray td-zs"></td>
+			</tr>
+			<tr>
+				<td class="td-text"></td>
+				<td><img th:src="${user.imgSrc}" src="img/tx-u.png" id="img"
+					class="send-img" /> <a href="#" class="file-pic">选择文件 <input
+						type="file" name="file" id="upload-file" disabled="true" />
+				</a></td>
+				<td class="gray td-zs"></td>
+			</tr>
+			<tr>
+				<td class="td-text">个性签名：</td>
+				<td class="td-sr red"><textarea class="tes-input" clos="20"
+						rows="3" disabled="true" id="introduction" name="description"
+						th:text="${user.student}==null?'':${user.student.description}"></textarea></td>
+				<td class="gray td-zs"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="sav-u">
+		<p class="savss">
+			<input class="send blue" id="save" type="button"
+				style="visibility: hidden;" value="保存" /> <input class="send grays"
+				id="quit" type="button" style="visibility: hidden;" value="取消" />
+		</p>
+	</div>
+</form>
+<iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
+
+<script th:src="@{/AdminBackend/js/ly-lib/ly-selector-ssx-no-lodash.js}"></script>
+
+<script type="text/javascript">
+	$('#hidden_frame').load(function() {
+		var text = $(this).contents().find("body").text();
+		// 根据后台返回值处理结果
+		var j = $.parseJSON(text);
+		if (j.result == "success") {
+			alert("修改成功");
+			$("div[id='saidpanel']").load('/personalcenter/personinfor');
+		} else if (j.result == "fail") {
+			alert("修改失败");
+		}
+	});
+
+	$(document).ready(function() {
+
+		$(".fortab").click(function() {
+			var number = $(".fortab").index(this);
+			$(this).addClass("checked");
+			$(this).siblings().removeClass("checked");
+			$(".tablelist:eq(" + number + ")").show();
+			$(".tablelist:eq(" + number + ")").siblings().hide();
+		});
+	});
+
+	function makeEditable() {
+		document.getElementById("save").style.visibility = "visible";
+		document.getElementById("quit").style.visibility = "visible";
+		document.getElementById("edit").style.display = "none";
+		$("#nickName").attr("disabled", false);
+		$("#name").attr("disabled", false);
+		$("#phone").attr("disabled", false);
+		$("#email").attr("disabled", false);
+		$("#idNumber").attr("disabled", false);
+		$("#male").attr("disabled", false);
+		$("#female").attr("disabled", false);
+		$("#studentNo").attr("disabled", false);
+		$("#className").attr("disabled", false);
+		$("#gradeName").attr("disabled", false);
+		$("#addr").attr("disabled", false);
+		$("#introduction").attr("disabled", false);
+		$("#upload-file").attr("disabled", false);
+		$("select[name='province']").attr("disabled", false);
+		$("select[name='city']").attr("disabled", false);
+		$("select[name='area']").attr("disabled", false);
+
+	}
+
+	
+	function checkName(){
+		  var check; 
+	      var reg=/^[\u4E00-\u9FA5]{1,6}$/;
+	      var name = document.getElementById("name").value;   
+		   if(reg.test(name)==false){
+			 $("#nameMessage").attr("class","red");
+			 document.getElementById("nameMessage").innerHTML = "*姓名格式不正确";
+			   check = false; 
+			}else{ 
+			$("#nameMessage").attr("class","green");
+		    document.getElementById("nameMessage").innerHTML = "*姓名格式正确";
+			  check = true; 
+	      }
+	      return check; 
+	   }
+	
+
+	function checkPhone(){
+		  var check; 
+	      var reg=/^0?(12[0-9]|13[0-9]|14[57]|15[012356789]|16[0-9]|17[0-9]|18[0-9]|19[0-9])[0-9]{8}$/;
+	      var phone = document.getElementById("phone").value;   
+		   if(reg.test(phone)==false){
+			 $("#phoneMessage").attr("class","red");
+			 document.getElementById("phoneMessage").innerHTML = "*手机格式不正确";
+			   check = false; 
+			}else{ 
+			$("#phoneMessage").attr("class","green");
+		    document.getElementById("phoneMessage").innerHTML = "*手机格式正确";
+			  check = true; 
+	      }
+	  
+	      return check; 
+	}
+	
+	function checkEmail(){
+		  var check; 
+	      var reg=/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+	      var email = document.getElementById("email").value;   
+		   if(reg.test(email)==false){
+			 $("#emailMessage").attr("class","red");
+			 document.getElementById("emailMessage").innerHTML = "*邮箱格式不正确";
+			   check = false; 
+			}else{ 
+			$("#emailMessage").attr("class","green");
+		    document.getElementById("emailMessage").innerHTML = "*邮箱格式正确";
+			  check = true; 
+	      }
+	  
+	      return check; 
+		
+	}
+	
+	
+	function checkIdNumber(){
+		  var check; 
+		  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+	      var idNumber = document.getElementById("idNumber").value;   
+		   if(reg.test(idNumber)==false){
+			 $("#idNumberMessage").attr("class","red");
+			 document.getElementById("idNumberMessage").innerHTML = "身份证格式不正确";
+			   check = false; 
+			}else{ 
+			$("#idNumberMessage").attr("class","green");
+		    document.getElementById("idNumberMessage").innerHTML = "*身份证格式正确";
+			  check = true; 
+	      }
+	  
+	      return check; 
+		
+	}
+	
+	 $('#save').click(function(){
+		 /*<![CDATA[*/
+         if(checkName() && checkPhone() && checkEmail() && checkIdNumber()){
+           $('#studentForm').submit();
+          /*]]>*/ 
+         }else{
+        	 alert("所填内容不规范")
+           return false;
+         }
+       });
+	
+		 $('#quit').click(function(){
+				$("div[id='saidpanel']").load('/personalcenter/personinfor');
+	       });
+	/*function updateUser(){	
+	 var nickName=$("#nickName").val();
+	 var name=$("#name").val();
+	 var sex=$("input[name='sex']:checked").val()
+	 var phone=$("#phone").val();
+	 var emai=$("#email").val();
+	 var idNumber=$("#idNumber").val();
+	 var igeUrl=$("#igeUrl").val();
+	 var introduction=$("#introduction").val();  
+	 $.ajax({
+	 type:'PUT',
+	 url:"/userui/updateUser",
+	 data:JSON.stringify({
+	 "nickName":nickName,
+	 "name":name,
+	 "sex":sex,
+	 "phone":phone,
+	 "emai":email,
+	 "idCard":idCard,
+	 "igeUrl":igeUrl,
+	 "introduction":introduction
+	 }),
+	 contentType:"application/json;charset=utf-8",  
+	 dataType:'json', 
+	 async: false,
+	 success:function(data){
+	 if(data.result=="success"){
+	 alert("修改成功");
+	 }
+	 },
+	 error:function(data){
+	 alert("修改失败");
+	 },
+	 });
+	
+	 }*/
+
+	document.querySelector('#upload-file').addEventListener('change',
+			function() {
+				//当没选中图片时，清除预览
+				if (this.files.length === 0) {
+					document.querySelector('#img').src = '';
+					return;
+				}
+
+				//实例化一个FileReader
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					//当reader加载时，把图片的内容赋值给
+					document.querySelector('#img').src = e.target.result;
+				};
+
+				//读取选中的图片，并转换成dataURL格式
+				reader.readAsDataURL(this.files[0]);
+			}, false);
+	 
+	var SSXSelectorManager = document.LY.LySelectorSSX.createManager(
+			$("select[name='province']"), $("select[name='city']"),
+			$("select[name='area']"));
+
+	
+	
+	  SSXSelectorManager.resetSelected($("#province").val(),$("#city").val(),$("#area").val());
+
+</script>
+
+
+
+
